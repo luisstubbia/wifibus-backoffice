@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:social="http://spring.io/springsocial"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+
+<body>
+
+    <div id="campaigns" layout:fragment="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                    <strong>Gesti&oacute;n de Campa&ntilde;as</strong>
+                    </div>
+                    <div class="panel-body" >
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form role="form">
+                                    <div class="form-group">
+                                        <label for="selectGroup">Aplicar a:</label>&nbsp;
+                                        <label class="radio-inline">
+                                            <input type="radio" name="grupoHotspot" class='radio-btn-apply-on' id="radioGrupo" value="grupo" />
+                                            Grupo
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="grupoHotspot" class='radio-btn-apply-on' id="hotspotGrupo" value="hotspot" />
+                                            Hotspot
+                                        </label>
+                                    </div>
+                                    <div class="form-group" id="comboHotspot" th:hidden="true">
+                                            <label for="selectHotspot">Hotspot</label>
+                                            <select id="selectHotspot" class="form-control">
+                                                <option>Seleccionar Hotspot</option>
+                                                <option>Seleccionar Hotspot 1</option>
+                                                <option>Seleccionar Hotspot 2</option>
+                                              </select>
+                                    </div>
+                                    <div class="form-group" id="comboGroup" th:hidden="true">
+                                                <label for="selectGroup">Grupo</label>
+                                                <select id="selectGroup" class="form-control">
+                                                    <option>Seleccionar Grupo</option>
+                                                    <option>Municipalidad de Cordoba</option>
+                                                    <option>Municipalidad de La Plata</option>
+                                                </select>
+                                    </div>
+                                    <div class="form-group">
+                                                <label for="imagenInput">Image de Fondo</label>
+                                                <input id="imagenInput" type="text" class="form-control" placeholder="" />
+                                    </div>
+                                    <div class="form-group">
+                                                <label for="textInput">Texto</label>
+                                                <textarea id="textInput" maxlength="140" type="text" class="form-control" placeholder=""></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                                <label for="tiempoInput">Tiempo que se mostrar&aacute; la publicidad (segundos)</label>
+                                                <input type="text" class="form-control" id="tiempoInput" placeholder="Tiempo" />
+                                    </div>
+                                    <div class="form-group">
+                                                    <label for="urlDestinoInput">URL Destino </label>
+                                                    <input class="form-control" id="urlDestinoInput" type="text" placeholder="URL Destino"/>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6" >
+                                            <label for="startDate">Fecha Inicio</label>
+                                            <input type="date" id="startDate" class="form-control" />
+                                        </div>
+                                        <div class="form-group col-md-6 ">
+                                            <label for="endDate">Fecha Fin</label>
+                                            <input type="date"  id="endDate" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group  col-md-12">
+                                            <label for="table">Tipo de Segmentaci&oacute;n</label>
+                                            <table name="table" class="table table-bordered">
+                                                <thead style="text-align:center">
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>Tipo
+                                                            <div class="pull-right">
+                                                                <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span></button>
+                                                            </div>
+                                                        </td>
+                                                        <td>Valor</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" value="" />
+                                                        </td>
+                                                        <td>Edad</td>
+                                                        <td>18-30</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input type="checkbox" value="" /></td>
+                                                        <td>Dispositivo</td>
+                                                        <td>Android</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <hr/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div>
+                                            <!-- Button trigger modal -->
+                                            <button type="button" style="font-size:14px;float:right" class="btn btn-success btn-md" data-toggle="modal" data-target="#myModal">
+                                                Agregar +
+                                            </button>
+                                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">�</button>
+                                                            <h4 class="modal-title" id="myModalLabel">Nueva URL</h4>
+                                                         </div>
+                                                         <div class="modal-body">
+                                                                        <div class="form-group" >
+                                                                            <label for="urlType">URL de</label>
+                                                                            <select id="urlType" class="form-control">
+                                                                                <option>Seleccionar </option>
+                                                                                <option>Marca</option>
+                                                                                <option>Red Social</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="form-group" >
+                                                                            <label for="newUrl">URL</label>
+                                                                            <input id="newURL" type="text" class="form-control"/>
+                                                                        </div>
+                                                                        
+                                                         </div>
+                                                         <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                                                        <button type="button" class="btn btn-primary">Guardar </button>
+                                                         </div>
+                                                     </div>
+                                                     <!-- /.modal-content -->
+                                                 </div>
+                                                 <!-- /.modal-dialog -->
+                                            </div>
+                                            <label for="tableURL">URL Publicidad </label>
+                                            <table name="tableURL" class="table table-bordered">
+                                                <thead style="text-align: center">
+                                                    <tr>
+                                                        <td>#</td>
+                                                        <td>Descripci&oacute;n</td>
+                                                        <td>URL</td>
+                                                        <td>Acciones</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>Marca</td>
+                                                        <td id="brand" th:contenteditable="true">http://www.vates.com</td>
+                                                        <td class="text-center">
+                                                            <button class="btn btn-primary text-center url-loader btn-xs" value="brand"><span class="glyphicon glyphicon-view"></span>Ver!</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                            <td>2</td>
+                                                            <td>Red Social</td>
+                                                            <td id="social" th:contenteditable="true">http://www.cronista.com</td>
+                                                            <td class="text-center">
+                                                            <button class="btn btn-primary url-loader btn-xs" value="social"><span class="glyphicon glyphicon-view"></span>Ver!</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                            <td>3</td>
+                                                            <td>Promoci&oacute;n</td>
+                                                            <td id="promotion" th:contenteditable="true">http://www.cocacoladeargentina.com.ar</td>
+                                                            <td class="text-center">
+                                                            <button class="btn btn-primary url-loader btn-xs" value="promotion"><span class="glyphicon glyphicon-view"></span>Ver!</button>
+                                                            </td>
+                                                    </tr>
+                                                    <tr>
+                                                            <td>4</td>
+                                                            <td>Sitio de descarga de App</td>
+                                                            <td id="app" th:contenteditable="true">http://www.claro.com.ar</td>
+                                                            <td class="text-center">
+                                                            <button class="btn btn-primary url-loader btn-xs" value="app"><span class="glyphicon glyphicon-view"></span>Ver!</button>
+                                                            </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <hr/>
+                                        </div>
+                                        <hr/>
+                                        <div>
+                                            <label>Preview </label>
+                                            <iframe id="page-preview" src="" placeholder="Preview..." width="1000" height="500"></iframe>
+                                        </div>
+                                        <button class="btn btn-primary"><span class="glyphicon glyphicon-view"></span>Guardar</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.col-md-6 (nested) -->
+                        </div>
+                        <!-- /.row (nested) -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-md-12 -->
+        </div>
+        <!-- /.row -->
+        
+        <script type="text/javascript">
+
+            $(".url-loader").click(function(event) {
+            	event.preventDefault();
+             	
+                var id = $(this).val();
+                var url = $('#' + id).text();
+                $('#page-preview').prop('src', url)
+            });
+            
+            
+            $(".radio-btn-apply-on").click(function(event) {
+                
+                var value = $(this).val();
+                if (value == "grupo") {
+                    $("#comboHotspot").hide();
+                    $("#comboGroup").show();
+                } else {  
+                	$("#comboGroup").hide();
+                	$("#comboHotspot").show();
+                }
+                
+            });
+    
+            function loadSegmentacion(){
+                document.getElementById("checkSegmentacion").hidden=false ;
+            }
+            
+    </script>
+    
+    </div>
+   
+</body>
+</html>

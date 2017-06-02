@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:social="http://spring.io/springsocial"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+
+<body layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong class="page-header"><span th:if="${userForm.id == null}" th:remove="tag">Nuevo </span> Usuario</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                        	<form th:object="${userForm}" method="POST" th:action="@{${#httpServletRequest.servletPath}}" name="add-update-user-form">
+								<div class="form-group" th:classappend="${#fields.hasErrors('username')} ? has-error">
+						            <label class="form-label">* Nombre de Usuario</label>
+						            <div class="controls">
+						            	<input th:if="${userForm.id != null}" class="form-control" type="text" th:field="*{username}" disabled="" />
+						                <input th:if="${userForm.id == null}" class="form-control" type="text" th:field="*{username}" autofocus="true" />
+						                <label class="control-label" th:errors="*{username}">[Errors]</label>
+						            </div>
+						        </div>
+							    <div class="form-group" th:classappend="${#fields.hasErrors('firstName')} ? has-error">
+						            <label class="form-label">* Nombre</label>
+						            <div class="controls">
+						            	<input class="form-control" type="text" th:field="*{firstName}"/>
+						                <label class="control-label" th:errors="*{firstName}">[Errors]</label>
+						            </div>
+						        </div>
+								<div class="form-group" th:classappend="${#fields.hasErrors('lastName')} ? has-error">
+						            <label class="form-label">* Apellido</label>
+						            <div class="controls">
+						                <input class="form-control" type="text" th:field="*{lastName}" />
+						                <label class="control-label" th:errors="*{lastName}">[Errors]</label>
+						            </div>
+						        </div>
+						        <div class="form-group" th:classappend="${#fields.hasErrors('role')} ? has-error">
+						            <label class="form-label">Rol</label>
+						            <div class="controls">
+						            	<select class="form-control" th:field="*{role}">
+							              	<option th:each="rl : ${T(com.vates.wifibus.backoffice.model.Role).values()}" th:value="${{rl}}" th:text="${rl.displayName}">Role</option>
+							            </select>
+							            <label class="control-label" th:errors="*{role}">[Errors]</label>
+						            </div>
+						        </div>
+						        <div class="form-group" th:if="${userForm.id == null}" th:classappend="${#fields.hasErrors('password')} ? has-error">
+						            <label class="form-label">* Contraseña</label>
+						            <div class="controls">
+						                <input class="form-control" type="password" th:field="*{password}" />
+						                <label class="control-label" th:errors="*{password}">[Errors]</label>
+						            </div>
+						        </div>
+						        <div class="form-group" th:if="${userForm.id == null}" th:classappend="${#fields.hasErrors('passwordRepeated')} ? has-error">
+						            <label class="form-label">* Repetir Contraseña</label>
+						            <div class="controls">
+						                <input class="form-control" type="password" th:field="*{passwordRepeated}" />
+						                <label class="control-label" th:errors="*{passwordRepeated}">[Errors]</label>
+						            </div>
+						        </div>
+						        <div class="form-group" th:if="${userForm.id == null}" th:classappend="${#fields.hasErrors('enabled')} ? has-error">
+						            <label class="form-label">* Habilitado?</label>
+						            <div class="controls">
+						                <input type="checkbox" class="form-control" th:field="*{enabled}" id="enabled" />
+						                <label class="control-label" th:errors="*{enabled}">[Errors]</label>
+						            </div>
+						        </div>
+						        <div class="form-group" th:if="${userForm.id == null}" th:classappend="${#fields.hasErrors('observations')} ? has-error">
+						            <label class="form-label">Observaciones</label>
+						            <div class="controls">
+						                <input class="form-control" type="text" th:field="*{observations}" />
+						                <label class="control-label" th:errors="*{observations}">[Errors]</label>
+						            </div>
+						        </div>
+							    <div class="form-actions">
+        							<button type="submit" name="action" value="cancel" class="btn btn-info">Cancelar</button>
+        							<button type="submit" name="action" value="save" class="btn btn-info">Guardar Usuario</button>
+    							</div>
+							</form>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>	
+	<script type="text/javascript">
+		var formInputs = [{
+		    name: 'username',
+			display: 'Nombre de Usuario',
+		    rules: 'alpha_numeric'
+		},{
+		    name: 'firstName',
+			display: 'Nombre',
+		    rules: 'alpha'
+		}, {
+			name: 'firstName',
+		    display: 'Apellido',
+		    rules: 'alpha'
+		}];
+		var validator = new FormValidator('add-update-user-form', formInputs, function(errors, event) {
+		    if (errors.length > 0) {
+				jQuery.each(formInputs, function(index, value) {
+					$( "#error_" + value.name).remove();
+				});
+				jQuery.each(errors, function(index, value) {
+					var parent = $( "#" + value.name).parent();
+					parent.addClass("has-error");
+					parent.append('<label id="error_' + value.name + '" class="control-label">' + value.message + '</label>');
+				});
+		    }
+		});
+	</script>
+</body>
+</html>

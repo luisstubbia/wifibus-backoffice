@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:social="http://spring.io/springsocial"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+
+<body>
+
+    <div id="home" layout:fragment="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <strong class="page-header">T&eacute;rminos y Condiciones</strong>
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form role="form">
+                                    <div class="form-group">
+                                        <label for="name">Nombre</label>
+                                        <input type="text" class="form-control" id="name" />
+                                    </div>
+                                    <div class="form-group" th:hidden="true">
+                                        <label for="selectRouter">Hotspot</label>
+                                        <select id="selectRouter" class="form-control">
+                                            <option>Seleccionar Hotspot</option>
+                                            <option>Seleccionar Hotspot 1</option>
+                                            <option>Seleccionar Hotspot 2</option>
+                                        </select>
+                                    </div>
+                                        <div class="form-group" th:hidden="true">
+                                            <label for="selectGroup">Grupo </label>
+                                            <select id="selectGroup" class="form-control">
+                                                    <option>Seleccionar Grupo</option>
+                                                    <option>Municipalidad de Cordoba</option>
+                                                    <option>Municipalidad de La Plata</option>
+                                            </select>
+                                        </div>
+                                    <div class="form-group">
+                                                <label for="termInput">Texto</label>
+                                                 <textarea class="form-control" id="termInput" type="text" placeholder="Terminos y condiciones..."  rows="10"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-md-12 -->
+        </div>
+    </div>
+   
+</body>
+</html>

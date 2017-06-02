@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:social="http://spring.io/springsocial"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+
+<body>
+
+    <div id="branding" layout:fragment="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong class="page-header">Branding</strong>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form role="form">
+                                            <div class="form-group" id="comboHotspot" th:hidden="true">
+                                                <label for="selectGroup">Hotspot</label>
+                                                <select id="selectGroup" class="form-control" >
+                                                    <option>Seleccionar Hotspot</option>
+                                                </select>
+                                            </div>
+                                             <div class="form-group" id="comboGroup" th:hidden="true">
+                                                <label for="selectGroup">Grupo </label>
+                                                <select id="selectGroup" class="form-control">
+                                                    <option>Seleccionar Grupo</option>
+                                                    <option>Municipalidad de Cordoba</option>
+                                                    <option>Municipalidad de La Plata</option>
+                                                </select>
+                                            </div>
+                                            
+                                             <div class="form-group">
+                                                <label for="cobranding">Cobranding</label>
+                                                <div class="input-control">
+                                                   <input id="cobranding" type="text" placeholder="Cargar texto para header de anuncio..." class="form-control" />
+                                                </div>
+                                            </div>
+                                             <div class="form-group">
+                                                <label for="logo">Logo del Anunciante</label>
+                                                <input type="file" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="logo">Imagen de Fondo</label>
+                                                <input type="file" />
+                                            </div>
+                                            
+                                          <button class="btn btn-primary"><span class="glyphicon glyphicon-view"></span>Guardar</button>
+   
+                                    </form>
+                                  
+                                </div>
+                                <!-- /.col-md-6 (nested) -->
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-md-12 -->
+            </div>
+            <!-- /.row -->
+    </div>
+   
+</body>
+</html>

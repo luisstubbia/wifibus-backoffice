@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:social="http://spring.io/springsocial"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+
+<body>
+
+    <div id="service" layout:fragment="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="page-header">Crear Tipo de Servicio</h1>
+                </div>
+                <!-- /.col-md-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                           
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form role="form">
+                                                
+                                            
+                                             <div class="form-group">
+                                                <label for="name">Nombre</label>
+                                                <div class="input-control">
+                                                   <input id="name" type="text" placeholder="Ingresar el nombre..." class="form-control" />
+                                                   
+                                                </div>
+                                            </div>
+                                             <div class="form-group">
+                                                <label for="description">Descripci&oacute;n</label>
+                                                <div class="input-control">
+                                                   <input id="description" type="text" placeholder="Ingresar la descripci&oacute;n..." class="form-control" />
+                                                   
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="sessiontimeout">Duraci&oacute;n de la sesi&oacute;n</label>
+                                                <div class="input-control">
+                                                   <input id="sessiontimeout" type="text" placeholder="Ingresar la duraci&oacute;n de la sesi&oacute;n..." class="form-control" />
+                                                   
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="bandwidth">L&iacute;mite del ancho de banda</label>
+                                                <div class="input-control">
+                                                   <input id="bandwidth" type="text" placeholder="Ingresar el limite del ancho de banda..." class="form-control" />
+                                                   
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                
+                                                <div class="form-check">
+                                                <label for="advertismentfree">Libre de publicidades</label>
+                                                    <input type="checkbox" id="advertismentfree" class="form-check-input" />
+                                                </div>
+                                            </div>
+                                            
+                                           
+                                        <button class="btn btn-primary"><span class="glyphicon glyphicon-view"></span>Guardar</button>
+   
+                                    </form>
+                                  
+                                </div>
+                                <!-- /.col-md-6 (nested) -->
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-md-12 -->
+            </div>
+            <!-- /.row -->
+    </div>
+   
+</body>
+</html>

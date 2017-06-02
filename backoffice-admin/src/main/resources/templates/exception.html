@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layout">
+
+<body id="groups" layout:fragment="content">
+	<div class="row">
+    	<div class="col-md-12">
+        	<h2 class="page-header">Upps!! Exception</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+        	<h3 th:utext="${exception.message}">Message</h3>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                	<p th:each="st : ${exception.stackTrace}">
+                		<span th:text="${st}">StackTrace</span>
+                	</p>
+	            </div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <!-- Navigation -->
+    <nav id="bar" class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/}">XXX Backoffice</a>
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown" sec:authorize="isAuthenticated()">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i><span sec:authentication="name">Juan Perez</span> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a th:href="@{/profile}"><i class="fa fa-user fa-fw"></i> Ver perfil</a></li>
+                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Cambiar clave</a></li>
+                    <li class="divider"></li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a href="#" th:href="@{/logout}"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesi&oacute;n</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+<!--                     <li class="sidebar-search"> -->
+<!--                         <div class="input-group custom-search-form"> -->
+<!--                             <input type="text" class="form-control" placeholder="Search..." /> -->
+<!--                             <span class="input-group-btn"> -->
+<!--                                 <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button> -->
+<!--                             </span> -->
+<!--                         </div> -->
+<!--                         /input-group -->
+<!--                     </li> -->
+                   
+                    <li>
+                        <a href="#"><i class="fa fa-wrench fa-fw"></i> Infraestructura<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="#" th:href="@{/groups}"><i class="fa fa-sitemap fa-fw"></i> Grupos</a></li>
+                            <li><a href="#" th:href="@{/routers}"><i class="fa fa-microchip fa-fw"></i> Routers</a></li>
+                            <li><a href="#" th:href="@{/hotspots}"><i class="fa fa-wifi fa-fw"></i> Hotspots</a></li>
+                        </ul>
+                    </li>
+                   
+                    <li><a th:href="@{/services}"><i class="fa fa-exchange fa-fw"></i> Servicios</a></li>
+                    <li><a th:href="@{/branding}"><i class="fa fa-edit fa-fw"></i> Branding</a></li>
+                    <li><a th:href="@{/terms}"><i class="fa fa-book fa-fw"></i> T&eacute;rminos y Condiciones</a></li>
+                    
+                    <li>
+                        <a href="#"><i class="fa fa-files-o fa-fw"></i> Marketing<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="#" th:href="@{/campaigns}"><i class="fa fa-files-o fa-fw"></i> Campa&ntilde;as</a></li>
+                            <li><a href="#" th:href="@{/ads}"><i class="fa fa-file-video-o"></i> Avisos</a></li>
+                            <li><a th:href="@{/segments}"><i class="fa fa-pie-chart"></i> Segmentos</a></li>
+                            <li><a th:href="@{/questions}"><i class="fa fa-question-circle-o"></i> Preguntas</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li sec:authorize="hasAuthority('ADMIN')"><a href="#" th:href="@{/users}"><i class="fa fa-users fa-fw"></i> Usuarios</a></li>
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    
+    </nav>
+
+</body>
+
+</html>

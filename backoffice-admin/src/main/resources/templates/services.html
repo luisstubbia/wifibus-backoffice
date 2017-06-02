@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:social="http://spring.io/springsocial"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+
+<body>
+
+    <div id="services" layout:fragment="content">
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong class="page-header">Tipos de Servicio</strong>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form role="form">
+                                        
+                                        <div class="form-group" id="comboRouter">
+                                            <label for="comboRouter">Router</label>
+                                            <select id="comboRouter" class="form-control" data-live-search="true">
+                                                <option >Seleccionar el Router </option>
+                                                <option data-tokens="Router 1">Router 1</option>
+                                                <option data-tokens="Router 2">Router 2</option>
+                                              </select>
+                                            </div>
+                                            <div class="form-group" id="comboTipoServicio">
+                                            <label for="comboTipoServicio">Tipo de Servicio</label>
+                                            <select id="comboTipoServicio" class="form-control" th:multiple="true">
+                                                <option >Tipo Servicio 1</option>
+                                                <option >Tipo Servicio 2</option>
+                                                <option >Tipo Servicio 3</option>
+                                                <option >Tipo Servicio 4</option>
+                                              </select>
+                                            </div>
+                                
+                                        <button class="btn btn-primary"><span class="glyphicon glyphicon-view"></span>Guardar</button>
+                                        
+   
+                                    </form>
+                                  <a href="#" th:href="@{/service/create}" class="btn btn-success" >Nuevo +</a>
+                                </div>
+                                <!-- /.col-md-6 (nested) -->
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-md-12 -->
+            </div>
+            <!-- /.row -->
+    
+    </div>
+   
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:social="http://spring.io/springsocial"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+
+<body>
+
+   <div id="wrapper" layout:fragment="content">
+
+        <!-- Navigation -->
+              <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Administrador de Contenidos</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search..." />
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-wrench fa-fw"></i>Creacion<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="hotspot.html">Hotspot</a>
+                                </li>
+                                <li>
+                                    <a href="router.html">Router</a>
+                                </li>
+                                <li>
+                                    <a href="grupo.html">Grupos</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="notification.html"><i class="fa fa-bell fa-fw"></i> Notificaciones</a>
+                        </li>
+                        <li>
+                            <a href="content.html"><i class="fa fa-edit fa-fw"></i>Publicidad Est�tica (Login)</a>
+                        </li>
+                        <li>
+                            <a href="term.html"><i class="fa fa-check-square-o fa-fw"></i> T�rminos y Condiciones</span></a>         
+                        </li>
+                        <li>
+                            <a href="staticpage.html"><i class="fa fa-files-o fa-fw"></i>Publicidad (Campa�a)</a>
+                        </li>
+
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="page-header">Editor de Publicidad Est&aacutetica</h1>
+                </div>
+                <!-- /.col-md-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                           
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form role="form">
+                                                
+                                            <div class="form-group">
+                                                  <label for="selectGroup">Aplicar a:</label>&nbsp;
+                                                  <label class="radio-inline">
+                                                    <input type="radio" name="grupoHotspot" onclick=showDropdown("grupo") id="radioGrupo" value="grupo">
+                                                    Grupo
+                                                  </label>
+                                                  <label class="radio-inline">
+                                                    <input type="radio" name="grupoHotspot" onclick=showDropdown("hotspot") id="hotspotGrupo" value="hotspot" >
+                                                    Hotspot
+                                                  </label>
+                                            </div>
+                                        
+                                             <div class="form-group" id="comboHotspot" hidden>
+                                                <label for="selectGroup">Hotspot</label>
+                                                <select id="selectGroup" class="form-control" >
+                                                    <option>Seleccionar Hotspot</option>
+                                                </select>
+                                            </div>
+                                             <div class="form-group" id="comboGroup" hidden>
+                                                <label for="selectGroup">Grupo </label>
+                                                <select id="selectGroup" class="form-control">
+                                                    <option>Seleccionar Grupo</option>
+                                                    <option>Municipalidad de Cordoba</option>
+                                                    <option>Municipalidad de La Plata</option>
+                                                </select>
+                                            </div>
+                                            
+                                             <div class="form-group">
+                                                <label for="cobranding">Cobranding</label>
+                                                <div class="input-control">
+                                                   <input id="cobranding" type="text" placeholder="Cargar texto para header de anuncio..." class="form-control">
+                                                   
+                                                </div>
+                                            </div>
+   
+                                             <div class="form-group">
+                                                <label for="logo">Logo del Anunciante</label>
+                                                <input type="file">
+                                            </div>
+                                                        
+                                            
+                                             <div class="form-group">
+                                                <label for="logo">Imagen de Fondo</label>
+                                                <input type="file" >
+                                            </div>
+                                            
+                                           <div class="form-group" style="overflow-x:auto;">
+                                        
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" style="font-size:14px;float:right" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">
+                                                            Agregar +
+                                                        </button>
+                                                          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">�</button>
+                                                                        <h4 class="modal-title" id="myModalLabel">Nueva URL</h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="form-group" >
+                                                                            <label for="urlType">URL de</label>
+                                                                            <select id="urlType" class="form-control">
+                                                                                <option>Seleccionar </option>
+                                                                                <option>Panel Izquierdo</option>
+                                                                                <option>Panel Derecho</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="form-group" >
+                                                                            <label for="newUrl">URL</label>
+                                                                            <input id="newURL" type="text" class="form-control"/>
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                                                        <button type="button" class="btn btn-primary">Guardar </button>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /.modal-content -->
+                                                            </div>
+                                                            <!-- /.modal-dialog -->
+                                                            </div>
+
+                                                            
+                                                <label for="tableURL">URL Publicidad </label>
+                                                <table name="tableURL" class="table table-bordered">
+                                                    <thead style="text-align:center">
+                                                        <td>#</td>
+                                                        <td>Descripcion</td>
+                                                        <td>URL</td>
+                                        
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>Panel Izquierdo</td>
+                                                            <td contenteditable>http://www.google.com</td>
+                                                            
+                                                        </tr>
+                                                        <tr >
+                                                            <td>2</td>
+                                                            <td>Panel Derecho</td>
+                                                            <td contenteditable>http://www.google.com</td>
+                                                            
+                                                        </tr>
+                                                    
+                                                    </tbody>
+                                                    
+                                                </table>
+                                              <hr/>
+                                            </div>
+                                           </div>
+                                           
+                                        <button class="btn btn-primary"><span class="glyphicon glyphicon-view"></span>Guardar</button>
+   
+                                    </form>
+                                  
+                                </div>
+                                <!-- /.col-md-6 (nested) -->
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-md-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    
+</body>
+</html>

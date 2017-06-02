@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html
+    xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>WiFiBus Backoffice</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+        th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" />
+          
+    <!-- Custom Fonts --> 
+    <link href="http://cdn.jsdelivr.net/webjars/font-awesome/4.7.0/css/font-awesome.min.css" 
+          th:href="@{/webjars/font-awesome/4.7.0/css/font-awesome.min.css}" rel="stylesheet"/>
+        
+    <!-- MetisMenu CSS -->
+    <link href="http://cdn.jsdelivr.net/webjars/metisMenu/2.5.2/metisMenu.min.css" rel="stylesheet"
+        th:href="@{/webjars/metisMenu/2.5.2/metisMenu.min.css}" />
+        
+    <!-- Custom CSS -->
+    <link href="../static/css/sb-admin-2.min.css" th:href="@{/css/sb-admin-2.min.css}"  rel="stylesheet" />
+    
+</head>
+
+<body>
+
+     <div id="content" class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Iniciar Sesi&oacute;n</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div th:if="${param.error}" class="alert alert-danger alert-dismissable fade in">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Error!</strong> El usuario o clave ingresados es incorrecto.
+                        </div>
+                        <form role="form" name="form-login" id="form-login" th:action="@{/login}" method="post" >
+                            <fieldset>
+<!--                                 <input type="hidden" name="_csrf" th:value="${_csrf.token}"></input> -->
+                                <div class="form-group">
+                                    <input class="form-control" type="text" id="username" name='username' placeholder="Ingrese usuario ..." 
+                                        th:required="required" autofocus="autofocus" />
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="password" placeholder="Ingrese clave ..." id="password" name="password" />
+                                </div>
+                                <button type="submit" class="btn btn-success btn-block">Iniciar Sesi&oacute;n</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- jQuery -->
+    <script type="text/javascript" 
+        src="http://cdn.jsdelivr.net/webjars/jquery/3.1.1/jquery.min.js"
+        th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+    
+    <!-- Bootstrap Core JavaScript -->
+    <script type="text/javascript" 
+        src="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/js/bootstrap.min.js"
+        th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+    
+    <script type="text/javascript" 
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"
+        th:src="@{/webjars/bootbox/4.4.0/bootbox.js}"></script>
+     
+    <!-- Metis Menu Plugin JavaScript -->
+    <script type="text/javascript" 
+        src="http://cdn.jsdelivr.net/webjars/metisMenu/2.5.2/metisMenu.min.js"
+        th:src="@{/webjars/metisMenu/2.5.2/metisMenu.min.js}"></script>
+    
+     <!-- Custom Theme JavaScript -->
+    <script type="text/javascript" 
+        src="../static/js/sb-admin-2.min.js" th:src="@{/js/sb-admin-2.min.js}"></script>
+    
+</body>
+
+</html>
