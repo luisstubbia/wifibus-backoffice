@@ -42,7 +42,7 @@ public class TermsFormValidator implements Validator {
 
 	private void validateName(Errors errors, TermsForm form, int numberOfOccurrences) {
 		if (StringUtils.isEmpty(form.getName())) {
-			errors.rejectValue("name", "termsForm.required.name", "El nombre del Branding es requerido");
+			errors.rejectValue("name", "termsForm.required.name", "El nombre del Término y condiciones es requerido");
 		} else {
 			Long numberOfDuplicatedNames = termService.countByName(form.getName());
 			if(null != numberOfDuplicatedNames && numberOfDuplicatedNames.intValue() > numberOfOccurrences){
