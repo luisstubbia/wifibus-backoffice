@@ -69,15 +69,15 @@
 		},{
 		    name: 'cobrand',
 			display: 'Cobranding',
-		    rules: 'alpha_numeric'
+		    rules: 'required'
 		},{
 		    name: 'logoImage',
 			display: 'Imagen de Logo',
-		    rules: 'alpha_numeric'
+		    rules: 'required'
 		},{
 		    name: 'backgroundImage',
 			display: 'Imagen de Fondo',
-		    rules: 'alpha_numeric'
+		    rules: 'required'
 		}];
 		var validator = new FormValidator('add-update-brand-form', formInputs, function(errors, event) {
 		    if (errors.length > 0) {

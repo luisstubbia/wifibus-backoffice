@@ -34,5 +34,5 @@ public class Brand extends BaseEntity {
 	
 	@Column(name = "BACKGROUND_NAME_URL", nullable = false, unique = true, length = 250)
 	@NotNull
-	private String backgroundImge;
+	private String backgroundImage;
 }

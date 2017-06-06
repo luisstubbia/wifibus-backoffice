@@ -55,7 +55,7 @@
 		},{
 		    name: 'text',
 			display: 'Texto',
-		    rules: 'alpha_numeric'
+		    rules: 'required'
 		}];
 		var validator = new FormValidator('add-update-term-form', formInputs, function(errors, event) {
 		    if (errors.length > 0) {

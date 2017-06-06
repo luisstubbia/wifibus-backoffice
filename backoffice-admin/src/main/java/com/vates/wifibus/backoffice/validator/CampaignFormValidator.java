@@ -49,7 +49,7 @@ public class CampaignFormValidator implements Validator {
 		if(CollectionUtils.isEmpty(form.getAdvertisementForms())){
 			errors.rejectValue("advertisements", "campaignForm.required.advertisements", "La campaña debe tener al menos un Anuncio");
 		} else {
-			for(AdvertisementForm advForm : form.getAdvertisementForms()){
+			for(AdvertisementForm<?,?> advForm : form.getAdvertisementForms()){
 				if (StringUtils.isEmpty(advForm.getName())) {
 					errors.rejectValue("name", "advertisementForm.required.name", "El nombre del Anuncio es requerido");
 				}

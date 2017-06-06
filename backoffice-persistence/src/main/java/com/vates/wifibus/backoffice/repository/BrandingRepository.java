@@ -25,9 +25,9 @@ public interface BrandingRepository extends JpaRepository<Brand, Long> {
 	@Modifying
 	@Transactional
 	@Query("update Brand b set b.name = ?1, b.descripcion = ?2, b.cobrand = ?3, b.logoImage = ?4, "
-			+ "b.backgroundImge = ?5 where b.id = ?6")
+			+ "b.backgroundImage = ?5 where b.id = ?6")
 	void setBrandInfoByNameAndDescriptionAndCobrandAndLogoImageAndBackgroundImge(String name, String descripcion, 
-			String cobrand, String logoImage, String backgroundImge, Long brandId);
+			String cobrand, String logoImage, String backgroundImage, Long brandId);
 	
 	Page<Brand> findByNameContainsAllIgnoreCase(String brandName, Pageable page);
 	

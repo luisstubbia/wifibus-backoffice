@@ -138,19 +138,11 @@
 		var formInputs = [{
 		    name: 'name',
 			display: 'Nombre',
-		    rules: 'alpha_dash'
+		    rules: 'required'
 		},{
-		    name: 'cobrand',
-			display: 'Cobranding',
-		    rules: 'alpha_numeric'
-		},{
-		    name: 'logoImage',
-			display: 'Imagen de Logo',
-		    rules: 'alpha_numeric'
-		},{
-		    name: 'backgroundImage',
-			display: 'Imagen de Fondo',
-		    rules: 'alpha_numeric'
+		    name: 'landingUrl',
+			display: 'URl de inicio',
+		    rules: 'required'
 		}];
 		var validator = new FormValidator('add-update-brand-form', formInputs, function(errors, event) {
 		    if (errors.length > 0) {
