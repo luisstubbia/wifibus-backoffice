@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:social="http://spring.io/springsocial"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+
+<body layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong class="page-header"><span th:if="${campaignForm.id == null}" th:remove="tag">Nueva </span> Campa&ntilde;as</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                        	<form th:object="${campaignForm}" method="POST" th:action="@{${#httpServletRequest.servletPath}}" name="add-update-campaign-form">
+								<div class="form-group" th:classappend="${#fields.hasErrors('name')} ? has-error">
+						            <label class="form-label">* Nombre:</label>
+						            <div class="controls">
+						                <input class="form-control" type="text" th:field="*{name}" autofocus="true" />
+						                <label class="control-label" th:errors="*{name}">[Errors]</label>
+						            </div>
+						        </div>
+							    <div class="form-group" th:classappend="${#fields.hasErrors('descripcion')} ? has-error">
+						            <label class="form-label">Descripción:</label>
+						            <div class="controls">
+						            	<textarea class="form-control" rows="3" th:field="*{descripcion}"/>
+						                <label class="control-label" th:errors="*{descripcion}">[Errors]</label>
+						            </div>
+						        </div>
+						        <div class="form-group" th:classappend="${#fields.hasErrors('landingUrl')} ? has-error">
+						            <label class="form-label">* Pagina de Destino (URL):</label>
+						            <div class="controls">
+						                <input class="form-control" type="text" th:field="*{landingUrl}" autofocus="true" />
+						                <label class="control-label" th:errors="*{landingUrl}">[Errors]</label>
+						            </div>
+						        </div>
+						        <label class="form-label">Tipos de Anuncios:</label>
+						        <div class="row">
+                					<div class="col-sm-4">
+				        				<div class="form-group">
+								            <div class="controls">
+								            	<select class="form-control" th:field="*{type}">
+									              	<option th:each="adv : ${T(com.vates.wifibus.backoffice.model.AdvertisementType).values()}" th:value="${{adv}}" th:text="${adv.displayName}">Adv</option>
+									            </select>
+								            </div>
+				                		</div>
+				                	</div>
+				        			<div class="col-sm-2">
+				        				<div class="form-group">
+				        					<button type="submit" name="action" value="addAdv" class="btn btn-info btn-sm"><i class="fa fa-plus-square"></i></button>
+				        				</div>
+				        			</div>
+		        				</div>
+		        				<div class="panel-group" id="accordion">
+	                                <div class="panel panel-info" th:each="adv, advRow : *{advertisementForms}">
+	                                    <div class="panel-heading">
+											<h4 class="panel-title">
+												<button type="submit" class="btn btn-danger btn-xs" name="action" value="removeAdv" th:value="*{advertisementForms[__${advRow.index}__].priority}">
+													<i class="glyphicon glyphicon-remove" />
+												</button>
+												<a data-toggle="collapse" data-parent="#accordion" th:href="@{'#collapse' + ${advRow.index}}">
+													<span th:text="|${adv.type}|"></span>
+					                            </a>
+											</h4>
+										</div>
+	                                    <div th:id="'collapse' + ${advRow.index}" class="panel-collapse collapse" th:classappend="${adv.name == ''} ? in" >
+	                                        <div class="panel-body">
+	                                            <div class="form-group" >
+											        <label class="form-label">* Nombre del Anuncio:</label>
+											        <div class="controls">
+											            <input class="form-control" type="text" th:field="*{advertisementForms[__${advRow.index}__].name}"/>
+											        </div>
+											    </div>
+											    <div class="form-group">
+											        <label class="form-label">* Descripcion:</label>
+											        <div class="controls">
+											        	<textarea class="form-control" rows="3" th:field="*{advertisementForms[__${advRow.index}__].descripcion}"/>
+											        </div>
+											    </div>
+											    <div class="row">
+													<div class="col-lg-4">
+											        	<div class="form-group">
+											        		<label class="form-label">Desde</label>
+											        		<input class="form-control datepicker_field" type="text" th:field="*{advertisementForms[__${advRow.index}__].startDate}"/>
+												        </div>
+												    </div>
+												    <div class="col-lg-4">
+											        	<div class="form-group">
+											        		<label class="form-label">Hasta</label>
+											        		<input class="form-control datepicker_field" type="text" th:field="*{advertisementForms[__${advRow.index}__].endDate}"/>
+												        </div>
+												    </div>
+												    <div class="col-lg-2">
+												    	<div class="controls">
+											            	<label class="form-label">Duración</label>
+											            	<select class="form-control" th:field="*{advertisementForms[__${advRow.index}__].duration}">
+												              	<option th:each="i : ${#numbers.sequence( 1, 1000)}" th:value="${i}" th:text="${i}"/>
+												            </select>
+											            </div>
+												    </div>
+												</div>
+												<div class="form-group" th:if="${adv.type == 'Video'}">
+											        <label class="form-label">* URL del video:</label>
+											        <div class="controls">
+											        	<input class="form-control" type="text" th:field="*{advertisementForms[__${advRow.index}__].videoUrl}"/>
+											        </div>
+											    </div>
+											    <div class="form-group" th:if="${adv.type == 'Banner'}">
+											        <label class="form-label">* URL de imagen de fondo:</label>
+											        <div class="controls">
+											        	<input class="form-control" type="text" th:field="*{advertisementForms[__${advRow.index}__].backgroundImageUrl}"/>
+											        </div>
+											    </div>
+											    <div class="form-group" th:if="${adv.type == 'Banner'}">
+											        <label class="form-label">* Texto del Banner:</label>
+											        <div class="controls">
+											        	<input class="form-control" type="text" th:field="*{advertisementForms[__${advRow.index}__].text}"/>
+											        </div>
+											    </div>
+	                                        </div>
+	                                    </div>
+	                                </div>
+								</div>
+	                            <div class="form-actions">
+        							<button type="submit" name="action" value="cancel" class="btn btn-info">Cancelar</button>
+        							<button type="submit" name="action" value="save" class="btn btn-info">Guardar Campa&ntilde;a</button>
+    							</div>
+							</form>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+	<script type="text/javascript">
+		var formInputs = [{
+		    name: 'name',
+			display: 'Nombre',
+		    rules: 'alpha_dash'
+		},{
+		    name: 'cobrand',
+			display: 'Cobranding',
+		    rules: 'alpha_numeric'
+		},{
+		    name: 'logoImage',
+			display: 'Imagen de Logo',
+		    rules: 'alpha_numeric'
+		},{
+		    name: 'backgroundImage',
+			display: 'Imagen de Fondo',
+		    rules: 'alpha_numeric'
+		}];
+		var validator = new FormValidator('add-update-brand-form', formInputs, function(errors, event) {
+		    if (errors.length > 0) {
+				jQuery.each(formInputs, function(index, value) {
+					$( "#error_" + value.name).remove();
+				});
+				jQuery.each(errors, function(index, value) {
+					var parent = $( "#" + value.name).parent();
+					parent.addClass("has-error");
+					parent.append('<label id="error_' + value.name + '" class="control-label">' + value.message + '</label>');
+				});
+		    }
+		});
+		$(document).on('focus',".datepicker_field", function(){
+			$(this).datetimepicker({locale: 'es'});
+		});
+	</script>
+</body>
+</html>

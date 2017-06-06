@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -41,4 +43,7 @@ public class Question extends LabeledEntity {
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private Set<Answer> answers;
 	
+	@ManyToOne
+    @JoinColumn(name = "GROUP_ID")
+	private RouterGroup group;
 }

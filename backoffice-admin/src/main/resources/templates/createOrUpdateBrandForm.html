@@ -5,16 +5,16 @@
       layout:decorator="layout">
 
 <body layout:fragment="content">
-	<div class="row">
+    <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong class="page-header"><span th:if="${routerGroupForm.id == null}" th:remove="tag">Nuevo </span> Grupo</strong>
+                    <strong class="page-header"><span th:if="${brandForm.id == null}" th:remove="tag">Nuevo </span> Branding</strong>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-10">
-                        	<form th:object="${routerGroupForm}" method="POST" th:action="@{${#httpServletRequest.servletPath}}" name="add-update-group-form">
+                        	<form th:object="${brandForm}" method="POST" th:action="@{${#httpServletRequest.servletPath}}" name="add-update-brand-form">
 								<div class="form-group" th:classappend="${#fields.hasErrors('name')} ? has-error">
 						            <label class="form-label">* Nombre:</label>
 						            <div class="controls">
@@ -29,42 +29,30 @@
 						                <label class="control-label" th:errors="*{descripcion}">[Errors]</label>
 						            </div>
 						        </div>
-						        <div class="form-group" th:classappend="${#fields.hasErrors('brand')} ? has-error">
-						            <label class="form-label">Branding:</label>
+						        <div class="form-group" th:classappend="${#fields.hasErrors('cobrand')} ? has-error">
+						            <label class="form-label">* Cobranding:</label>
 						            <div class="controls">
-						            	<select class="form-control" th:field="*{brand}">
-							              	<option th:each="bd : ${brands}" th:value="${{bd}}" th:text="|${bd.name}|">Branding</option>
-							            </select>
-							            <label class="control-label" th:errors="*{brand}">[Errors]</label>
+						                <input class="form-control" type="text" th:field="*{cobrand}" autofocus="true" />
+						                <label class="control-label" th:errors="*{cobrand}">[Errors]</label>
 						            </div>
 						        </div>
-						        <div class="form-group" th:classappend="${#fields.hasErrors('termAndCondition')} ? has-error">
-						            <label class="form-label">Termino y Condiciones:</label>
+						        <div class="form-group" th:classappend="${#fields.hasErrors('logoImage')} ? has-error">
+						            <label class="form-label">* Imagen del Logo:</label>
 						            <div class="controls">
-						            	<select class="form-control" th:field="*{termAndCondition}">
-							              	<option th:each="tm : ${terms}" th:value="${{tm}}" th:text="|${tm.name}|">Terms</option>
-							            </select>
-							            <label class="control-label" th:errors="*{termAndCondition}">[Errors]</label>
+						                <input class="form-control" type="text" th:field="*{logoImage}" autofocus="true" />
+						                <label class="control-label" th:errors="*{logoImage}">[Errors]</label>
 						            </div>
 						        </div>
-						        <div class="form-group" th:classappend="${#fields.hasErrors('campaign')} ? has-error">
-						            <label class="form-label">Campañas</label>
+						        <div class="form-group" th:classappend="${#fields.hasErrors('backgroundImage')} ? has-error">
+						            <label class="form-label">* Imagen de Fondo:</label>
 						            <div class="controls">
-						            	<select class="form-control" th:field="*{campaign}">
-							              	<option th:each="cm : ${campaigns}" th:value="${{cm}}" th:text="|${cm.name}|">Group</option>
-							            </select>
-							            <label class="control-label" th:errors="*{campaign}">[Errors]</label>
+						                <input class="form-control" type="text" th:field="*{backgroundImage}" autofocus="true" />
+						                <label class="control-label" th:errors="*{backgroundImage}">[Errors]</label>
 						            </div>
 						        </div>
-						        <div class="form-group" th:classappend="${#fields.hasErrors('questions')} ? has-error">
-						        	<label>Preguntas</label>
-						        	<select multiple="" class="form-control" th:field="*{questions}">
-						        		<option th:each="qt : ${questionList}" th:value="${{qt}}" th:text="|${qt.name}|">Question</option>
-						        	</select>
-                                </div>
-							    <div class="form-actions">
+						        <div class="form-actions">
         							<button type="submit" name="action" value="cancel" class="btn btn-info">Cancelar</button>
-        							<button type="submit" name="action" value="save" class="btn btn-info">Guardar Grupo</button>
+        							<button type="submit" name="action" value="save" class="btn btn-info">Guardar Branding</button>
     							</div>
 							</form>
                         </div>
@@ -78,8 +66,20 @@
 		    name: 'name',
 			display: 'Nombre',
 		    rules: 'alpha_dash'
+		},{
+		    name: 'cobrand',
+			display: 'Cobranding',
+		    rules: 'alpha_numeric'
+		},{
+		    name: 'logoImage',
+			display: 'Imagen de Logo',
+		    rules: 'alpha_numeric'
+		},{
+		    name: 'backgroundImage',
+			display: 'Imagen de Fondo',
+		    rules: 'alpha_numeric'
 		}];
-		var validator = new FormValidator('add-update-group-form', formInputs, function(errors, event) {
+		var validator = new FormValidator('add-update-brand-form', formInputs, function(errors, event) {
 		    if (errors.length > 0) {
 				jQuery.each(formInputs, function(index, value) {
 					$( "#error_" + value.name).remove();

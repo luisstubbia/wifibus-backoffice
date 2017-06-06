@@ -4,66 +4,98 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout">
 
-<body>
-
-    <div id="branding" layout:fragment="content">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <strong class="page-header">Branding</strong>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <form role="form">
-                                            <div class="form-group" id="comboHotspot" th:hidden="true">
-                                                <label for="selectGroup">Hotspot</label>
-                                                <select id="selectGroup" class="form-control" >
-                                                    <option>Seleccionar Hotspot</option>
-                                                </select>
-                                            </div>
-                                             <div class="form-group" id="comboGroup" th:hidden="true">
-                                                <label for="selectGroup">Grupo </label>
-                                                <select id="selectGroup" class="form-control">
-                                                    <option>Seleccionar Grupo</option>
-                                                    <option>Municipalidad de Cordoba</option>
-                                                    <option>Municipalidad de La Plata</option>
-                                                </select>
-                                            </div>
-                                            
-                                             <div class="form-group">
-                                                <label for="cobranding">Cobranding</label>
-                                                <div class="input-control">
-                                                   <input id="cobranding" type="text" placeholder="Cargar texto para header de anuncio..." class="form-control" />
-                                                </div>
-                                            </div>
-                                             <div class="form-group">
-                                                <label for="logo">Logo del Anunciante</label>
-                                                <input type="file" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="logo">Imagen de Fondo</label>
-                                                <input type="file" />
-                                            </div>
-                                            
-                                          <button class="btn btn-primary"><span class="glyphicon glyphicon-view"></span>Guardar</button>
-   
-                                    </form>
-                                  
-                                </div>
-                                <!-- /.col-md-6 (nested) -->
-                            </div>
-                            <!-- /.row (nested) -->
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
+<body id="hotspots" layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong class="page-header">Branding</strong>
                 </div>
-                <!-- /.col-md-12 -->
+                <div class="panel-body">
+                	<form role="form" th:object="${paginator}" th:action="@{${#httpServletRequest.servletPath}}" method="POST" class="form-group" id="search-brand-form">
+                		<div class="row">
+                			<div class="col-sm-4">
+				        		<fieldset>
+				        			<div class="form-group input-group">
+				                    	<input type="text" placeholder="Nombre de Branding" class="form-control" th:field="*{query}" autofocus="true"/>
+				                    	<span class="input-group-btn">
+				                        	<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+				                    	</span>
+				                	</div>
+				                	<div class="form-group has-error" th:if="${#fields.hasErrors('query')}">
+										<label class="control-label" th:errors="*{query}">[Errors]</label>
+									</div>
+									<input type="hidden" th:field="*{selectedRowsToShow}"/>
+									<input type="hidden" th:field="*{totalRow}"/>
+									<input type="hidden" th:field="*{selectedPage}"/>
+				                </fieldset>
+				        	</div>
+				        	<div class="col-sm-4">
+				        		<a th:href="@{/branding/new}" class="btn btn-info" ><i class="fa fa-plus-square"></i> Nuevo Branding</a>
+				        	</div>
+		        		</div>
+		        	</form>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr class="info">
+                                	<th>Nombre</th>
+                                	<th>Cobranding</th>
+                                	<th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="bd : ${selections}" th:classappend="${!bd.enabled}? 'danger'">
+                                	<td>
+                                		<a th:if="${bd.enabled == true}" th:href="@{|/branding/${bd.id}/edit|}" th:text="|${bd.name}|">Name</a>
+                                		<span th:if="${bd.enabled == false}" th:text="|${bd.name}|">Name</span>
+				                    </td>
+				                    <td th:text="${bd.cobrand}">Cobranding</td>
+				                    <td class="center">
+				                    	<a th:if="${bd.enabled == true}" th:href="@{|/branding/${bd.id}/delete|}" class="btn btn-danger btn-xs" 
+				                    	   th:attr="data-confirm='Desea eliminar el Branding: ' + ${bd.name}">
+				                    	   <i class="glyphicon glyphicon-remove" /></a>
+                                	</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+	        			<div class="col-md-4" th:if="${paginator.pages != null}">
+	        				<div class="dataTables_paginate paging_simple_numbers">
+	        					<ul class="pagination">
+	        						<li class="paginate_button previous disabled">
+	        							<a href="#">Paginas:</a>
+	        						</li>
+	        						<li class="paginate_button" th:each="page : ${paginator.pages}" th:classappend="${page == paginator.selectedPage} ? active" >
+	        							<a th:attr="page-data=${page}" href="#"><span th:text="|${page}|" /></a>
+	        						</li>
+	        					</ul>
+	        				</div>
+	        			</div>
+                    </div>
+                </div>
+                <!-- /.panel-body -->
             </div>
-            <!-- /.row -->
+            <!-- /.panel -->
+        </div>
     </div>
-   
+	<script type="text/javascript">
+		$(document).ready(function() {
+	    	$('a[data-confirm]').click(function(ev) {
+	    		var href = $(this).attr('href');
+	    		$('#confirm-modal').find('.modal-body').text($(this).attr('data-confirm'));
+	    		$('#dataConfirmOK').attr('href', href);
+	    		$('#confirm-modal').modal({show:true});
+	    		return false;
+	    	});
+	    	
+	    	$('a[page-data]').click(function(ev) {
+	    		var pageValue = $(this).attr('page-data');
+	    		$('#selectedPage').val(pageValue);
+	    		$('#search-brand-form').submit();
+	    	});
+	    });
+    </script>
 </body>
 </html>

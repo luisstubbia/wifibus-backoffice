@@ -22,5 +22,21 @@ public class BannerAd extends Advertisement {
 	@Column(name = "TEXT", nullable = false, length = 500)
 	@NotNull
 	private String text;
+
+	public String getBackgroundImageUrl() {
+		return backgroundImageUrl;
+	}
+
+	public void setBackgroundImageUrl(String backgroundImageUrl) {
+		this.backgroundImageUrl = backgroundImageUrl;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
 	
 }

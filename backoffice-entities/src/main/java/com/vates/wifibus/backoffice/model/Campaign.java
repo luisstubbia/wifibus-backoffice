@@ -6,7 +6,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -32,7 +34,8 @@ public class Campaign extends BaseEntity {
 	@NotNull
 	private String landingUrl;
     
-	@OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "campaign", cascade=CascadeType.ALL)
+	@OrderBy("priority")
     private Set<Advertisement> advertisements;
 	
 }

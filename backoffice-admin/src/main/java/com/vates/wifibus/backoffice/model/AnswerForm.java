@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * DTO: Hotspot data transfer object.
+ * DTO: Answer data transfer object.
  * 
  * @author Luis Stubbia
  *
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-public class HotspotForm {
+public class AnswerForm {
 	
 	private Long id;
 	
@@ -21,8 +21,10 @@ public class HotspotForm {
 	
 	private String descripcion;
 	
-	private Router router;
-
+	private Integer value;
+	
+	private String label;
+	
 	public Long getId() {
 		return id;
 	}
@@ -47,13 +49,20 @@ public class HotspotForm {
 		this.descripcion = descripcion;
 	}
 
-	public Router getRouter() {
-		return router;
+	public Integer getValue() {
+		return value;
 	}
 
-	public void setRouter(Router router) {
-		this.router = router;
+	public void setValue(Integer value) {
+		this.value = value;
 	}
-	
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
 }
 

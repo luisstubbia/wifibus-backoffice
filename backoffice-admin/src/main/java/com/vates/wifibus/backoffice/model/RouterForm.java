@@ -3,6 +3,8 @@ package com.vates.wifibus.backoffice.model;
 import java.util.Set;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * DTO: Router data transfer object.
@@ -11,6 +13,8 @@ import lombok.Data;
  *
  */
 @Data
+@Getter
+@Setter
 public class RouterForm {
 	
 	private Long id;
@@ -32,5 +36,85 @@ public class RouterForm {
 	private RouterGroup group;
 	
     private Set<Hotspot> hotspots;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public String getMacAddress() {
+		return macAddress;
+	}
+
+	public void setMacAddress(String macAddress) {
+		this.macAddress = macAddress;
+	}
+
+	public String getIpV4Address() {
+		return ipV4Address;
+	}
+
+	public void setIpV4Address(String ipV4Address) {
+		this.ipV4Address = ipV4Address;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+	public RouterGroup getGroup() {
+		return group;
+	}
+
+	public void setGroup(RouterGroup group) {
+		this.group = group;
+	}
+
+	public Set<Hotspot> getHotspots() {
+		return hotspots;
+	}
+
+	public void setHotspots(Set<Hotspot> hotspots) {
+		this.hotspots = hotspots;
+	}
         
 }

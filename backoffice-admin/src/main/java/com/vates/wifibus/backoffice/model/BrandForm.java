@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * DTO: Hotspot data transfer object.
+ * DTO: Branding data transfer object.
  * 
  * @author Luis Stubbia
  *
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-public class HotspotForm {
+public class BrandForm {
 	
 	private Long id;
 	
@@ -21,8 +21,12 @@ public class HotspotForm {
 	
 	private String descripcion;
 	
-	private Router router;
-
+	private String cobrand;
+	
+	private String logoImage;
+	
+	private String backgroundImage;
+	
 	public Long getId() {
 		return id;
 	}
@@ -47,13 +51,28 @@ public class HotspotForm {
 		this.descripcion = descripcion;
 	}
 
-	public Router getRouter() {
-		return router;
+	public String getCobrand() {
+		return cobrand;
 	}
 
-	public void setRouter(Router router) {
-		this.router = router;
+	public void setCobrand(String cobrand) {
+		this.cobrand = cobrand;
 	}
-	
+
+	public String getLogoImage() {
+		return logoImage;
+	}
+
+	public void setLogoImage(String logoImage) {
+		this.logoImage = logoImage;
+	}
+
+	public String getBackgroundImage() {
+		return backgroundImage;
+	}
+
+	public void setBackgroundImage(String backgroundImage) {
+		this.backgroundImage = backgroundImage;
+	}
 }
 

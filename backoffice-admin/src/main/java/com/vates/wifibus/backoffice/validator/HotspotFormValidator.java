@@ -49,9 +49,6 @@ public class HotspotFormValidator implements Validator {
 				errors.rejectValue("name", "hotspotForm.required.name", "El nombre del Hotspot ya existe");
 			}
 		}
-		if (StringUtils.isEmpty(form.getDescripcion())) {
-			errors.rejectValue("descripcion", "hotspotForm.required.descripcion", "La Descripcion es requerida");
-		}
 		if (null == form.getRouter()) {
 			errors.rejectValue("router", "hotspotForm.required.router", "Debe indicar el Router asociado al Hotspot");
 		}

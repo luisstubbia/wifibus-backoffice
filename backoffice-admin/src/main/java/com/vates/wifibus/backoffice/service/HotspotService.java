@@ -1,7 +1,6 @@
 package com.vates.wifibus.backoffice.service;
 
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.vates.wifibus.backoffice.model.Hotspot;
 import com.vates.wifibus.backoffice.model.HotspotForm;
@@ -12,7 +11,6 @@ import com.vates.wifibus.backoffice.model.HotspotForm;
  * @author Luis Stubbia
  *
  */
-@SessionAttributes(types = HotspotForm.class)
 public interface HotspotService extends EntityService<Hotspot> {
 	
     /**
@@ -20,15 +18,15 @@ public interface HotspotService extends EntityService<Hotspot> {
      * @param pageNumber
      * @param pageSize
      * @param searchText
-     * @return Page<Router>
+     * @return Page<Hotspot>
      */
     Page<Hotspot> getHotspots(Integer pageNumber, Integer pageSize, String searchText);
 
     /**
      * Add or Update a Hotspot.
-     * @param router
+     * @param Hotspot
      */
-	void addOrUpdateHotspot(HotspotForm router);
+	void addOrUpdateHotspot(HotspotForm hotspot);
 	
 	/**
 	 * Returns number of duplicated names.

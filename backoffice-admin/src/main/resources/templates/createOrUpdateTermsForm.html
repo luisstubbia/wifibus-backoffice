@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:social="http://spring.io/springsocial"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+
+<body layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong class="page-header"><span th:if="${termsForm.id == null}" th:remove="tag">Nuevo </span> Termino y Condiciones</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                        	<form th:object="${termsForm}" method="POST" th:action="@{${#httpServletRequest.servletPath}}" name="add-update-term-form">
+								<div class="form-group" th:classappend="${#fields.hasErrors('name')} ? has-error">
+						            <label class="form-label">* Nombre</label>
+						            <div class="controls">
+						                <input class="form-control" type="text" th:field="*{name}" autofocus="true" />
+						                <label class="control-label" th:errors="*{name}">[Errors]</label>
+						            </div>
+						        </div>
+							    <div class="form-group" th:classappend="${#fields.hasErrors('descripcion')} ? has-error">
+						            <label class="form-label">Descripción</label>
+						            <div class="controls">
+						            	<textarea class="form-control" rows="3" th:field="*{descripcion}"/>
+						                <label class="control-label" th:errors="*{descripcion}">[Errors]</label>
+						            </div>
+						        </div>
+						        <div class="form-group" th:classappend="${#fields.hasErrors('text')} ? has-error">
+						            <label class="form-label">* Texto:</label>
+						            <div class="controls">
+						            	<textarea class="form-control" rows="3" th:field="*{text}"/>
+						                <label class="control-label" th:errors="*{text}">[Errors]</label>
+						            </div>
+						        </div>
+						        <div class="form-actions">
+        							<button type="submit" name="action" value="cancel" class="btn btn-info">Cancelar</button>
+        							<button type="submit" name="action" value="save" class="btn btn-info">Guardar Terminos</button>
+    							</div>
+							</form>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+	<script type="text/javascript">
+		var formInputs = [{
+		    name: 'name',
+			display: 'Nombre',
+		    rules: 'alpha_dash'
+		},{
+		    name: 'text',
+			display: 'Texto',
+		    rules: 'alpha_numeric'
+		}];
+		var validator = new FormValidator('add-update-term-form', formInputs, function(errors, event) {
+		    if (errors.length > 0) {
+				jQuery.each(formInputs, function(index, value) {
+					$( "#error_" + value.name).remove();
+				});
+				jQuery.each(errors, function(index, value) {
+					var parent = $( "#" + value.name).parent();
+					parent.addClass("has-error");
+					parent.append('<label id="error_' + value.name + '" class="control-label">' + value.message + '</label>');
+				});
+		    }
+		});
+	</script>
+</body>
+</html>
