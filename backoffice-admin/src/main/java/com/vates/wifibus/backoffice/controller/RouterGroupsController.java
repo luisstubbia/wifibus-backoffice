@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.vates.wifibus.backoffice.model.PaginatorForm;
 import com.vates.wifibus.backoffice.model.RouterGroup;
 import com.vates.wifibus.backoffice.model.RouterGroupForm;
-import com.vates.wifibus.backoffice.model.User;
+import com.vates.wifibus.backoffice.service.BrandService;
+import com.vates.wifibus.backoffice.service.CampaignService;
 import com.vates.wifibus.backoffice.service.RouterGroupService;
+import com.vates.wifibus.backoffice.service.ServiceTermService;
 import com.vates.wifibus.backoffice.validator.RouterGroupFormValidator;
 
 /**
@@ -33,7 +34,16 @@ public class RouterGroupsController {
 
 	@Autowired
 	private RouterGroupService groupService;
-	    
+	
+	@Autowired
+	private BrandService brandService;
+	
+	@Autowired
+	private ServiceTermService termService;
+
+	@Autowired
+	private CampaignService campaignService;
+	
 	@Autowired
 	private RouterGroupFormValidator groupValidator;
 	
@@ -66,14 +76,14 @@ public class RouterGroupsController {
     }
 
 	@RequestMapping("/groups/new")
-	public ModelAndView getRouterGroupNewPage() {
-		ModelAndView model = new ModelAndView("createOrUpdateGroupForm");
+	public String getRouterGroupNewPage(Model model) {
 		RouterGroupForm routerGroupForm = new RouterGroupForm();
-		model.addObject("routerGroupForm", routerGroupForm);
-    	return model;
+		model.addAttribute("routerGroupForm", routerGroupForm);
+		addFormDetails(model);
+    	return "createOrUpdateGroupForm";
     }
-	
-    @RequestMapping(value = "/groups/{groupId}/edit", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/groups/{groupId}/edit", method = RequestMethod.GET)
     public String getRouterGroupInfoPage(@PathVariable("groupId") Long groupId, Model model) {
     	RouterGroupForm routerGroupForm = new RouterGroupForm();
     	if(null != groupId){
@@ -83,6 +93,7 @@ public class RouterGroupsController {
     		}
     	}
     	model.addAttribute(routerGroupForm);
+    	addFormDetails(model);
     	return "createOrUpdateGroupForm";
     }
 
@@ -94,6 +105,7 @@ public class RouterGroupsController {
         }
         groupValidator.validate(routerGroupForm, result);
         if (result.hasErrors()) {
+        	addFormDetails(model);
         	return "createOrUpdateGroupForm";
         } else {
         	groupService.addOrUpdateRouterGroup(routerGroupForm);
@@ -108,4 +120,10 @@ public class RouterGroupsController {
     	return "redirect:/groups";
     }
 	
+    private void addFormDetails(Model model) {
+		model.addAttribute("brands", brandService.getAll());
+		model.addAttribute("terms", termService.getAll());
+		model.addAttribute("campaigns", campaignService.getAll());
+		//model.addAttribute("questionList", questionService.getAll());
+	}
 }

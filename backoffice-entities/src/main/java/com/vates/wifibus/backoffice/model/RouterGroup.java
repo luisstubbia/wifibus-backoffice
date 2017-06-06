@@ -35,4 +35,14 @@ public class RouterGroup extends BaseEntity {
     @JoinColumn(name = "CAMPAIGN_ID")
 	private Campaign campaign;
 	
+	@ManyToOne
+    @JoinColumn(name = "BRAND_ID")
+	private Brand brand;
+	
+	@ManyToOne
+    @JoinColumn(name = "TERM_AND_CONDITION_ID")
+	private ServiceTerm termAndCondition;
+	
+	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    private Set<Question> questions;
 }

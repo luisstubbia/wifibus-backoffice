@@ -1,6 +1,10 @@
 package com.vates.wifibus.backoffice.model;
 
+import java.util.Collection;
+
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 
@@ -10,6 +14,8 @@ import lombok.Data;
  *
  */
 @Data
+@Getter
+@Setter
 public class RouterGroupForm {
 
 	private Long id;
@@ -17,5 +23,69 @@ public class RouterGroupForm {
 	private String name;
   
 	private String descripcion;
+	
+	private Brand brand;
+	
+	private ServiceTerm termAndCondition;
+	
+	private Campaign campaign;
+	
+	private Collection<Question> questions;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public Brand getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Brand brand) {
+		this.brand = brand;
+	}
+
+	public Campaign getCampaign() {
+		return campaign;
+	}
+
+	public void setCampaign(Campaign campaign) {
+		this.campaign = campaign;
+	}
+
+	public Collection<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(Collection<Question> questions) {
+		this.questions = questions;
+	}
+
+	public ServiceTerm getTermAndCondition() {
+		return termAndCondition;
+	}
+
+	public void setTermAndCondition(ServiceTerm termAndCondition) {
+		this.termAndCondition = termAndCondition;
+	}
     
 }

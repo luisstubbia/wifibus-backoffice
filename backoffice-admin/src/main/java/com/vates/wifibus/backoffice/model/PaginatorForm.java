@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import com.google.common.collect.Lists;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 
@@ -17,6 +19,8 @@ import lombok.Data;
  *
  */
 @Data
+@Getter
+@Setter
 public class PaginatorForm {
 	
 	public final static int DEFAULT_ROWS_TO_SHOW = 10;
@@ -56,5 +60,60 @@ public class PaginatorForm {
 		int to = Math.min(from + 10, page.getTotalPages());
 		this.rowDetail =  from + " - " + to + " of " + this.totalRow;
 	}
-	
+
+	public String getQuery() {
+		return query;
+	}
+
+	public void setQuery(String query) {
+		this.query = query;
+	}
+
+	public Integer getQueryNumber() {
+		return queryNumber;
+	}
+
+	public void setQueryNumber(Integer queryNumber) {
+		this.queryNumber = queryNumber;
+	}
+
+	public Integer getSelectedRowsToShow() {
+		return selectedRowsToShow;
+	}
+
+	public void setSelectedRowsToShow(Integer selectedRowsToShow) {
+		this.selectedRowsToShow = selectedRowsToShow;
+	}
+
+	public Integer getTotalRow() {
+		return totalRow;
+	}
+
+	public void setTotalRow(Integer totalRow) {
+		this.totalRow = totalRow;
+	}
+
+	public List<Integer> getPages() {
+		return pages;
+	}
+
+	public void setPages(List<Integer> pages) {
+		this.pages = pages;
+	}
+
+	public Integer getSelectedPage() {
+		return selectedPage;
+	}
+
+	public void setSelectedPage(Integer selectedPage) {
+		this.selectedPage = selectedPage;
+	}
+
+	public String getRowDetail() {
+		return rowDetail;
+	}
+
+	public void setRowDetail(String rowDetail) {
+		this.rowDetail = rowDetail;
+	}	
 }

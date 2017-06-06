@@ -49,9 +49,6 @@ public class RouterGroupFormValidator implements Validator {
 				errors.rejectValue("name", "routerForm.required.name", "El nombre del Grupo ya existe");
 			}
 		}
-		if (StringUtils.isEmpty(form.getDescripcion())) {
-			errors.rejectValue("descripcion", "routerGroupForm.required.descripcion", "La Descripcion es requerida");
-		}
 	}
 
 }

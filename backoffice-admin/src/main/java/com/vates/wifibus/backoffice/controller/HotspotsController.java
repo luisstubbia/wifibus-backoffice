@@ -51,12 +51,14 @@ public class HotspotsController {
     
     @RequestMapping(value = "/hotspots", method = RequestMethod.POST)
     public String findHotspotPage(PaginatorForm paginator, BindingResult result, Model model) {
+    	boolean isQuery = true;
     	if(StringUtils.isEmpty(paginator.getQuery())){
     		paginator.setQuery("");
+    		isQuery = true;
     	}
     	Page<Hotspot> hotspots = hotspotService.getHotspots(paginator.getSelectedPage(), 
     			paginator.getSelectedRowsToShow(), paginator.getQuery());
-    	if(hotspots != null && hotspots.getContent().size() == 1){
+    	if(hotspots != null && hotspots.getContent().size() == 1 && isQuery){
     		return "redirect:/hotspots/"+ hotspots.getContent().get(0).getId() +"/edit";
     	} else {
     		paginator.update(hotspots);

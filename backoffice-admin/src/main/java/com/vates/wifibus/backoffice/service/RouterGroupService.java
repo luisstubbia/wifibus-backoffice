@@ -6,7 +6,7 @@ import com.vates.wifibus.backoffice.model.RouterGroup;
 import com.vates.wifibus.backoffice.model.RouterGroupForm;
 
 /**
- * <TBD>
+ * Service: Group service
  * 
  * @author Luis Stubbia
  *
@@ -18,7 +18,7 @@ public interface RouterGroupService extends EntityService<RouterGroup> {
 	 * @param pageNumber
 	 * @param pageSize
 	 * @param searchText
-	 * @return
+	 * @return Page<RouterGroup>
 	 */
 	Page<RouterGroup> getRouterGroups(Integer pageNumber, Integer pageSize, String searchText);
 

@@ -52,11 +52,13 @@ public class RoutersController {
     
     @RequestMapping(value = "/routers", method = RequestMethod.POST)
     public String findRoutersPage(PaginatorForm paginator, BindingResult result, Model model) {
+    	boolean isQuery = true;
     	if(StringUtils.isEmpty(paginator.getQuery())){
     		paginator.setQuery("");
+    		isQuery = false;
     	}
     	Page<Router> routers = routerService.getRouters(paginator.getSelectedPage(), paginator.getSelectedRowsToShow(), paginator.getQuery());
-    	if(routers != null && routers.getContent().size() == 1){
+    	if(routers != null && routers.getContent().size() == 1 && isQuery){
     		return "redirect:/routers/"+ routers.getContent().get(0).getId() +"/edit";
     	} else {
     		paginator.update(routers);
