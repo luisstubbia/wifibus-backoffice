@@ -17,7 +17,7 @@ public class BannerAd extends Advertisement {
 	@Column(name = "SOURCE_URL", nullable = false, length = 1024)
 	private String backgroundImageUrl;
 	
-	@Column(name = "TEXT", nullable = false, length = 500)
+	@Column(name = "TEXT", length = 500)
 	private String text;
 
 	public String getBackgroundImageUrl() {
