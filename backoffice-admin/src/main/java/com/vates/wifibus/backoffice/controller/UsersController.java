@@ -93,9 +93,6 @@ public class UsersController {
 	@RequestMapping(value = {"/users/{id}/edit", "/users/new"}, method = RequestMethod.POST)
 	public String saveNewUserPage(UserForm userForm, BindingResult result, Model model,
 			@ModelAttribute("action") String action, SessionStatus status) {
-    	if(action.equals("cancel")){
-        	return "redirect:/users";
-        }
     	userFormValidator.validate(userForm, result);
     	if(result.hasErrors()){
     		return "createOrUpdateUserForm";

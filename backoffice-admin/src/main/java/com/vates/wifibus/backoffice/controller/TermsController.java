@@ -83,9 +83,6 @@ public class TermsController {
     @RequestMapping(value = {"/terms/{termsId}/edit", "/terms/new"}, method = RequestMethod.POST)
     public String createTermsInfoPage(TermsForm term, BindingResult result, Model model, 
     		@ModelAttribute("action") String action, SessionStatus status) {
-        if(action.equals("cancel")){
-        	return "redirect:/terms";
-        }
         termsValidator.validate(term, result);
         if (result.hasErrors()) {
             return "createOrUpdateTermsForm";

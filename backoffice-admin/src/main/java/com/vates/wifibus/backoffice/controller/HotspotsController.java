@@ -94,9 +94,6 @@ public class HotspotsController {
     @RequestMapping(value = {"/hotspots/{hotspotId}/edit", "/hotspots/new"}, method = RequestMethod.POST)
     public String createHotspotInfoPage(HotspotForm hotspot, BindingResult result, Model model, 
     		@ModelAttribute("action") String action, SessionStatus status) {
-        if(action.equals("cancel")){
-        	return "redirect:/hotspots";
-        }
         hotspotValidator.validate(hotspot, result);
         if (result.hasErrors()) {
         	model.addAttribute("routers", routerService.getAll());

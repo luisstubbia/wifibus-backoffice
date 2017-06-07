@@ -88,9 +88,6 @@ public class BrandingController {
     @RequestMapping(value = {"/branding/{brandId}/edit", "/branding/new"}, method = RequestMethod.POST)
     public String createBrandInfoPage(BrandForm brand, BindingResult result, Model model, 
     		@ModelAttribute("action") String action, SessionStatus status) {
-        if(action.equals("cancel")){
-        	return "redirect:/branding";
-        }
         brandValidator.validate(brand, result);
         if (result.hasErrors()) {
             return "createOrUpdateBrandForm";

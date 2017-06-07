@@ -57,11 +57,9 @@
 	                                <div class="panel panel-info" th:each="adv, advRow : *{advertisementForms}">
 	                                    <div class="panel-heading">
 											<h4 class="panel-title">
-												<button type="submit" class="btn btn-danger btn-xs" name="action" value="removeAdv" th:value="*{advertisementForms[__${advRow.index}__].priority}">
-													<i class="glyphicon glyphicon-remove" />
-												</button>
+												<button type="submit" class="close" name="removeAdv" th:value="*{advertisementForms[__${advRow.index}__].priority}" aria-hidden="true">×</button>
 												<a data-toggle="collapse" data-parent="#accordion" th:href="@{'#collapse' + ${advRow.index}}">
-													<span th:text="|${adv.type}|"></span>
+													<strong class="page-header"><span th:text="|${adv.type}|"/><span th:if="${adv.name != ''}" th:text="| - ${adv.name}|"/></strong>
 					                            </a>
 											</h4>
 										</div>
@@ -123,8 +121,11 @@
 	                                    </div>
 	                                </div>
 								</div>
+								<div class="form-group" th:classappend="${#fields.hasErrors('advertisementForms')} ? has-error">
+									<label class="control-label" th:errors="*{advertisementForms}">[Errors]</label>
+								</div>
 	                            <div class="form-actions">
-        							<button type="submit" name="action" value="cancel" class="btn btn-info">Cancelar</button>
+        							<a th:href="@{/campaigns}" class="btn btn-warning" >Cancelar</a>
         							<button type="submit" name="action" value="save" class="btn btn-info">Guardar Campa&ntilde;a</button>
     							</div>
 							</form>

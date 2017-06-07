@@ -100,9 +100,6 @@ public class RouterGroupsController {
     @RequestMapping(value = {"/groups/{groupId}/edit", "/groups/new"}, method = RequestMethod.POST)
     public String createRouterGroupInfoPage(RouterGroupForm routerGroupForm, BindingResult result, Model model, 
     		@ModelAttribute("action") String action, SessionStatus status) {
-        if(action.equals("cancel")){
-        	return "redirect:/groups";
-        }
         groupValidator.validate(routerGroupForm, result);
         if (result.hasErrors()) {
         	addFormDetails(model);
