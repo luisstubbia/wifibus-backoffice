@@ -90,9 +90,19 @@ public class CampaignsController {
     
     @RequestMapping(value = {"/campaigns/{campaignId}/edit", "/campaigns/new"}, method = RequestMethod.POST)
     public String createCampaignInfoPage(CampaignForm campaign, BindingResult result, Model model, 
-    		@ModelAttribute("action") String action, @ModelAttribute("removeAdv") String advId, SessionStatus status) {
+    		@ModelAttribute("action") String action, @ModelAttribute("removeAdv") String advId, 
+    		@ModelAttribute("moveUpAdv") String upAdvId, @ModelAttribute("moveDownAdv") String downAdvId, 
+    		SessionStatus status) {
         if(!StringUtils.isEmpty(advId)){
         	removeAdv(campaign, Integer.parseInt(advId));
+        	return "createOrUpdateCampaignForm";
+        }
+        if(!StringUtils.isEmpty(upAdvId)){
+        	campaign.moveAdvPriority(Integer.parseInt(upAdvId), CampaignForm.UP);
+        	return "createOrUpdateCampaignForm";
+        }
+        if(!StringUtils.isEmpty(downAdvId)){
+        	campaign.moveAdvPriority(Integer.parseInt(downAdvId), CampaignForm.DOWN);
         	return "createOrUpdateCampaignForm";
         }
         campaignValidator.validate(campaign, result);
@@ -135,5 +145,5 @@ public class CampaignsController {
 				break;
 			}
 		}
-	}
+    }
 }
