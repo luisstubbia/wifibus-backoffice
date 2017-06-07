@@ -3,7 +3,6 @@ package com.vates.wifibus.backoffice.model;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
 
 /**
  * Modela los anuncios tipo banner.
@@ -16,11 +15,9 @@ import javax.validation.constraints.NotNull;
 public class BannerAd extends Advertisement {
 
 	@Column(name = "SOURCE_URL", nullable = false, length = 1024)
-	@NotNull
 	private String backgroundImageUrl;
 	
-	@Column(name = "TEXT", nullable = false, length = 500)
-	@NotNull
+	@Column(name = "TEXT", length = 500)
 	private String text;
 
 	public String getBackgroundImageUrl() {

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.vates.wifibus.backoffice.model.AdvertisementForm;
 import com.vates.wifibus.backoffice.model.AdvertisementType;
 import com.vates.wifibus.backoffice.model.Campaign;
 import com.vates.wifibus.backoffice.model.CampaignForm;
@@ -89,9 +90,10 @@ public class CampaignsController {
     
     @RequestMapping(value = {"/campaigns/{campaignId}/edit", "/campaigns/new"}, method = RequestMethod.POST)
     public String createCampaignInfoPage(CampaignForm campaign, BindingResult result, Model model, 
-    		@ModelAttribute("action") String action, SessionStatus status) {
-        if(action.equals("cancel")){
-        	return "redirect:/campaigns";
+    		@ModelAttribute("action") String action, @ModelAttribute("removeAdv") String advId, SessionStatus status) {
+        if(!StringUtils.isEmpty(advId)){
+        	removeAdv(campaign, Integer.parseInt(advId));
+        	return "createOrUpdateCampaignForm";
         }
         campaignValidator.validate(campaign, result);
         if (result.hasErrors()) {
@@ -102,17 +104,11 @@ public class CampaignsController {
             return "redirect:/campaigns";
         }
     }
-    
-    @RequestMapping(value = {"/campaigns/{campaignId}/edit", "/campaigns/new"}, method = RequestMethod.POST, params="action=addAdv")
+
+	@RequestMapping(value = {"/campaigns/{campaignId}/edit", "/campaigns/new"}, method = RequestMethod.POST, params="action=addAdv")
     public String addAdvertisementView(CampaignForm campaign, BindingResult result, Model model, SessionStatus status) {
     	AdvertisementType adv = AdvertisementType.lookupByName(campaign.getType());
     	campaign.addAdvertisementFormItem(adv.getInstance());
-    	return "createOrUpdateCampaignForm";
-    }  
-    
-    @RequestMapping(value = {"/campaigns/{campaignId}/edit", "/campaigns/new"}, method = RequestMethod.POST, params="action=removeAdv")
-    public String removeAdvToCampaign(CampaignForm campaign, BindingResult result, Model model, 
-    		@ModelAttribute("removeAdv") String removeAdv, SessionStatus status) {
     	return "createOrUpdateCampaignForm";
     }
     
@@ -121,4 +117,23 @@ public class CampaignsController {
     	campaignService.deleteById(id);
     	return "redirect:/campaigns";
     }
+	
+    
+    /**
+     * Remove adv element from campaign form.
+     * @param campaign
+     * @param advId
+     */
+    private void removeAdv(CampaignForm campaign, int advId) {
+		for(AdvertisementForm<?, ?> adv : campaign.getAdvertisementForms()){
+			if(adv.getPriority().intValue() == advId){
+				if(adv.getId() != null){
+					//Remove element form db?
+				}
+				campaign.getAdvertisementForms().remove(adv);
+				campaign.resetAdvPriority();
+				break;
+			}
+		}
+	}
 }

@@ -2,6 +2,8 @@ package com.vates.wifibus.backoffice.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import lombok.Data;
@@ -96,6 +98,18 @@ public class CampaignForm {
 				BannerAdForm bannerAd = new BannerAdForm();
 				this.advertisementForms.add(bannerAd.toForm(advBanner));
 			}
+		}
+	}
+
+	/**
+	 * Reseting advertisement priority
+	 */
+	public void resetAdvPriority() {
+		Collections.sort((List<AdvertisementForm<?,?>>) advertisementForms,
+                (ad1, ad2) -> ad1.getPriority().compareTo(ad2.getPriority()));
+		int index = 1;
+		for(AdvertisementForm<?,?> adv : advertisementForms){
+			adv.setPriority(index ++);
 		}
 	}
 }

@@ -94,9 +94,6 @@ public class RoutersController {
     @RequestMapping(value = {"/routers/new", "/routers/{routerId}/edit"}, method = RequestMethod.POST)
     public String createRouterInfoPage(RouterForm router, BindingResult result, Model model, 
     		@ModelAttribute("action") String action, SessionStatus status) {
-        if(action.equals("cancel")){
-        	return "redirect:/routers";
-        }
         routerValidator.validate(router, result);
         if (result.hasErrors()) {
         	model.addAttribute("groups", routerGroupService.getAll());

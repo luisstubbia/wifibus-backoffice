@@ -1,6 +1,8 @@
 package com.vates.wifibus.backoffice.validator;
 
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,6 +88,8 @@ public class RouterFormValidator implements Validator {
 	private void validateAddress(Errors errors, RouterForm form) {
 		if (StringUtils.isEmpty(form.getMacAddress())) {
 			errors.rejectValue("macaddress", "routerForm.required.macaddress", "MAC Address es requerida");
+		} else if (isValidMACAddress(form.getMacAddress())) {
+			errors.rejectValue("macaddress", "routerForm.invalid.macaddress", "La MAC Address es incorrecta");
 		}
 		if (StringUtils.isEmpty(form.getIpV4Address())) {
 			errors.rejectValue("ipv4address", "routerForm.required.ipv4address", "IP v4 Address es requerida");
@@ -104,5 +108,10 @@ public class RouterFormValidator implements Validator {
 		}
 	}
 	
+	private boolean isValidMACAddress(String mac) {
+		Pattern p = Pattern.compile("^([a-fA-F0-9][:-]){5}[a-fA-F0-9][:-]$");
+		 Matcher m = p.matcher(mac);
+		return m.find();
+	}
 }
 
