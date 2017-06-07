@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.util.CollectionUtils;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -127,26 +129,28 @@ public class CampaignForm {
 	 * @param option - UP/DOWN
 	 */
 	public void moveAdvPriority(int advId, String option) {
-		int newPriority = 0;
-		if(UP.equals(option)){
-			newPriority = advId - 1;
-		}
-		if(DOWN.equals(option)){
-			newPriority = advId + 1;
-		}
-		AdvertisementForm<?,?> currentAdv = null;
-		AdvertisementForm<?,?> nextAdv = null;
-		for(AdvertisementForm<?, ?> adv : advertisementForms){
-			if(adv.getPriority().intValue() == newPriority){
-				nextAdv = adv;
+		if(!CollectionUtils.isEmpty(advertisementForms) && advId <= advertisementForms.size()){
+			int newPriority = 0;
+			if(UP.equals(option)){
+				newPriority = advId - 1;
 			}
-			if(adv.getPriority().intValue() == advId){
-				currentAdv = adv;
+			if(DOWN.equals(option)){
+				newPriority = advId + 1;
 			}
+			AdvertisementForm<?,?> currentAdv = null;
+			AdvertisementForm<?,?> nextAdv = null;
+			for(AdvertisementForm<?, ?> adv : advertisementForms){
+				if(adv.getPriority().intValue() == newPriority){
+					nextAdv = adv;
+				}
+				if(adv.getPriority().intValue() == advId){
+					currentAdv = adv;
+				}
+			}
+			nextAdv.setPriority(advId);
+			currentAdv.setPriority(newPriority);
+			sortAdvertisementList();
 		}
-		nextAdv.setPriority(advId);
-		currentAdv.setPriority(newPriority);
-		sortAdvertisementList();
 	}
 }
 
