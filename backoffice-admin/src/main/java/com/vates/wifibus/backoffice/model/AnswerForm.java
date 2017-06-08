@@ -25,6 +25,8 @@ public class AnswerForm {
 	
 	private String label;
 	
+	private int index;
+	
 	public Long getId() {
 		return id;
 	}
@@ -63,6 +65,14 @@ public class AnswerForm {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 	}
 }
 

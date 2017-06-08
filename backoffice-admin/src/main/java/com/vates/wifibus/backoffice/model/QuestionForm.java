@@ -1,6 +1,11 @@
 package com.vates.wifibus.backoffice.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
 import lombok.Data;
 import lombok.Getter;
@@ -29,7 +34,12 @@ public class QuestionForm {
 	
 	private QuestionType type;
 	
-	private Collection<Answer> answers;
+	private Collection<AnswerForm> answerForms = new ArrayList<AnswerForm>();
+	
+	public QuestionForm(){
+		open = true;
+		type = QuestionType.TEXT;
+	}
 	
 	public Long getId() {
 		return id;
@@ -79,12 +89,30 @@ public class QuestionForm {
 		this.type = type;
 	}
 
-	public Collection<Answer> getAnswers() {
-		return answers;
+	public Collection<AnswerForm> getAnswerForms() {
+		return answerForms;
 	}
 
-	public void setAnswers(Collection<Answer> answers) {
-		this.answers = answers;
+	public void setAnswerForms(Collection<AnswerForm> answerForms) {
+		this.answerForms = answerForms;
+	}
+
+	public void buildAnswers(Set<Answer> answers) {
+		if(!CollectionUtils.isEmpty(answers)){
+			int index = 1;
+			for(Answer anw : answers){
+				AnswerForm anwForm = new AnswerForm();
+				BeanUtils.copyProperties(anw, anwForm);
+				anwForm.setIndex(index++);
+				this.answerForms.add(anwForm);
+			}
+		}
+	}
+
+	public void addAnswerForm() {
+		AnswerForm anwForm = new AnswerForm();
+		anwForm.setIndex(answerForms.size() + 1);
+		answerForms.add(anwForm);
 	}
 }
 
