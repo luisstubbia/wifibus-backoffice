@@ -73,13 +73,15 @@ public class RouterServiceImpl implements RouterService {
 	public void addOrUpdateRouter(RouterForm routerForm) {
         if(routerForm.getId() != null){
         	Router router = routerRepository.findOne(routerForm.getId());
-        	routerRepository.setRouterInfoByNameMacIpLocationDescLatitudeAndLonguitude(routerForm.getMacAddress(), 
-        			routerForm.getIpV4Address(), routerForm.getLocation(), routerForm.getLatitude(), 
-        			routerForm.getLongitude(), routerForm.getGroup().getId(), routerForm.getId());
+        	routerRepository.setRouterInfoByNameMacIpLocationDescLatitudeAndLonguitude(routerForm.getName(),
+        			routerForm.getDescripcion(), routerForm.getMacAddress(), routerForm.getIpv4address(), 
+        			routerForm.getLocation(), routerForm.getLatitude(), routerForm.getLongitude(), 
+        			routerForm.getGroup().getId(), routerForm.getId());
         	addAuditLog(router, routerForm);
         } else {
         	Router router = new Router();
             BeanUtils.copyProperties(routerForm, router);
+            router.setIpV4Address(routerForm.getIpv4address());
             routerRepository.save(router);
         }
 	}

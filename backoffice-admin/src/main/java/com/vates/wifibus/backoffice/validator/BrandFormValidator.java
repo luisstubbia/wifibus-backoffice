@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.vates.wifibus.backoffice.model.Brand;
 import com.vates.wifibus.backoffice.model.BrandForm;
 import com.vates.wifibus.backoffice.service.BrandService;
 
@@ -33,17 +34,22 @@ public class BrandFormValidator implements Validator {
 	public void validate(Object brandForm, Errors errors) {
         logger.debug("Validando {}", brandForm);
         int numberOfOccurrences = 0;
+        Brand originalBrand = null;
         BrandForm form = (BrandForm) brandForm;
         if(form.getId() != null){
         	numberOfOccurrences ++;
+        	originalBrand = brandService.getById(form.getId()).get();
         }
-        validateName(errors, form, numberOfOccurrences);
+        validateName(errors, form, numberOfOccurrences, originalBrand);
 	}
 
-	private void validateName(Errors errors, BrandForm form, int numberOfOccurrences) {
+	private void validateName(Errors errors, BrandForm form, int numberOfOccurrences, Brand originalBrand) {
 		if (StringUtils.isEmpty(form.getName())) {
 			errors.rejectValue("name", "brandForm.required.name", "El nombre del Branding es requerido");
 		} else {
+			if(originalBrand != null && !originalBrand.getName().equals(form.getName())){
+				numberOfOccurrences --;
+			}
 			Long numberOfDuplicatedNames = brandService.countByName(form.getName());
 			if(null != numberOfDuplicatedNames && numberOfDuplicatedNames.intValue() > numberOfOccurrences){
 				errors.rejectValue("name", "brandForm.required.name", "El nombre del Branding ya existe");

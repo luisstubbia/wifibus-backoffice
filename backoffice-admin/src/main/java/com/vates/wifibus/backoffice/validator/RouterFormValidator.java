@@ -1,6 +1,5 @@
 package com.vates.wifibus.backoffice.validator;
 
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,15 +36,17 @@ public class RouterFormValidator implements Validator {
 	@Override
 	public void validate(Object router, Errors errors) {
         logger.debug("Validando {}", router);
+        Router originalRouter = null;
         int numberOfOccurrences = 0;
         RouterForm form = (RouterForm) router;
         validateAddress(errors, form);
         validateLocation(errors, form);
 		if(form.getId() != null){
+			originalRouter = routerService.getById(form.getId()).get();
         	numberOfOccurrences ++;
-        	validateGroupChange(errors, form);
+        	validateGroupChange(errors, form, originalRouter);
         }
-        validateUnique(errors, form, numberOfOccurrences);
+        validateUnique(errors, form, numberOfOccurrences, originalRouter);
         //general validations:
         if (null == form.getGroup()) {
 			errors.rejectValue("group", "routerForm.required.group", "Debe indicar el Grupo al que pertenece el Router");
@@ -53,35 +54,47 @@ public class RouterFormValidator implements Validator {
         if (StringUtils.isEmpty(form.getName())){
         	errors.rejectValue("name", "routerForm.required.name", "El nombre del Router es requerido");
         } else {
-        	validateName(errors, form, numberOfOccurrences);
+        	validateName(errors, form, numberOfOccurrences, originalRouter);
         }
 	}
 
-	private void validateName(Errors errors, RouterForm form, int numberOfOccurrences) {
+	private void validateName(Errors errors, RouterForm form, int numberOfOccurrences, Router originalRouter) {
+		if(null != originalRouter && !originalRouter.getName().equals(form.getName())){
+			numberOfOccurrences --;
+		}
 		Long numberOfDuplicatedNames = routerService.countByName(form.getName());
 		if(null != numberOfDuplicatedNames && numberOfDuplicatedNames.intValue() > numberOfOccurrences){
 			errors.rejectValue("name", "routerForm.required.name", "El nombre del Router ya existe");
 		}
 	}
 
-	private void validateGroupChange(Errors errors, RouterForm form) {
+	private void validateGroupChange(Errors errors, RouterForm form, Router originalRouter) {
 		// Forces to update router name when the group has changed -
-		Optional<Router> originalRouterInfo = routerService.getById(form.getId());
-		if(null != originalRouterInfo && form.getGroup().getId().intValue() != originalRouterInfo.get().getGroup().getId().intValue()){
-			if(form.getName().equals(originalRouterInfo.get().getName())){
+		if(null != originalRouter && form.getGroup().getId().intValue() != originalRouter.getGroup().getId().intValue()){
+			if(form.getName().equals(originalRouter.getName())){
 				errors.rejectValue("name", "routerForm.required.name", "Debe modificar el nombre del Router si esta actualizando el grupo del mismo");
 			}
 		}
 	}
 
-	private void validateUnique(Errors errors, RouterForm form, int numberOfOccurrences) {
+	private void validateUnique(Errors errors, RouterForm form, int numberOfOccurrences, Router originalRouter) {
+		//MAC validation.
+		int macOccurences = numberOfOccurrences;
+		if(null != originalRouter && !originalRouter.getMacAddress().equals(form.getMacAddress())){
+			macOccurences = numberOfOccurrences - 1;
+		}
 		Long duplicatedMacAddressNbr = routerService.countByMacAddress(form.getMacAddress());
-		if(null != duplicatedMacAddressNbr && duplicatedMacAddressNbr.intValue() > numberOfOccurrences){
+		if(null != duplicatedMacAddressNbr && duplicatedMacAddressNbr.intValue() > macOccurences){
 			errors.rejectValue("macAddress", "routerForm.required.macAddress", "La direccion MAC ingresada ya existe");
 		}
-		Long duplicatedIpAddressNbr = routerService.countByIpAddress(form.getIpV4Address());
-		if(null != duplicatedIpAddressNbr && duplicatedIpAddressNbr.intValue() > numberOfOccurrences){
-			errors.rejectValue("ipV4Address", "routerForm.required.ipV4Address", "La direccion IP ingresada ya existe");
+		//IP validation.
+		int ipOccurences = numberOfOccurrences;
+		if(null != originalRouter && !originalRouter.getIpV4Address().equals(form.getIpv4address())){
+			ipOccurences = numberOfOccurrences - 1;
+		}
+		Long duplicatedIpAddressNbr = routerService.countByIpAddress(form.getIpv4address());
+		if(null != duplicatedIpAddressNbr && duplicatedIpAddressNbr.intValue() > ipOccurences){
+			errors.rejectValue("ipv4address", "routerForm.required.ipv4address", "La direccion IP ingresada ya existe");
 		}
 	}
 
@@ -91,7 +104,7 @@ public class RouterFormValidator implements Validator {
 		} else if (isValidMACAddress(form.getMacAddress())) {
 			errors.rejectValue("macaddress", "routerForm.invalid.macaddress", "La MAC Address es incorrecta");
 		}
-		if (StringUtils.isEmpty(form.getIpV4Address())) {
+		if (StringUtils.isEmpty(form.getIpv4address())) {
 			errors.rejectValue("ipv4address", "routerForm.required.ipv4address", "IP v4 Address es requerida");
 		}
 	}

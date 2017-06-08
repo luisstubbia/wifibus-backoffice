@@ -36,11 +36,11 @@
 						                <label class="control-label" th:errors="*{macAddress}">[Errors]</label>
 						            </div>
 						        </div>
-						        <div class="form-group" th:classappend="${#fields.hasErrors('ipV4Address')} ? has-error">
+						        <div class="form-group" th:classappend="${#fields.hasErrors('ipv4address')} ? has-error">
 						            <label class="form-label">* IP V4</label>
 						            <div class="controls">
-						            	<input type="text" placeholder="104.131.89.190" class="form-control" th:field="*{ipV4Address}"/>
-				                    	<label class="control-label" th:errors="*{ipV4Address}">[Errors]</label>
+						            	<input type="text" placeholder="xxx.xxx.xxx.xxx" class="form-control" th:field="*{ipv4address}"/>
+				                    	<label class="control-label" th:errors="*{ipv4address}">[Errors]</label>
 						            </div>
 						        </div>
 						     	<div class="form-group" th:classappend="${#fields.hasErrors('group')} ? has-error">
@@ -51,11 +51,10 @@
 							            </select>
 							            <label class="control-label" th:errors="*{group}">[Errors]</label>
 						            </div>
+						            <label class="control-label" th:errors="*{location}">[Errors]</label>
 						        </div>
-						        
 						        <input class="form-control" style="width: 400px; margin-top: 8px;" placeholder="Ingrese la Ubicación" type="text" th:field="*{location}" />
 						        <div id="map_container" class="form-group" style=" width:100%; height:350px;"></div>
-						        
 						        <div class="form-group" th:classappend="${#fields.hasErrors('location')} ? has-error">
 						          	<label class="control-label" th:errors="*{location}">[Errors]</label>
 						          	<label class="control-label" th:errors="*{longitude}">[Errors]</label>
@@ -63,7 +62,6 @@
 									<input type="hidden" th:field="*{longitude}"/>
 						        	<input type="hidden" th:field="*{latitude}"/>
 						        </div>
-						        
 							    <div class="form-actions">
 							    	<a th:href="@{/routers}" class="btn btn-warning" >Cancelar</a>
         							<button type="submit" name="action" value="save" class="btn btn-info">Guardar Router</button>
@@ -86,7 +84,7 @@
 		    rules: 'required'
 		    
 		}, {
-		    name: 'ipV4Address',
+		    name: 'ipv4address',
 		    display: 'Dirección IP',
 		    rules: 'valid_ip'
 		}, {

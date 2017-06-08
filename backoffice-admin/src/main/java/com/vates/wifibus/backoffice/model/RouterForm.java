@@ -25,7 +25,7 @@ public class RouterForm {
 	
 	private String macAddress;
 	
-	private String ipV4Address;
+	private String ipv4address;
 	
 	private String location;
 	
@@ -69,12 +69,12 @@ public class RouterForm {
 		this.macAddress = macAddress;
 	}
 
-	public String getIpV4Address() {
-		return ipV4Address;
+	public String getIpv4address() {
+		return ipv4address;
 	}
 
-	public void setIpV4Address(String ipV4Address) {
-		this.ipV4Address = ipV4Address;
+	public void setIpv4address(String ipv4address) {
+		this.ipv4address = ipv4address;
 	}
 
 	public String getLocation() {
@@ -115,6 +115,5 @@ public class RouterForm {
 
 	public void setHotspots(Set<Hotspot> hotspots) {
 		this.hotspots = hotspots;
-	}
-        
+	}        
 }

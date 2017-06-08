@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.vates.wifibus.backoffice.model.RouterGroup;
 import com.vates.wifibus.backoffice.model.RouterGroupForm;
 import com.vates.wifibus.backoffice.service.RouterGroupService;
 
@@ -33,17 +34,22 @@ public class RouterGroupFormValidator implements Validator {
 	public void validate(Object routerGroupForm, Errors errors) {
         logger.debug("Validando {}", routerGroupForm);
         int numberOfOccurrences = 0;
+        RouterGroup originalGroup = null;
         RouterGroupForm form = (RouterGroupForm) routerGroupForm;
         if(form.getId() != null){
         	numberOfOccurrences++;
+        	originalGroup = routerGroupService.getById(form.getId()).get();
         }
-        validateName(errors, form, numberOfOccurrences);
+        validateName(errors, form, numberOfOccurrences, originalGroup);
 	}
 
-	private void validateName(Errors errors, RouterGroupForm form, int numberOfOccurrences) {
+	private void validateName(Errors errors, RouterGroupForm form, int numberOfOccurrences, RouterGroup originalGroup) {
 		if (StringUtils.isEmpty(form.getName())) {
 			errors.rejectValue("name", "routerGroupForm.required.name", "El nombre del Grupo es requerido");
 		} else {
+			if(originalGroup != null && !originalGroup.getName().equals(form.getName())){
+				numberOfOccurrences --;
+			}
 			Long numberOfDuplicatedNames = routerGroupService.countByName(form.getName());
 			if(null != numberOfDuplicatedNames && numberOfDuplicatedNames.intValue() > numberOfOccurrences){
 				errors.rejectValue("name", "routerForm.required.name", "El nombre del Grupo ya existe");

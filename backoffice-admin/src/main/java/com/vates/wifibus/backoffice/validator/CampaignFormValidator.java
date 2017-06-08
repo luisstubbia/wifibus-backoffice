@@ -11,6 +11,7 @@ import org.springframework.validation.Validator;
 
 import com.vates.wifibus.backoffice.model.AdvertisementForm;
 import com.vates.wifibus.backoffice.model.BannerAdForm;
+import com.vates.wifibus.backoffice.model.Campaign;
 import com.vates.wifibus.backoffice.model.CampaignForm;
 import com.vates.wifibus.backoffice.model.VideoAdForm;
 import com.vates.wifibus.backoffice.service.CampaignService;
@@ -36,12 +37,14 @@ public class CampaignFormValidator implements Validator {
 	@Override
 	public void validate(Object campaignForm, Errors errors) {
         logger.debug("Validando {}", campaignForm);
+        Campaign originalCampaign = null;
         int numberOfOccurrences = 0;
         CampaignForm form = (CampaignForm) campaignForm;
         if(form.getId() != null){
         	numberOfOccurrences ++;
+        	originalCampaign = campaignService.getById(form.getId()).get();
         }
-        validateName(errors, form, numberOfOccurrences);
+        validateName(errors, form, numberOfOccurrences, originalCampaign);
         validateAdvertisement(errors, form);
 	}
 
@@ -86,10 +89,13 @@ public class CampaignFormValidator implements Validator {
 		}
 	}
 
-	private void validateName(Errors errors, CampaignForm form, int numberOfOccurrences) {
+	private void validateName(Errors errors, CampaignForm form, int numberOfOccurrences, Campaign originalCampaign) {
 		if (StringUtils.isEmpty(form.getName())) {
 			errors.rejectValue("name", "campaignForm.required.name", "El nombre de la campaña es requerido");
 		} else {
+			if(originalCampaign != null && !originalCampaign.getName().equals(form.getName())){
+				numberOfOccurrences --;
+			}
 			Long numberOfDuplicatedNames = campaignService.countByName(form.getName());
 			if(null != numberOfDuplicatedNames && numberOfDuplicatedNames.intValue() > numberOfOccurrences){
 				errors.rejectValue("name", "campaignForm.required.name", "El nombre de la campaña ya existe");

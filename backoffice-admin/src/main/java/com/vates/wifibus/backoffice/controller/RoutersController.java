@@ -84,6 +84,7 @@ public class RoutersController {
     		Optional<Router> router = routerService.getById(routerId);
     		if(router.isPresent()){
     			BeanUtils.copyProperties(router.get(), routerForm);
+    			routerForm.setIpv4address(router.get().getIpV4Address());
     		}
     	}
     	model.addAttribute(routerForm);
