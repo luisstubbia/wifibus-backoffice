@@ -59,7 +59,7 @@
 						        <div class="form-group" th:classappend="${#fields.hasErrors('questions')} ? has-error">
 						        	<label>Preguntas</label>
 						        	<select multiple="" class="form-control" th:field="*{questions}">
-						        		<option th:each="qt : ${questionList}" th:value="${{qt}}" th:text="|${qt.name}|">Question</option>
+						        		<option th:each="qt : ${questionList}" th:value="${qt.id}" th:text="|${qt.name}|">Question</option>
 						        	</select>
                                 </div>
 							    <div class="form-actions">

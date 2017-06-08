@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.vates.wifibus.backoffice.model.PaginatorForm;
@@ -20,6 +21,7 @@ import com.vates.wifibus.backoffice.model.RouterGroup;
 import com.vates.wifibus.backoffice.model.RouterGroupForm;
 import com.vates.wifibus.backoffice.service.BrandService;
 import com.vates.wifibus.backoffice.service.CampaignService;
+import com.vates.wifibus.backoffice.service.QuestionService;
 import com.vates.wifibus.backoffice.service.RouterGroupService;
 import com.vates.wifibus.backoffice.service.ServiceTermService;
 import com.vates.wifibus.backoffice.validator.RouterGroupFormValidator;
@@ -30,6 +32,7 @@ import com.vates.wifibus.backoffice.validator.RouterGroupFormValidator;
  *
  */
 @Controller
+@SessionAttributes(types = RouterGroupForm.class)
 public class RouterGroupsController {
 
 	@Autowired
@@ -43,6 +46,9 @@ public class RouterGroupsController {
 
 	@Autowired
 	private CampaignService campaignService;
+	
+	@Autowired
+	private QuestionService questionService;
 	
 	@Autowired
 	private RouterGroupFormValidator groupValidator;
@@ -121,6 +127,6 @@ public class RouterGroupsController {
 		model.addAttribute("brands", brandService.getAll());
 		model.addAttribute("terms", termService.getAll());
 		model.addAttribute("campaigns", campaignService.getAll());
-		//model.addAttribute("questionList", questionService.getAll());
+		model.addAttribute("questionList", questionService.getAll());
 	}
 }
