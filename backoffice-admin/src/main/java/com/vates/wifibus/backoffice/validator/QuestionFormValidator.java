@@ -10,6 +10,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.vates.wifibus.backoffice.model.AnswerForm;
+import com.vates.wifibus.backoffice.model.Question;
 import com.vates.wifibus.backoffice.model.QuestionForm;
 import com.vates.wifibus.backoffice.service.QuestionService;
 
@@ -35,11 +36,13 @@ public class QuestionFormValidator implements Validator {
 	public void validate(Object questionForm, Errors errors) {
         logger.debug("Validando {}", questionForm);
         int numberOfOccurrences = 0;
+        Question originalQuestion = null;
         QuestionForm form = (QuestionForm) questionForm;
         if(form.getId() != null){
         	numberOfOccurrences ++;
+        	originalQuestion = questionService.getById(form.getId()).get();
         }
-        validateName(errors, form, numberOfOccurrences);
+        validateName(errors, form, numberOfOccurrences, originalQuestion);
         validateAnswers(errors, form);
 	}
 
@@ -65,10 +68,13 @@ public class QuestionFormValidator implements Validator {
 		}
 	}
 
-	private void validateName(Errors errors, QuestionForm form, int numberOfOccurrences) {
+	private void validateName(Errors errors, QuestionForm form, int numberOfOccurrences, Question originalQuestion) {
 		if (StringUtils.isEmpty(form.getName())) {
 			errors.rejectValue("name", "questionForm.required.name", "El nombre de la pregunta es requerido");
 		} else {
+			if(originalQuestion != null && !originalQuestion.getName().equals(form.getName())){
+				numberOfOccurrences --;
+			}
 			Long numberOfDuplicatedNames = questionService.countByName(form.getName());
 			if(null != numberOfDuplicatedNames && numberOfDuplicatedNames.intValue() > numberOfOccurrences){
 				errors.rejectValue("name", "questionForm.required.name", "El nombre de la pregunta ya existe");

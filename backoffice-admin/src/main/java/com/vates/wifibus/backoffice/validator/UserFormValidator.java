@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.vates.wifibus.backoffice.model.User;
 import com.vates.wifibus.backoffice.model.UserForm;
 import com.vates.wifibus.backoffice.service.UserService;
 
@@ -33,13 +34,15 @@ public class UserFormValidator implements Validator {
 	public void validate(Object target, Errors errors) {
         logger.debug("Validando {}", target);
         UserForm userForm = (UserForm) target;
+        User originalUser = null;
         int numberOfOccurrences = 0;
         if(userForm.getId() == null){
         	validatePasswords(errors, userForm);
         } else {
         	numberOfOccurrences ++;
+        	originalUser = userService.getById(userForm.getId()).get();
         }
-        validateUsername(errors, userForm, numberOfOccurrences);
+        validateUsername(errors, userForm, numberOfOccurrences, originalUser);
         validateName(errors, userForm);
 	}
 
@@ -49,7 +52,10 @@ public class UserFormValidator implements Validator {
 		}
 	}
 
-	private void validateUsername(Errors errors, UserForm form, int numberOfOccurrences) {
+	private void validateUsername(Errors errors, UserForm form, int numberOfOccurrences, User originalUser) {
+		if(originalUser != null && !originalUser.getUsername().equals(form.getUsername())){
+			numberOfOccurrences --;
+		}
 		Long duplicatedNbr = userService.countByUsername(form.getUsername());
 		if (null != duplicatedNbr && duplicatedNbr.intValue() > numberOfOccurrences) {
 			errors.rejectValue("username", "userForm.username.already_exists", "Ya existe un usuario con este nombre");

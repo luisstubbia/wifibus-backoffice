@@ -24,10 +24,10 @@ public interface RouterRepository extends JpaRepository<Router, Long> {
 
 	@Modifying
 	@Transactional
-	@Query("update Router r set r.macAddress = ?1, r.ipV4Address = ?2, r.location = ?3,"
-			+ " r.latitude = ?4, r.longitude = ?5, r.group.id = ?6  where r.id = ?7")
-	void setRouterInfoByNameMacIpLocationDescLatitudeAndLonguitude(String macAddress, String ipV4Address, String location,
-			Double latitude, Double longitude, Long groupId, Long routerId);
+	@Query("update Router r set r.name = ?1, r.descripcion = ?2, r.macAddress = ?3, r.ipV4Address = ?4, "
+			+ "r.location = ?5, r.latitude = ?6, r.longitude = ?7, r.group.id = ?8  where r.id = ?9")
+	void setRouterInfoByNameMacIpLocationDescLatitudeAndLonguitude(String name, String descripcion, String macAddress, 
+			String ipV4Address, String location, Double latitude, Double longitude, Long groupId, Long routerId);
 	
 	Page<Router> findByNameContainsAllIgnoreCase(String routerName, Pageable page);
 	

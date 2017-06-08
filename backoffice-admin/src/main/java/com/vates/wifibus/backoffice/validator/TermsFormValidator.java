@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.vates.wifibus.backoffice.model.ServiceTerm;
 import com.vates.wifibus.backoffice.model.TermsForm;
 import com.vates.wifibus.backoffice.service.ServiceTermService;
 
@@ -33,17 +34,22 @@ public class TermsFormValidator implements Validator {
 	public void validate(Object termsForm, Errors errors) {
         logger.debug("Validando {}", termsForm);
         int numberOfOccurrences = 0;
+        ServiceTerm originalTerm = null;
         TermsForm form = (TermsForm) termsForm;
         if(form.getId() != null){
         	numberOfOccurrences ++;
+        	originalTerm = termService.getById(form.getId()).get();
         }
-        validateName(errors, form, numberOfOccurrences);
+        validateName(errors, form, numberOfOccurrences, originalTerm);
 	}
 
-	private void validateName(Errors errors, TermsForm form, int numberOfOccurrences) {
+	private void validateName(Errors errors, TermsForm form, int numberOfOccurrences, ServiceTerm originalTerm) {
 		if (StringUtils.isEmpty(form.getName())) {
 			errors.rejectValue("name", "termsForm.required.name", "El nombre del Término y condiciones es requerido");
 		} else {
+			if(originalTerm != null && !originalTerm.getName().equals(form.getName())){
+				numberOfOccurrences --;
+			}
 			Long numberOfDuplicatedNames = termService.countByName(form.getName());
 			if(null != numberOfDuplicatedNames && numberOfDuplicatedNames.intValue() > numberOfOccurrences){
 				errors.rejectValue("name", "termsForm.required.name", "El nombre del Termino y condiciones ya existe");
