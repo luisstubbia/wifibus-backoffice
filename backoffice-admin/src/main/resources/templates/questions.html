@@ -9,15 +9,15 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong class="page-header">Campa&ntilde;as</strong>
+                    <strong class="page-header">Preguntas</strong>
                 </div>
                 <div class="panel-body">
-                	<form role="form" th:object="${paginator}" th:action="@{${#httpServletRequest.servletPath}}" method="POST" class="form-group" id="search-campaign-form">
+                	<form role="form" th:object="${paginator}" th:action="@{${#httpServletRequest.servletPath}}" method="POST" class="form-group" id="search-question-form">
                 		<div class="row">
                 			<div class="col-sm-4">
 				        		<fieldset>
 				        			<div class="form-group input-group">
-				                    	<input type="text" placeholder="Nombre de campa&ntilde;a" class="form-control" th:field="*{query}" autofocus="true"/>
+				                    	<input type="text" placeholder="Nombre de Pregunta" class="form-control" th:field="*{query}" autofocus="true"/>
 				                    	<span class="input-group-btn">
 				                        	<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
 				                    	</span>
@@ -31,7 +31,7 @@
 				                </fieldset>
 				        	</div>
 				        	<div class="col-sm-4">
-				        		<a th:href="@{/campaigns/new}" class="btn btn-info" ><i class="fa fa-plus-square"></i> Nueva Campa&ntilde;a</a>
+				        		<a th:href="@{/questions/new}" class="btn btn-info" ><i class="fa fa-plus-square"></i> Nueva Pregunta</a>
 				        	</div>
 		        		</div>
 		        	</form>
@@ -39,21 +39,23 @@
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr class="info">
-                                	<th>Nombre</th>
-                                	<th>Descripción</th>
+                                	<th>Pregunta</th>
+                                	<th>Titulo</th>
+                                	<th>Tipo</th>
                                 	<th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr th:each="cm : ${selections}" th:classappend="${!cm.enabled}? 'danger'">
+                                <tr th:each="qt : ${selections}" th:classappend="${!qt.enabled}? 'danger'">
                                 	<td>
-                                		<a th:if="${cm.enabled == true}" th:href="@{|/campaigns/${cm.id}/edit|}" th:text="|${cm.name}|">Name</a>
-                                		<span th:if="${cm.enabled == false}" th:text="|${cm.name}|">Name</span>
+                                		<a th:if="${qt.enabled == true}" th:href="@{|/questions/${qt.id}/edit|}" th:text="|${qt.name}|">Name</a>
+                                		<span th:if="${qt.enabled == false}" th:text="|${qt.name}|">Name</span>
 				                    </td>
-				                    <td th:text="${cm.descripcion}">Description</td>
+				                    <td th:text="${qt.label}">Label</td>
+				                    <td th:text="${qt.type}">Type</td>
 				                    <td class="center">
-				                    	<a th:if="${cm.enabled == true}" th:href="@{|/campaigns/${cm.id}/delete|}" class="btn btn-danger btn-xs" 
-				                    	   th:attr="data-confirm='Desea eliminar la Campa&ntilde;a: ' + ${cm.name}">
+				                    	<a th:if="${qt.enabled == true}" th:href="@{|/questions/${qt.id}/delete|}" class="btn btn-danger btn-xs" 
+				                    	   th:attr="data-confirm='Desea eliminar la Pregunta: ' + ${qt.label}">
 				                    	   <i class="glyphicon glyphicon-remove" /></a>
                                 	</td>
                                 </tr>
@@ -93,7 +95,7 @@
 	    	$('a[page-data]').click(function(ev) {
 	    		var pageValue = $(this).attr('page-data');
 	    		$('#selectedPage').val(pageValue);
-	    		$('#search-campaign-form').submit();
+	    		$('#search-question-form').submit();
 	    	});
 	    });
     </script>

@@ -5,7 +5,10 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -43,6 +46,9 @@ public class RouterGroup extends BaseEntity {
     @JoinColumn(name = "TERM_AND_CONDITION_ID")
 	private ServiceTerm termAndCondition;
 	
-	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "ROUTER_GROUPS_QUESTIONS",
+            joinColumns = @JoinColumn(name = "GROUP_ID"),
+            inverseJoinColumns = @JoinColumn(name = "QUESTION_ID"))
     private Set<Question> questions;
 }

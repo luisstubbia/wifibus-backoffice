@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:social="http://spring.io/springsocial"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+
+<body layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong class="page-header"><span th:if="${questionForm.id == null}" th:remove="tag">Nueva </span> Pregunta</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                        	<form th:object="${questionForm}" method="POST" th:action="@{${#httpServletRequest.servletPath}}" name="add-update-question-form">
+								<div class="form-group" th:classappend="${#fields.hasErrors('name')} ? has-error">
+						            <label class="form-label">* Nombre:</label>
+						            <div class="controls">
+						                <input class="form-control" type="text" th:field="*{name}" autofocus="true" />
+						                <label class="control-label" th:errors="*{name}">[Errors]</label>
+						            </div>
+						        </div>
+							    <div class="form-group" th:classappend="${#fields.hasErrors('descripcion')} ? has-error">
+						            <label class="form-label">Descripción:</label>
+						            <div class="controls">
+						            	<textarea class="form-control" rows="3" th:field="*{descripcion}"/>
+						                <label class="control-label" th:errors="*{descripcion}">[Errors]</label>
+						            </div>
+						        </div>
+						        <div class="form-group" th:classappend="${#fields.hasErrors('label')} ? has-error">
+						            <label class="form-label">* Titulo:</label>
+						            <div class="controls">
+						                <input class="form-control" type="text" th:field="*{label}" autofocus="true" />
+						                <label class="control-label" th:errors="*{label}">[Errors]</label>
+						            </div>
+						        </div>
+						        <div class="form-group" th:classappend="${#fields.hasErrors('type')} ? has-error">
+						            <label class="form-label">* Tipo de Pregunta:</label>
+						            <div class="controls">
+						            	<select class="form-control question-type" th:field="*{type}">
+							              	<option th:each="tp : ${T(com.vates.wifibus.backoffice.model.QuestionType).values()}" th:attr="data-open=${tp.isOpen()}" th:value="${{tp}}" th:text="${tp.displayName}">Type</option>
+							            </select>
+						            </div>
+						        </div>
+						        <div id="answerForm">
+						        	<div class="form-group">
+						        		<label class="form-label">* Respuestas:</label>
+						        		<button type="submit" name="action" value="addAnw" class="btn btn-outline btn-primary btn-sm btn-block">Agregar Respuesta</button>
+				        			</div>
+				        			<div class="panel-group" id="accordion">
+		                                <div class="panel panel-info" th:each="anw, anwRow : *{answerForms}">
+		                                    <div class="panel-heading">
+												<h4 class="panel-title">
+													<button type="submit" class="close fa fa-times-circle" name="removeAnw" th:value="*{answerForms[__${anwRow.index}__].index}" aria-hidden="true">&nbsp;</button>
+													<a data-toggle="collapse" data-parent="#accordion" th:href="@{'#collapse' + ${anwRow.index}}">
+														<strong class="page-header"><span th:text="|Respuesta ${anw.index}|"/></strong>
+						                            </a>
+												</h4>
+											</div>
+		                                    <div th:id="'collapse' + ${anwRow.index}" class="panel-collapse collapse" th:classappend="${anw.name == null} ? in" >
+		                                        <div class="panel-body">
+		                                            <div class="form-group" >
+												        <label class="form-label">* Nombre de la respuesta:</label>
+												        <div class="controls">
+												            <input class="form-control" type="text" th:field="*{answerForms[__${anwRow.index}__].name}"/>
+												        </div>
+												    </div>
+												    <div class="form-group">
+												        <label class="form-label">Descripcion:</label>
+												        <div class="controls">
+												        	<textarea class="form-control" rows="2" th:field="*{answerForms[__${anwRow.index}__].descripcion}"/>
+												        </div>
+												    </div>
+												    <div class="form-group">
+												        <label class="form-label">* Titulo:</label>
+												        <div class="controls">
+												        	<input class="form-control" type="text" th:field="*{answerForms[__${anwRow.index}__].label}"/>
+												        </div>
+												    </div>
+												    <div class="form-group">
+												        <label class="form-label">* Valor:</label>
+												        <div class="controls">
+												        	<input class="form-control" type="text" th:field="*{answerForms[__${anwRow.index}__].value}"/>
+												        </div>
+												    </div>
+		                                        </div>
+		                                    </div>
+		                                </div>
+									</div>
+									<div class="form-group" th:classappend="${#fields.hasErrors('answerForms')} ? has-error">
+										<label class="control-label" th:errors="*{answerForms}">[Errors]</label>
+									</div>
+								</div>
+	                            <div class="form-actions">
+        							<a th:href="@{/questions}" class="btn btn-warning" >Cancelar</a>
+        							<button type="submit" name="action" value="save" class="btn btn-info">Guardar Pregunta</button>
+    							</div>
+							</form>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+	<script type="text/javascript">		
+		function displayAnswerForm(){
+			if($('option:selected', this).attr('data-open') === 'true'){
+				$('#answerForm').hide();
+			} else {
+				$('#answerForm').show();
+			}
+		}
+		$(document).on('change', '.question-type', displayAnswerForm)
+        $(document).ready(displayAnswerForm);
+	</script>
+</body>
+</html>

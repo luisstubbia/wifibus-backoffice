@@ -18,7 +18,7 @@ import lombok.Setter;
  *
  */
 @Entity
-@Table(name = "BRAND")
+@Table(name = "BRANDS")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter

@@ -1,7 +1,9 @@
 package com.vates.wifibus.backoffice.service;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.vates.wifibus.backoffice.model.Answer;
+import com.vates.wifibus.backoffice.model.AnswerForm;
 import com.vates.wifibus.backoffice.model.Question;
 import com.vates.wifibus.backoffice.model.QuestionForm;
 import com.vates.wifibus.backoffice.repository.QuestionRepository;
@@ -66,7 +70,21 @@ public class QuestionServiceImpl implements QuestionService {
 	public void addOrUpdateQuestion(QuestionForm questionForm) {
 		Question question = new Question();
         BeanUtils.copyProperties(questionForm, question);
+        copyAnswerProperties(questionForm, question);
         questionRepository.save(question);
+	}
+
+	private void copyAnswerProperties(QuestionForm questionForm, Question question) {
+		if(!questionForm.getType().isOpen()){
+			Set<Answer> answers = new HashSet<Answer>();
+			for(AnswerForm answerForm : questionForm.getAnswerForms()){
+				Answer answer = new Answer();
+				BeanUtils.copyProperties(answerForm, answer);
+				answer.setQuestion(question);
+				answers.add(answer);
+			}
+			question.setAnswers(answers);
+		}
 	}
 
 	@Override

@@ -65,7 +65,7 @@
 					                            </a>
 											</h4>
 										</div>
-	                                    <div th:id="'collapse' + ${advRow.index}" class="panel-collapse collapse" th:classappend="${adv.name == ''} ? in" >
+	                                    <div th:id="'collapse' + ${advRow.index}" class="panel-collapse collapse" th:classappend="${adv.name == null} ? in" >
 	                                        <div class="panel-body">
 	                                            <div class="form-group" >
 											        <label class="form-label">* Nombre del Anuncio:</label>
@@ -147,7 +147,7 @@
 			display: 'URl de inicio',
 		    rules: 'required'
 		}];
-		var validator = new FormValidator('add-update-brand-form', formInputs, function(errors, event) {
+		var validator = new FormValidator('add-update-campaign-form', formInputs, function(errors, event) {
 		    if (errors.length > 0) {
 				jQuery.each(formInputs, function(index, value) {
 					$( "#error_" + value.name).remove();
