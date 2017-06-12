@@ -30,9 +30,12 @@ public class VideoAdForm extends AdvertisementForm<VideoAd, VideoAdForm> {
 	}
 
 	@Override
-	public VideoAd toModel() {
+	public VideoAd toModel(Advertisement advModel) {
 		VideoAd adv = new VideoAd();
-		BeanUtils.copyProperties(this, adv);
+		if(advModel != null && advModel instanceof VideoAd){
+			adv = (VideoAd) advModel;
+		}
+		BeanUtils.copyProperties(this, adv, "id");
 		return adv;
 	}
 

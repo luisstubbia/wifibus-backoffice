@@ -56,7 +56,7 @@
                                     <td th:text="${user.fullName}"></td>
                                     <td th:text="${user.role.displayName}"></td>
                                     <td th:text="(${user.enabled} == true)? 'Si': 'No'" align="center"></td>
-                                    <td th:text="${#dates.format(user.createdDate, 'dd-MMM-yyyy HH:mm:ss')}"></td>
+                                    <td th:text="${{user.createdDate}}"></td>
                                     <td>                                                                
                                         <a th:if="${user.enabled == true}" th:href="@{|/users/${user.id}/delete|}" class="btn btn-danger btn-xs" 
 				                    	   th:attr="data-confirm='Desea eliminar el Usuario: ' + ${user.fullName}">

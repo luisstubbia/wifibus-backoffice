@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.vates.wifibus.backoffice.model.Answer;
 import com.vates.wifibus.backoffice.model.AnswerForm;
@@ -69,7 +70,10 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public void addOrUpdateQuestion(QuestionForm questionForm) {
 		Question question = new Question();
-        BeanUtils.copyProperties(questionForm, question);
+		if(questionForm.getId() != null){
+			question = questionRepository.getOne(questionForm.getId());
+		}
+        BeanUtils.copyProperties(questionForm, question, "id");
         copyAnswerProperties(questionForm, question);
         questionRepository.save(question);
 	}
@@ -79,7 +83,15 @@ public class QuestionServiceImpl implements QuestionService {
 			Set<Answer> answers = new HashSet<Answer>();
 			for(AnswerForm answerForm : questionForm.getAnswerForms()){
 				Answer answer = new Answer();
-				BeanUtils.copyProperties(answerForm, answer);
+				if(!CollectionUtils.isEmpty(question.getAnswers()) && answerForm.getId() != null){
+					for(Answer anw : question.getAnswers()){
+						if(anw.getId().intValue() == answerForm.getId().intValue()){
+							answer = anw;
+							break;
+						}
+					}
+				}
+				BeanUtils.copyProperties(answerForm, answer, "id");
 				answer.setQuestion(question);
 				answers.add(answer);
 			}
