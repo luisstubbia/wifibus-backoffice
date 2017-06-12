@@ -83,13 +83,13 @@
 													<div class="col-lg-4">
 											        	<div class="form-group">
 											        		<label class="form-label">* Desde</label>
-											        		<input class="form-control datepicker_field" type="text" th:field="*{advertisementForms[__${advRow.index}__].startDate}"/>
+											        		<input class="form-control datepicker_field" th:field="*{{advertisementForms[__${advRow.index}__].startDate}}"/>
 												        </div>
 												    </div>
 												    <div class="col-lg-4">
 											        	<div class="form-group">
 											        		<label class="form-label">* Hasta</label>
-											        		<input class="form-control datepicker_field" type="text" th:field="*{advertisementForms[__${advRow.index}__].endDate}"/>
+											        		<input class="form-control datepicker_field" th:field="*{{advertisementForms[__${advRow.index}__].endDate}}"/>
 												        </div>
 												    </div>
 												    <div class="col-lg-2">

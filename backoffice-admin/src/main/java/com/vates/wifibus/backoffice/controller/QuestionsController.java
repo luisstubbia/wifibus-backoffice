@@ -132,9 +132,6 @@ public class QuestionsController {
     private void removeAnw(QuestionForm question, int anwId) {
 		for(AnswerForm anw : question.getAnswerForms()){
 			if(anw.getIndex() == anwId){
-				if(anw.getId() != null){
-					//Remove element form db?
-				}
 				question.getAnswerForms().remove(anw);
 				break;
 			}

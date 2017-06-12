@@ -40,9 +40,12 @@ public class BannerAdForm extends AdvertisementForm<BannerAd, BannerAdForm> {
 	}
 
 	@Override
-	public BannerAd toModel() {
+	public BannerAd toModel(Advertisement advModel) {
 		BannerAd adv = new BannerAd();
-		BeanUtils.copyProperties(this, adv);
+		if(advModel != null && advModel instanceof BannerAd){
+			adv = (BannerAd) advModel;
+		}
+		BeanUtils.copyProperties(this, adv, "id");
 		return adv;
 	}
 

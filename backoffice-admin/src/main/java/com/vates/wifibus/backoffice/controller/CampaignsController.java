@@ -33,7 +33,7 @@ import com.vates.wifibus.backoffice.validator.CampaignFormValidator;
 @Controller
 @SessionAttributes(types = CampaignForm.class)
 public class CampaignsController {
-
+	
 	@Autowired
 	private CampaignService campaignService;
 
@@ -92,8 +92,8 @@ public class CampaignsController {
     public String createCampaignInfoPage(CampaignForm campaign, BindingResult result, Model model, 
     		@ModelAttribute("action") String action, @ModelAttribute("removeAdv") String advId, 
     		@ModelAttribute("moveUpAdv") String upAdvId, @ModelAttribute("moveDownAdv") String downAdvId, 
-    		SessionStatus status) {
-        if(!StringUtils.isEmpty(advId)){
+    		SessionStatus status) {   	
+    	if(!StringUtils.isEmpty(advId)){
         	removeAdv(campaign, Integer.parseInt(advId));
         	return "createOrUpdateCampaignForm";
         }
@@ -105,7 +105,7 @@ public class CampaignsController {
         	campaign.moveAdvPriority(Integer.parseInt(downAdvId), CampaignForm.DOWN);
         	return "createOrUpdateCampaignForm";
         }
-        campaignValidator.validate(campaign, result);
+        campaignValidator.validate(campaign, result);       
         if (result.hasErrors()) {
             return "createOrUpdateCampaignForm";
         } else {
@@ -137,9 +137,6 @@ public class CampaignsController {
     private void removeAdv(CampaignForm campaign, int advId) {
 		for(AdvertisementForm<?, ?> adv : campaign.getAdvertisementForms()){
 			if(adv.getPriority().intValue() == advId){
-				if(adv.getId() != null){
-					//Remove element form db?
-				}
 				campaign.getAdvertisementForms().remove(adv);
 				campaign.resetAdvPriority();
 				break;

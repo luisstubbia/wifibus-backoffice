@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.vates.wifibus.backoffice.model.Advertisement;
 import com.vates.wifibus.backoffice.model.AdvertisementForm;
@@ -73,7 +74,10 @@ public class CampaignServiceImpl implements CampaignService {
 	@Override
 	public void addOrUpdateCampaign(CampaignForm campaignForm) {
 		Campaign campaign = new Campaign();
-        BeanUtils.copyProperties(campaignForm, campaign);
+		if(campaignForm.getId() != null){
+			campaign = campaignRepository.getOne(campaignForm.getId());
+		}
+        BeanUtils.copyProperties(campaignForm, campaign, "id");
         copyAdvertisementProperties(campaignForm.getAdvertisementForms(), campaign);
         campaignRepository.save(campaign);
 	}
@@ -86,15 +90,24 @@ public class CampaignServiceImpl implements CampaignService {
 	 */
 	private void copyAdvertisementProperties(Collection<AdvertisementForm<?,?>> advertisementForms, Campaign campaign) {
 		Set<Advertisement> advertisements = new HashSet<Advertisement>(); 
-		for(AdvertisementForm<?,?> adv : advertisementForms){
-			if(adv instanceof VideoAdForm){
-				VideoAdForm advVideo = (VideoAdForm) adv;
-				VideoAd videoAd = advVideo.toModel();
+		for(AdvertisementForm<?,?> advForm : advertisementForms){
+			Advertisement advModel = null;
+			if(!CollectionUtils.isEmpty(campaign.getAdvertisements()) && advForm.getId() != null){
+				for(Advertisement adv : campaign.getAdvertisements()){
+					if(adv.getId().intValue() == advForm.getId().intValue()){
+						advModel = adv;
+						break;
+					}
+				}
+			}
+			if(advForm instanceof VideoAdForm){
+				VideoAdForm advVideo = (VideoAdForm) advForm;
+				VideoAd videoAd = advVideo.toModel(advModel);
 				videoAd.setCampaign(campaign);
 				advertisements.add(videoAd);
-			} else if (adv instanceof BannerAdForm){
-				BannerAdForm advBanner = (BannerAdForm) adv;
-				BannerAd bannerAd = advBanner.toModel();
+			} else if (advForm instanceof BannerAdForm){
+				BannerAdForm advBanner = (BannerAdForm) advForm;
+				BannerAd bannerAd = advBanner.toModel(advModel);
 				bannerAd.setCampaign(campaign);
 				advertisements.add(bannerAd);
 			}

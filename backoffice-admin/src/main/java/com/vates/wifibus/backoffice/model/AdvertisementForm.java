@@ -89,9 +89,10 @@ public abstract class AdvertisementForm<T, K> {
 	
 	/**
 	 * Convert DTO to model object.
+	 * @param model
 	 * @return T
 	 */
-	public abstract T toModel();
+	public abstract T toModel(Advertisement model);
 	
 	/**
 	 * Convert Model object to DTO.

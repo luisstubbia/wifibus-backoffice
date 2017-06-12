@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.vates.wifibus.backoffice.formatter.DateFormatter;
 import com.vates.wifibus.backoffice.model.User;
 import com.vates.wifibus.backoffice.repository.UserRepository;
 
@@ -26,11 +27,14 @@ public class BackofficeAdminApplication extends SpringBootServletInitializer {
 
 	private static final Logger logger = LoggerFactory.getLogger(BackofficeAdminApplication.class);
 
+	@Bean
+	public DateFormatter dateFormatter(){
+		return new DateFormatter();
+	}
+	
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-
 		return builder.sources(BackofficeAdminApplication.class);
-
 	}
 
 	@Bean
