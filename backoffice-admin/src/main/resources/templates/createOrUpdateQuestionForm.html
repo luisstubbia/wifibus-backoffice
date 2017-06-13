@@ -50,12 +50,13 @@
 						        		<button type="submit" name="action" value="addAnw" class="btn btn-outline btn-primary btn-sm btn-block">Agregar Respuesta</button>
 				        			</div>
 				        			<div class="panel-group" id="accordion">
-		                                <div class="panel panel-info" th:each="anw, anwRow : *{answerForms}">
+		                                <div class="panel panel-info" th:each="anw, anwRow : *{answers}">
 		                                    <div class="panel-heading">
 												<h4 class="panel-title">
-													<button type="submit" class="close fa fa-times-circle" name="removeAnw" th:value="*{answerForms[__${anwRow.index}__].index}" aria-hidden="true">&nbsp;</button>
+													<button type="submit" class="close fa fa-times-circle" name="removeAnw" th:value="*{answers[__${anwRow.index}__].index}" aria-hidden="true">&nbsp;</button>
 													<a data-toggle="collapse" data-parent="#accordion" th:href="@{'#collapse' + ${anwRow.index}}">
-														<strong class="page-header"><span th:text="|Respuesta ${anw.index}|"/></strong>
+														<strong class="page-header">
+														Respuesta <span th:if="${anw.name == null || anw.name == ''}" th:text="${anw.index}"/><span th:if="${anw.name != null || anw.name != ''}" th:text="${anw.name}"/></strong>
 						                            </a>
 												</h4>
 											</div>
@@ -64,33 +65,33 @@
 		                                            <div class="form-group" >
 												        <label class="form-label">* Nombre de la respuesta:</label>
 												        <div class="controls">
-												            <input class="form-control" type="text" th:field="*{answerForms[__${anwRow.index}__].name}"/>
+												            <input class="form-control" type="text" th:field="*{answers[__${anwRow.index}__].name}"/>
 												        </div>
 												    </div>
 												    <div class="form-group">
 												        <label class="form-label">Descripcion:</label>
 												        <div class="controls">
-												        	<textarea class="form-control" rows="2" th:field="*{answerForms[__${anwRow.index}__].descripcion}"/>
+												        	<textarea class="form-control" rows="2" th:field="*{answers[__${anwRow.index}__].descripcion}"/>
 												        </div>
 												    </div>
 												    <div class="form-group">
 												        <label class="form-label">* Titulo:</label>
 												        <div class="controls">
-												        	<input class="form-control" type="text" th:field="*{answerForms[__${anwRow.index}__].label}"/>
+												        	<input class="form-control" type="text" th:field="*{answers[__${anwRow.index}__].label}"/>
 												        </div>
 												    </div>
 												    <div class="form-group">
 												        <label class="form-label">* Valor:</label>
 												        <div class="controls">
-												        	<input class="form-control" type="text" th:field="*{answerForms[__${anwRow.index}__].value}"/>
+												        	<input class="form-control" type="text" th:field="*{answers[__${anwRow.index}__].value}"/>
 												        </div>
 												    </div>
 		                                        </div>
 		                                    </div>
 		                                </div>
 									</div>
-									<div class="form-group" th:classappend="${#fields.hasErrors('answerForms')} ? has-error">
-										<label class="control-label" th:errors="*{answerForms}">[Errors]</label>
+									<div class="form-group" th:classappend="${#fields.hasErrors('answers')} ? has-error">
+										<label class="control-label" th:errors="*{answers}">[Errors]</label>
 									</div>
 								</div>
 	                            <div class="form-actions">

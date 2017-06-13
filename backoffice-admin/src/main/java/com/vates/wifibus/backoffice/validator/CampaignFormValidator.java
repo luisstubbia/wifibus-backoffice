@@ -9,11 +9,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.vates.wifibus.backoffice.model.AdvertisementForm;
-import com.vates.wifibus.backoffice.model.BannerAdForm;
+import com.vates.wifibus.backoffice.model.Advertisement;
+import com.vates.wifibus.backoffice.model.BannerAd;
 import com.vates.wifibus.backoffice.model.Campaign;
 import com.vates.wifibus.backoffice.model.CampaignForm;
-import com.vates.wifibus.backoffice.model.VideoAdForm;
+import com.vates.wifibus.backoffice.model.VideoAd;
 import com.vates.wifibus.backoffice.service.CampaignService;
 
 /**
@@ -49,43 +49,43 @@ public class CampaignFormValidator implements Validator {
 	}
 
 	private void validateAdvertisement(Errors errors, CampaignForm form) {
-		if(CollectionUtils.isEmpty(form.getAdvertisementForms())){
-			errors.rejectValue("advertisementForms", "campaignForm.required.advertisementForms", "La campaña debe tener al menos un Anuncio");
+		if(CollectionUtils.isEmpty(form.getAdvertisements())){
+			errors.rejectValue("advertisements", "campaignForm.required.advertisementForms", "La campaña debe tener al menos un Anuncio");
 		} else {
-			for(AdvertisementForm<?,?> advForm : form.getAdvertisementForms()){
-				if (StringUtils.isEmpty(advForm.getName())) {
-					errors.rejectValue("advertisementForms", "advertisementForm.required.name", "Anuncio(" +advForm.getPriority()+ ") - El nombre del Anuncio es requerido");
+			for(Advertisement adv : form.getAdvertisements()){
+				if (StringUtils.isEmpty(adv.getName())) {
+					errors.rejectValue("advertisements", "advertisementForm.required.name", "Anuncio(" +adv.getPriority()+ ") - El nombre del Anuncio es requerido");
 				}
-				if (advForm.getStartDate() == null) {
-					errors.rejectValue("advertisementForms", "advertisementForm.required.startDate", "Anuncio(" +advForm.getPriority()+ ") - La fecha de unicio del anuncio es requerida");
+				if (adv.getStartDate() == null) {
+					errors.rejectValue("advertisements", "advertisementForm.required.startDate", "Anuncio(" +adv.getPriority()+ ") - La fecha de unicio del anuncio es requerida");
 				}
-				if (advForm.getEndDate() != null && advForm.getStartDate() != null && advForm.getEndDate().compareTo(advForm.getStartDate()) < 0) {
-					errors.rejectValue("advertisementForms", "advertisementForm.required.endDate", "Anuncio(" +advForm.getPriority()+ ") - La fecha de fin del anuncio no puede ser inferior a la fecha de unicio");
+				if (adv.getEndDate() != null && adv.getStartDate() != null && adv.getEndDate().compareTo(adv.getStartDate()) < 0) {
+					errors.rejectValue("advertisements", "advertisementForm.required.endDate", "Anuncio(" +adv.getPriority()+ ") - La fecha de fin del anuncio no puede ser inferior a la fecha de unicio");
 				}
-				if (advForm.getDuration() == null || advForm.getDuration().intValue() <= 0) {
-					errors.rejectValue("advertisementForms", "advertisementForm.required.duration", "Anuncio(" +advForm.getPriority()+ ") - La duración del anuncio es requerida y debe ser mayor a 0");
+				if (adv.getDuration() == null || adv.getDuration().intValue() <= 0) {
+					errors.rejectValue("advertisements", "advertisementForm.required.duration", "Anuncio(" +adv.getPriority()+ ") - La duración del anuncio es requerida y debe ser mayor a 0");
 				}
-				if(advForm instanceof VideoAdForm){
-					validateVideoAdForm(errors, (VideoAdForm) advForm);
-				} else if (advForm instanceof BannerAdForm){
-					validateBannerAdForm(errors, (BannerAdForm) advForm);
+				if(adv instanceof VideoAd){
+					validateVideoAd(errors, (VideoAd) adv);
+				} else if (adv instanceof BannerAd){
+					validateBannerAd(errors, (BannerAd) adv);
 				}
 			}
 		}
 	}
 
-	private void validateBannerAdForm(Errors errors, BannerAdForm advForm) {
-		if (StringUtils.isEmpty(advForm.getBackgroundImageUrl())) {
-			errors.rejectValue("advertisementForms", "advertisementForm.required.backgroundImageUrl", "Anuncio(" +advForm.getPriority()+ ") - El Url para la imagen de fondo del banner es requerida");
+	private void validateBannerAd(Errors errors, BannerAd adv) {
+		if (StringUtils.isEmpty(adv.getBackgroundImageUrl())) {
+			errors.rejectValue("advertisements", "advertisementForm.required.backgroundImageUrl", "Anuncio(" +adv.getPriority()+ ") - El Url para la imagen de fondo del banner es requerida");
 		}
-		if (StringUtils.isEmpty(advForm.getText())) {
-			errors.rejectValue("advertisementForms", "advertisementForm.required.text", "Anuncio(" +advForm.getPriority()+ ") - El Texto del banner es requerido");
+		if (StringUtils.isEmpty(adv.getText())) {
+			errors.rejectValue("advertisements", "advertisementForm.required.text", "Anuncio(" +adv.getPriority()+ ") - El Texto del banner es requerido");
 		}
 	}
 
-	private void validateVideoAdForm(Errors errors, VideoAdForm advForm) {
-		if (StringUtils.isEmpty(advForm.getVideoUrl())) {
-			errors.rejectValue("advertisementForms", "advertisementForm.required.videoUrl", "Anuncio(" +advForm.getPriority()+ ") - El Url del video es requerido");
+	private void validateVideoAd(Errors errors, VideoAd adv) {
+		if (StringUtils.isEmpty(adv.getVideoUrl())) {
+			errors.rejectValue("advertisements", "advertisementForm.required.videoUrl", "Anuncio(" +adv.getPriority()+ ") - El Url del video es requerido");
 		}
 	}
 

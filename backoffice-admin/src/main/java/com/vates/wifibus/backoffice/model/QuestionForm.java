@@ -1,10 +1,8 @@
 package com.vates.wifibus.backoffice.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
 import lombok.Data;
@@ -34,8 +32,8 @@ public class QuestionForm {
 	
 	private QuestionType type;
 	
-	private Collection<AnswerForm> answerForms = new ArrayList<AnswerForm>();
-	
+	private Set<Answer> answers = new LinkedHashSet<Answer>();
+
 	public QuestionForm(){
 		open = true;
 		type = QuestionType.TEXT;
@@ -89,30 +87,27 @@ public class QuestionForm {
 		this.type = type;
 	}
 
-	public Collection<AnswerForm> getAnswerForms() {
-		return answerForms;
+	public Set<Answer> getAnswers() {
+		return answers;
 	}
 
-	public void setAnswerForms(Collection<AnswerForm> answerForms) {
-		this.answerForms = answerForms;
+	public void setAnswers(Set<Answer> answers) {
+		this.answers = answers;
 	}
 
 	public void buildAnswers(Set<Answer> answers) {
 		if(!CollectionUtils.isEmpty(answers)){
 			int index = 1;
 			for(Answer anw : answers){
-				AnswerForm anwForm = new AnswerForm();
-				BeanUtils.copyProperties(anw, anwForm);
-				anwForm.setIndex(index++);
-				this.answerForms.add(anwForm);
+				anw.setIndex(index++);
 			}
 		}
 	}
 
-	public void addAnswerForm() {
-		AnswerForm anwForm = new AnswerForm();
-		anwForm.setIndex(answerForms.size() + 1);
-		answerForms.add(anwForm);
+	public void addAnswer() {
+		Answer anw = new Answer();
+		anw.setIndex(answers.size() + 1);
+		answers.add(anw);
 	}
 }
 

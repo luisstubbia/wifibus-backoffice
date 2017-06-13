@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.vates.wifibus.backoffice.model.AnswerForm;
+import com.vates.wifibus.backoffice.model.Answer;
 import com.vates.wifibus.backoffice.model.PaginatorForm;
 import com.vates.wifibus.backoffice.model.Question;
 import com.vates.wifibus.backoffice.model.QuestionForm;
@@ -112,7 +112,7 @@ public class QuestionsController {
     public String addAnswerView(QuestionForm question, BindingResult result, Model model, SessionStatus status) {
 		QuestionType type = QuestionType.lookupByName(question.getType().name());
 		if(!type.isOpen()){
-    		question.addAnswerForm();
+    		question.addAnswer();
     	}
 		return "createOrUpdateQuestionForm";
     }
@@ -126,13 +126,14 @@ public class QuestionsController {
     
     /**
      * Remove answer element from question form.
-     * @param 
+     * @param question
      * @param advId
      */
     private void removeAnw(QuestionForm question, int anwId) {
-		for(AnswerForm anw : question.getAnswerForms()){
+		for(Answer anw : question.getAnswers()){
 			if(anw.getIndex() == anwId){
-				question.getAnswerForms().remove(anw);
+				anw.setQuestion(null);
+				question.getAnswers().remove(anw);
 				break;
 			}
 		}

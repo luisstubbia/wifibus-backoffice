@@ -8,21 +8,19 @@ package com.vates.wifibus.backoffice.model;
  */
 public enum AdvertisementType {
 	
-	VIDEO("Video", VideoAdForm.class, "fragments/advertisementVideoForm"),
-	BANNER("Banner", BannerAdForm.class, "fragments/advertisementBannerForm");
+	VIDEO("Video", VideoAd.class),
+	BANNER("Banner", BannerAd.class);
 	
 	private final String displayName;
-	private final Class<AdvertisementForm<?,?>> advertisementClass;
-	private final String view;
+	private final Class<Advertisement> advertisementClass;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	AdvertisementType(String displayName, Class advertisementClass, String view){
+	AdvertisementType(String displayName, Class advertisementClass){
 		this.displayName = displayName;
 		this.advertisementClass = advertisementClass;
-		this.view = view;
 	}
 	
-    public Class<AdvertisementForm<?,?>> getAdvertisementClass() {
+    public Class<Advertisement> getAdvertisementClass() {
 		return advertisementClass;
 	}
 
@@ -30,11 +28,7 @@ public enum AdvertisementType {
         return displayName;
     }
 	
-	public String getView() {
-		return this.view;
-	}
-	
-	public AdvertisementForm<?,?> getInstance() {
+	public Advertisement getInstance() {
 		try {
 			return this.advertisementClass.newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {

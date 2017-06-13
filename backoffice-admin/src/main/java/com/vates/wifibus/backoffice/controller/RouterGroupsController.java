@@ -1,5 +1,7 @@
 package com.vates.wifibus.backoffice.controller;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.vates.wifibus.backoffice.model.PaginatorForm;
+import com.vates.wifibus.backoffice.model.Question;
 import com.vates.wifibus.backoffice.model.RouterGroup;
 import com.vates.wifibus.backoffice.model.RouterGroupForm;
 import com.vates.wifibus.backoffice.service.BrandService;
@@ -34,7 +38,7 @@ import com.vates.wifibus.backoffice.validator.RouterGroupFormValidator;
 @Controller
 @SessionAttributes(types = RouterGroupForm.class)
 public class RouterGroupsController {
-
+	
 	@Autowired
 	private RouterGroupService groupService;
 	
@@ -86,6 +90,7 @@ public class RouterGroupsController {
 		RouterGroupForm routerGroupForm = new RouterGroupForm();
 		model.addAttribute("routerGroupForm", routerGroupForm);
 		addFormDetails(model);
+		updateQuestionList(model, routerGroupForm.getQuestions());
     	return "createOrUpdateGroupForm";
     }
 
@@ -95,20 +100,37 @@ public class RouterGroupsController {
     	if(null != groupId){
     		Optional<RouterGroup> routerGroup = groupService.getById(groupId);
     		if(routerGroup.isPresent()){
-    			BeanUtils.copyProperties(routerGroup.get(), routerGroupForm);
+    			RouterGroup group = routerGroup.get();
+    			BeanUtils.copyProperties(group, routerGroupForm, "questions");
+    			if(!CollectionUtils.isEmpty(group.getQuestions())){
+    				routerGroupForm.getQuestions().addAll(group.getQuestions());
+    			}
     		}
     	}
     	model.addAttribute(routerGroupForm);
     	addFormDetails(model);
+    	updateQuestionList(model, routerGroupForm.getQuestions());
     	return "createOrUpdateGroupForm";
     }
 
     @RequestMapping(value = {"/groups/{groupId}/edit", "/groups/new"}, method = RequestMethod.POST)
     public String createRouterGroupInfoPage(RouterGroupForm routerGroupForm, BindingResult result, Model model, 
-    		@ModelAttribute("action") String action, SessionStatus status) {
-        groupValidator.validate(routerGroupForm, result);
+    		@ModelAttribute("action") String action, @ModelAttribute("addQuestion") String addQstId,
+    		@ModelAttribute("removeQuestion") String rmQstId, SessionStatus status) {
+    	addFormDetails(model);
+    	if(!StringUtils.isEmpty(rmQstId)){
+        	removeQuestion(routerGroupForm, Long.parseLong(rmQstId));
+        	updateQuestionList(model, routerGroupForm.getQuestions());
+        	return "createOrUpdateGroupForm";
+        }
+        if(!StringUtils.isEmpty(addQstId)){
+        	addQuestion(routerGroupForm, Long.parseLong(addQstId));
+        	updateQuestionList(model, routerGroupForm.getQuestions());
+        	return "createOrUpdateGroupForm";
+        }
+    	groupValidator.validate(routerGroupForm, result);
         if (result.hasErrors()) {
-        	addFormDetails(model);
+        	updateQuestionList(model, routerGroupForm.getQuestions());
         	return "createOrUpdateGroupForm";
         } else {
         	groupService.addOrUpdateRouterGroup(routerGroupForm);
@@ -116,7 +138,7 @@ public class RouterGroupsController {
             return "redirect:/groups";
         }
     }
-	
+
 	@RequestMapping(value = "/groups/{id}/delete", method = RequestMethod.GET)
     public String deleteRouterGroupPage(@PathVariable Long id) {
     	groupService.deleteById(id);
@@ -127,6 +149,32 @@ public class RouterGroupsController {
 		model.addAttribute("brands", brandService.getAll());
 		model.addAttribute("terms", termService.getAll());
 		model.addAttribute("campaigns", campaignService.getAll());
-		model.addAttribute("questionList", questionService.getAll());
+	}
+    
+    private void updateQuestionList(Model model, Collection<Question> questions){
+    	Collection<Question> qts = questionService.getAll();
+		if(!CollectionUtils.isEmpty(qts) && !CollectionUtils.isEmpty(questions)){
+			Iterator<Question> it = qts.iterator();
+			while(it.hasNext()){
+				Question q = it.next();
+				if(questions.contains(q)){
+					it.remove();
+				}
+			}
+		}
+		model.addAttribute("questionList", qts);
+    }
+    
+	private void addQuestion(RouterGroupForm routerGroupForm, long questionId) {
+		Question question = questionService.getById(questionId).get();
+		routerGroupForm.addQuestion(question);
+	}
+
+	private void removeQuestion(RouterGroupForm routerGroupForm, long questionId) {
+		for(Question qst : routerGroupForm.getQuestions()){
+			if(qst.getId() == questionId){
+				routerGroupForm.getQuestions().remove(qst);
+			}
+		}
 	}
 }

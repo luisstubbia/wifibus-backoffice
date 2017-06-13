@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.util.CollectionUtils;
 
@@ -34,7 +33,7 @@ public class CampaignForm {
 	
 	private String landingUrl;
 	
-	private Collection<AdvertisementForm<?,?>> advertisementForms =  new ArrayList<AdvertisementForm<?,?>>();
+	private Collection<Advertisement> advertisements =  new ArrayList<Advertisement>();
 	
 	private String type;
 	
@@ -78,36 +77,21 @@ public class CampaignForm {
 		this.type = type;
 	}
 	
-	public Collection<AdvertisementForm<?,?>> getAdvertisementForms() {
-		return this.advertisementForms;
-	}
-	
-	public void addAdvertisementFormItem(AdvertisementForm<?,?> form){
-		form.setPriority(this.advertisementForms.size() + 1);
-		this.advertisementForms.add(form);
-	}
-	
-	/**
-	 * Populate advertisements.
-	 * 
-	 * @param advertisements
-	 */
-	public void buildAdvertisements(Set<Advertisement> advertisements) {
-		for(Advertisement adv : advertisements){
-			if(adv instanceof VideoAd){
-				VideoAd advVideo = (VideoAd) adv;
-				VideoAdForm videoAd = new VideoAdForm();
-				this.advertisementForms.add(videoAd.toForm(advVideo));
-			} else if(adv instanceof BannerAd){
-				BannerAd advBanner = (BannerAd) adv;
-				BannerAdForm bannerAd = new BannerAdForm();
-				this.advertisementForms.add(bannerAd.toForm(advBanner));
-			}
-		}
+	public Collection<Advertisement> getAdvertisements() {
+		return advertisements;
 	}
 
+	public void setAdvertisements(Collection<Advertisement> advertisements) {
+		this.advertisements = advertisements;
+	}
+	
+	public void addAdvertisementItem(Advertisement adv){
+		adv.setPriority(this.advertisements.size() + 1);
+		this.advertisements.add(adv);
+	}
+	
 	private void sortAdvertisementList(){
-		Collections.sort((List<AdvertisementForm<?,?>>) advertisementForms,
+		Collections.sort((List<Advertisement>) advertisements,
                 (ad1, ad2) -> ad1.getPriority().compareTo(ad2.getPriority()));
 	}
 	
@@ -117,7 +101,7 @@ public class CampaignForm {
 	public void resetAdvPriority() {
 		sortAdvertisementList();
 		int index = 1;
-		for(AdvertisementForm<?,?> adv : advertisementForms){
+		for(Advertisement adv : advertisements){
 			adv.setPriority(index ++);
 		}
 	}
@@ -129,7 +113,7 @@ public class CampaignForm {
 	 * @param option - UP/DOWN
 	 */
 	public void moveAdvPriority(int advId, String option) {
-		if(!CollectionUtils.isEmpty(advertisementForms) && advId <= advertisementForms.size()){
+		if(!CollectionUtils.isEmpty(advertisements) && advId <= advertisements.size()){
 			int newPriority = 0;
 			if(UP.equals(option)){
 				newPriority = advId - 1;
@@ -137,9 +121,9 @@ public class CampaignForm {
 			if(DOWN.equals(option)){
 				newPriority = advId + 1;
 			}
-			AdvertisementForm<?,?> currentAdv = null;
-			AdvertisementForm<?,?> nextAdv = null;
-			for(AdvertisementForm<?, ?> adv : advertisementForms){
+			Advertisement currentAdv = null;
+			Advertisement nextAdv = null;
+			for(Advertisement adv : advertisements){
 				if(adv.getPriority().intValue() == newPriority){
 					nextAdv = adv;
 				}
@@ -153,4 +137,3 @@ public class CampaignForm {
 		}
 	}
 }
-

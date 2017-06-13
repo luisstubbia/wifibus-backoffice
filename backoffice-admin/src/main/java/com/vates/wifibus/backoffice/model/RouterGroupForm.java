@@ -1,5 +1,6 @@
 package com.vates.wifibus.backoffice.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import lombok.Data;
@@ -30,7 +31,7 @@ public class RouterGroupForm {
 	
 	private Campaign campaign;
 	
-	private Collection<Question> questions;
+	private Collection<Question> questions = new ArrayList<Question>();
 
 	public Long getId() {
 		return id;
@@ -88,4 +89,7 @@ public class RouterGroupForm {
 		this.termAndCondition = termAndCondition;
 	}
     
+	public void addQuestion(Question question){
+		questions.add(question);
+	}
 }
