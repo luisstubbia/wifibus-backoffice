@@ -157,8 +157,10 @@ public class RouterGroupsController {
 			Iterator<Question> it = qts.iterator();
 			while(it.hasNext()){
 				Question q = it.next();
-				if(questions.contains(q)){
-					it.remove();
+				for(Question qt : questions){
+					if(qt.getId().intValue() == q.getId().intValue()){
+						it.remove();
+					}
 				}
 			}
 		}
@@ -166,14 +168,25 @@ public class RouterGroupsController {
     }
     
 	private void addQuestion(RouterGroupForm routerGroupForm, long questionId) {
-		Question question = questionService.getById(questionId).get();
-		routerGroupForm.addQuestion(question);
+		boolean addQuestion = true;
+		for( Question q : routerGroupForm.getQuestions()){
+			if(q.getId().intValue() == questionId){
+				addQuestion = false;
+				break;
+			}
+		}
+		if(addQuestion){
+			Question question = questionService.getById(questionId).get();
+			routerGroupForm.addQuestion(question);
+		}
 	}
 
 	private void removeQuestion(RouterGroupForm routerGroupForm, long questionId) {
-		for(Question qst : routerGroupForm.getQuestions()){
-			if(qst.getId() == questionId){
-				routerGroupForm.getQuestions().remove(qst);
+		Iterator<Question> it = routerGroupForm.getQuestions().iterator();
+		while(it.hasNext()){
+			Question q = it.next();
+			if(q.getId().intValue() == questionId){
+				it.remove();
 			}
 		}
 	}

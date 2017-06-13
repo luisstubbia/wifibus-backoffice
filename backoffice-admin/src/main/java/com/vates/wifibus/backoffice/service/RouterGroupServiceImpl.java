@@ -12,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.vates.wifibus.backoffice.model.Answer;
+import com.vates.wifibus.backoffice.model.Question;
 import com.vates.wifibus.backoffice.model.RouterGroup;
 import com.vates.wifibus.backoffice.model.RouterGroupForm;
 import com.vates.wifibus.backoffice.repository.RouterGroupRepository;
@@ -53,14 +55,12 @@ public class RouterGroupServiceImpl implements RouterGroupService {
 	@Override
 	public void addOrUpdateRouterGroup(RouterGroupForm routerGroupForm) {
 		RouterGroup routerGroup = new RouterGroup();
-        BeanUtils.copyProperties(routerGroupForm, routerGroup);
-		if(null != routerGroupForm.getId()){
-			groupRepository.setRouterGroupInfoByNameAndDescription(routerGroupForm.getName(), 
-					routerGroupForm.getDescripcion(), routerGroupForm.getId());
-		} else {
-			groupRepository.save(routerGroup);
+		if(routerGroupForm.getId() != null){
+			routerGroup = groupRepository.getOne(routerGroupForm.getId());
 		}
-		
+        BeanUtils.copyProperties(routerGroupForm, routerGroup, "id");
+        routerGroup.setQuestions(routerGroupForm.getQuestions());
+		groupRepository.save(routerGroup);
 	}
 	
 	@Override

@@ -1,7 +1,8 @@
 package com.vates.wifibus.backoffice.model;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import lombok.Data;
 import lombok.Getter;
@@ -31,7 +32,7 @@ public class RouterGroupForm {
 	
 	private Campaign campaign;
 	
-	private Collection<Question> questions = new ArrayList<Question>();
+	private Set<Question> questions = new LinkedHashSet<Question>();
 
 	public Long getId() {
 		return id;
@@ -73,11 +74,11 @@ public class RouterGroupForm {
 		this.campaign = campaign;
 	}
 
-	public Collection<Question> getQuestions() {
+	public Set<Question> getQuestions() {
 		return questions;
 	}
 
-	public void setQuestions(Collection<Question> questions) {
+	public void setQuestions(Set<Question> questions) {
 		this.questions = questions;
 	}
 
