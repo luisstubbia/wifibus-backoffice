@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.vates.wifibus.backoffice.model.AnswerForm;
+import com.vates.wifibus.backoffice.model.Answer;
 import com.vates.wifibus.backoffice.model.Question;
 import com.vates.wifibus.backoffice.model.QuestionForm;
 import com.vates.wifibus.backoffice.service.QuestionService;
@@ -48,20 +48,20 @@ public class QuestionFormValidator implements Validator {
 
 	private void validateAnswers(Errors errors, QuestionForm form) {
 		if(!form.getType().isOpen()){
-			if(CollectionUtils.isEmpty(form.getAnswerForms())){
-				errors.rejectValue("answerForms", "questionForm.required.answerForms", "La pregunta debe tener al menos una respuesta");
+			if(CollectionUtils.isEmpty(form.getAnswers())){
+				errors.rejectValue("answers", "questionForm.required.answers", "La pregunta debe tener al menos una respuesta");
 			} else {
 				int index = 0;
-				for(AnswerForm aswForm : form.getAnswerForms()){
+				for(Answer anw : form.getAnswers()){
 					index++;
-					if (StringUtils.isEmpty(aswForm.getName())) {
-						errors.rejectValue("answerForms", "answerForm.required.name", "Respuesta(" +index+ ") - El nombre de la respuesta es requerido");
+					if (StringUtils.isEmpty(anw.getName())) {
+						errors.rejectValue("answers", "answerForm.required.name", "Respuesta(" +index+ ") - El nombre de la respuesta es requerido");
 					}
-					if (StringUtils.isEmpty(aswForm.getLabel())) {
-						errors.rejectValue("answerForms", "answerForm.required.label", "Respuesta(" +index+ ") - La titulo de la respuesta es requerido");
+					if (StringUtils.isEmpty(anw.getLabel())) {
+						errors.rejectValue("answers", "answerForm.required.label", "Respuesta(" +index+ ") - La titulo de la respuesta es requerido");
 					}
-					if (aswForm.getValue() == null) {
-						errors.rejectValue("answerForms", "answerForm.required.value", "Respuesta(" +index+ ") - La valor de la respuesta es requerida");
+					if (anw.getValue() == null) {
+						errors.rejectValue("answers", "answerForm.required.value", "Respuesta(" +index+ ") - La valor de la respuesta es requerida");
 					}
 				}
 			}

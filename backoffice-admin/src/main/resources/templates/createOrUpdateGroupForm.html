@@ -56,12 +56,34 @@
 							            <label class="control-label" th:errors="*{campaign}">[Errors]</label>
 						            </div>
 						        </div>
-						        <div class="form-group" th:classappend="${#fields.hasErrors('questions')} ? has-error">
-						        	<label>Preguntas</label>
-						        	<select multiple="" class="form-control" th:field="*{questions}">
-						        		<option th:each="qt : ${questionList}" th:value="${qt.id}" th:text="|${qt.name}|">Question</option>
-						        	</select>
-                                </div>
+						        <div class="row">
+						        	<div class="col-lg-4">
+						        		<div class="form-group">
+								        	<label>Preguntas Disponibles:</label>
+								        	<select class="form-control" name="addQuestion" id="addQuestion" size="8">
+								        		<option th:each="qt : ${questionList}" th:value="${qt.id}" th:text="|${qt.label}|">Question</option>
+								        	</select>
+		                                </div>
+									</div>
+									<div class="col-lg-1">
+										<label></label>
+										<div class="form-group">
+											<button type="button" id="btnAddQuestion" class="btn btn-outline btn-info">Agregar</button>
+										</div>
+										<div class="form-group">
+											<input type="hidden" name="removeQuestion" id="removeQuestion"/>
+											<button type="button" id="btnRemoveQuestion" class="btn btn-outline btn-warning">Eliminar</button>
+										</div>
+									</div>
+									<div class="col-lg-4">
+										<div class="form-group" th:classappend="${#fields.hasErrors('questions')} ? has-error">
+								        	<label>Preguntas Seleccionadas:</label>
+								        	<select class="form-control" th:field="*{questions}" size="8">
+								        		<option th:each="qt : *{questions}" th:value="${qt.id}" th:text="|${qt.label}|">Question</option>
+								        	</select>
+		                                </div>
+		                            </div>
+		                        </div>
 							    <div class="form-actions">
         							<a th:href="@{/groups}" class="btn btn-warning" >Cancelar</a>
         							<button type="submit" name="action" value="save" class="btn btn-info">Guardar Grupo</button>
@@ -74,22 +96,22 @@
 		</div>
     </div>
 	<script type="text/javascript">
-		var formInputs = [{
-		    name: 'name',
-			display: 'Nombre',
-		    rules: 'alpha_dash'
-		}];
-		var validator = new FormValidator('add-update-group-form', formInputs, function(errors, event) {
-		    if (errors.length > 0) {
-				jQuery.each(formInputs, function(index, value) {
-					$( "#error_" + value.name).remove();
-				});
-				jQuery.each(errors, function(index, value) {
-					var parent = $( "#" + value.name).parent();
-					parent.addClass("has-error");
-					parent.append('<label id="error_' + value.name + '" class="control-label">' + value.message + '</label>');
-				});
-		    }
+		$(document).ready(function() {
+			$( "#btnAddQuestion" ).on( "click", function() {
+				var questionId = $("#addQuestion option:checked" ).val();
+				if(questionId){
+					$('form[name="add-update-group-form"]').submit();
+				}
+			});
+			$( "#btnRemoveQuestion" ).on( "click", function() {
+				$( "#removeQuestion" ).val('');
+				$( "#addQuestion" ).val('');
+				var questionId = $("#questions option:checked" ).val();
+				if(questionId){
+					$("#removeQuestion").val(questionId);
+					$('form[name="add-update-group-form"]').submit();
+				}
+			});
 		});
 	</script>
 </body>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.vates.wifibus.backoffice.model.AdvertisementForm;
+import com.vates.wifibus.backoffice.model.Advertisement;
 import com.vates.wifibus.backoffice.model.AdvertisementType;
 import com.vates.wifibus.backoffice.model.Campaign;
 import com.vates.wifibus.backoffice.model.CampaignForm;
@@ -80,8 +81,11 @@ public class CampaignsController {
     	if(null != campaignId){
     		Optional<Campaign> campaign = campaignService.getById(campaignId);
     		if(campaign.isPresent()){
-    			BeanUtils.copyProperties(campaign.get(), campaignForm);
-    			campaignForm.buildAdvertisements(campaign.get().getAdvertisements());
+    			Campaign cmp = campaign.get();
+    			BeanUtils.copyProperties(cmp, campaignForm, "advertisements");
+    			if(!CollectionUtils.isEmpty(cmp.getAdvertisements())){
+    				campaignForm.getAdvertisements().addAll(cmp.getAdvertisements());
+    			}
     		}
     	}
     	model.addAttribute(campaignForm);
@@ -118,7 +122,7 @@ public class CampaignsController {
 	@RequestMapping(value = {"/campaigns/{campaignId}/edit", "/campaigns/new"}, method = RequestMethod.POST, params="action=addAdv")
     public String addAdvertisementView(CampaignForm campaign, BindingResult result, Model model, SessionStatus status) {
     	AdvertisementType adv = AdvertisementType.lookupByName(campaign.getType());
-    	campaign.addAdvertisementFormItem(adv.getInstance());
+    	campaign.addAdvertisementItem(adv.getInstance());
     	return "createOrUpdateCampaignForm";
     }
     
@@ -135,9 +139,10 @@ public class CampaignsController {
      * @param advId
      */
     private void removeAdv(CampaignForm campaign, int advId) {
-		for(AdvertisementForm<?, ?> adv : campaign.getAdvertisementForms()){
+		for(Advertisement adv : campaign.getAdvertisements()){
 			if(adv.getPriority().intValue() == advId){
-				campaign.getAdvertisementForms().remove(adv);
+				campaign.getAdvertisements().remove(adv);
+				adv.setCampaign(null);
 				campaign.resetAdvPriority();
 				break;
 			}

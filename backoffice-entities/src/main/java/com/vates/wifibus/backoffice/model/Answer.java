@@ -6,6 +6,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -37,5 +38,9 @@ public class Answer extends LabeledEntity {
 	@NotNull
 	@JsonIgnore
 	private Question question;
+	
+	@Transient
+	@JsonIgnore
+	private Integer index;
 	
 }

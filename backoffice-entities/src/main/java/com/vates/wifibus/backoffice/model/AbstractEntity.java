@@ -72,5 +72,20 @@ public abstract class AbstractEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+        	return true;
+        }
+        AbstractEntity entity = (AbstractEntity) obj;
+        return entity.id.intValue() == id.intValue();
+    }
 
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + id.hashCode();
+        return result;
+    }
 }

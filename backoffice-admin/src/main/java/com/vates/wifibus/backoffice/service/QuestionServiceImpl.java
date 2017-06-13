@@ -1,9 +1,7 @@
 package com.vates.wifibus.backoffice.service;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import com.vates.wifibus.backoffice.model.Answer;
-import com.vates.wifibus.backoffice.model.AnswerForm;
 import com.vates.wifibus.backoffice.model.Question;
 import com.vates.wifibus.backoffice.model.QuestionForm;
 import com.vates.wifibus.backoffice.repository.QuestionRepository;
@@ -73,30 +69,12 @@ public class QuestionServiceImpl implements QuestionService {
 		if(questionForm.getId() != null){
 			question = questionRepository.getOne(questionForm.getId());
 		}
-        BeanUtils.copyProperties(questionForm, question, "id");
-        copyAnswerProperties(questionForm, question);
+        BeanUtils.copyProperties(questionForm, question, "id", "questions");
+        for(Answer ans : questionForm.getAnswers()){
+        	ans.setQuestion(question);
+        }
+        question.setAnswers(questionForm.getAnswers());
         questionRepository.save(question);
-	}
-
-	private void copyAnswerProperties(QuestionForm questionForm, Question question) {
-		if(!questionForm.getType().isOpen()){
-			Set<Answer> answers = new HashSet<Answer>();
-			for(AnswerForm answerForm : questionForm.getAnswerForms()){
-				Answer answer = new Answer();
-				if(!CollectionUtils.isEmpty(question.getAnswers()) && answerForm.getId() != null){
-					for(Answer anw : question.getAnswers()){
-						if(anw.getId().intValue() == answerForm.getId().intValue()){
-							answer = anw;
-							break;
-						}
-					}
-				}
-				BeanUtils.copyProperties(answerForm, answer, "id");
-				answer.setQuestion(question);
-				answers.add(answer);
-			}
-			question.setAnswers(answers);
-		}
 	}
 
 	@Override

@@ -41,7 +41,7 @@
                 					<div class="col-sm-4">
 				        				<div class="form-group">
 								            <div class="controls">
-								            	<select class="form-control" th:field="*{type}">
+								            	<select class="form-control" th:field="*{type}">instanceof
 									              	<option th:each="adv : ${T(com.vates.wifibus.backoffice.model.AdvertisementType).values()}" th:value="${{adv}}" th:text="${adv.displayName}">Adv</option>
 									            </select>
 								            </div>
@@ -54,14 +54,15 @@
 				        			</div>
 		        				</div>
 		        				<div class="panel-group" id="accordion">
-	                                <div class="panel panel-info" th:each="adv, advRow : *{advertisementForms}">
+	                                <div class="panel panel-info" th:each="adv, advRow : *{advertisements}">
 	                                    <div class="panel-heading">
 											<h4 class="panel-title">
-												<button type="submit" class="close fa fa-times-circle" name="removeAdv" th:value="*{advertisementForms[__${advRow.index}__].priority}" aria-hidden="true">&nbsp;</button>
-												<button th:if="${adv.priority > 1}" type="submit" class="close fa fa-arrow-up" name="moveUpAdv" th:value="*{advertisementForms[__${advRow.index}__].priority}" aria-hidden="true">&nbsp;</button>
-												<button th:if="${#lists.size(campaignForm.advertisementForms) > adv.priority}" type="submit" class="close fa fa-arrow-down" name="moveDownAdv" th:value="*{advertisementForms[__${advRow.index}__].priority}" aria-hidden="true">&nbsp;</button>
+												<button type="submit" class="close fa fa-times-circle" name="removeAdv" th:value="*{advertisements[__${advRow.index}__].priority}" aria-hidden="true">&nbsp;</button>
+												<button th:if="${adv.priority > 1}" type="submit" class="close fa fa-arrow-up" name="moveUpAdv" th:value="*{advertisements[__${advRow.index}__].priority}" aria-hidden="true">&nbsp;</button>
+												<button th:if="${#lists.size(campaignForm.advertisements) > adv.priority}" type="submit" class="close fa fa-arrow-down" name="moveDownAdv" th:value="*{advertisements[__${advRow.index}__].priority}" aria-hidden="true">&nbsp;</button>
 												<a data-toggle="collapse" data-parent="#accordion" th:href="@{'#collapse' + ${advRow.index}}">
-													<strong class="page-header"><span th:text="|${adv.type}:|"/><span th:if="${adv.name != null}" th:text="|  ${adv.name}|"/></strong>
+													<strong class="page-header">
+														Anuncio <span th:if="${adv.name == null || adv.name == ''}" th:text="${adv.priority}"/><span th:if="${adv.name != null || adv.name != ''}" th:text="${adv.name}"/></strong>
 					                            </a>
 											</h4>
 										</div>
@@ -70,61 +71,61 @@
 	                                            <div class="form-group" >
 											        <label class="form-label">* Nombre del Anuncio:</label>
 											        <div class="controls">
-											            <input class="form-control" type="text" th:field="*{advertisementForms[__${advRow.index}__].name}"/>
+											            <input class="form-control" type="text" th:field="*{advertisements[__${advRow.index}__].name}"/>
 											        </div>
 											    </div>
 											    <div class="form-group">
 											        <label class="form-label">Descripcion:</label>
 											        <div class="controls">
-											        	<textarea class="form-control" rows="3" th:field="*{advertisementForms[__${advRow.index}__].descripcion}"/>
+											        	<textarea class="form-control" rows="3" th:field="*{advertisements[__${advRow.index}__].descripcion}"/>
 											        </div>
 											    </div>
 											    <div class="row">
 													<div class="col-lg-4">
 											        	<div class="form-group">
 											        		<label class="form-label">* Desde</label>
-											        		<input class="form-control datepicker_field" th:field="*{{advertisementForms[__${advRow.index}__].startDate}}"/>
+											        		<input class="form-control datepicker_field" th:field="*{{advertisements[__${advRow.index}__].startDate}}"/>
 												        </div>
 												    </div>
 												    <div class="col-lg-4">
 											        	<div class="form-group">
 											        		<label class="form-label">* Hasta</label>
-											        		<input class="form-control datepicker_field" th:field="*{{advertisementForms[__${advRow.index}__].endDate}}"/>
+											        		<input class="form-control datepicker_field" th:field="*{{advertisements[__${advRow.index}__].endDate}}"/>
 												        </div>
 												    </div>
 												    <div class="col-lg-2">
 												    	<div class="controls">
 											            	<label class="form-label">* Duración</label>
-											            	<select class="form-control" th:field="*{advertisementForms[__${advRow.index}__].duration}">
+											            	<select class="form-control" th:field="*{advertisements[__${advRow.index}__].duration}">
 												              	<option th:each="i : ${#numbers.sequence( 1, 1000)}" th:value="${i}" th:text="${i}"/>
 												            </select>
 											            </div>
 												    </div>
 												</div>
-												<div class="form-group" th:if="${adv.type == 'Video'}">
+												<div class="form-group" th:if="${adv.class.name == 'com.vates.wifibus.backoffice.model.VideoAd'}">
 											        <label class="form-label">* URL del video:</label>
 											        <div class="controls">
-											        	<input class="form-control" type="text" th:field="*{advertisementForms[__${advRow.index}__].videoUrl}"/>
+											        	<input class="form-control" type="text" th:field="*{advertisements[__${advRow.index}__].videoUrl}"/>
 											        </div>
 											    </div>
-											    <div class="form-group" th:if="${adv.type == 'Banner'}">
+											    <div class="form-group" th:if="${adv.class.name == 'com.vates.wifibus.backoffice.model.BannerAd'}">
 											        <label class="form-label">* URL de imagen de fondo:</label>
 											        <div class="controls">
-											        	<input class="form-control" type="text" th:field="*{advertisementForms[__${advRow.index}__].backgroundImageUrl}"/>
+											        	<input class="form-control" type="text" th:field="*{advertisements[__${advRow.index}__].backgroundImageUrl}"/>
 											        </div>
 											    </div>
-											    <div class="form-group" th:if="${adv.type == 'Banner'}">
+											    <div class="form-group" th:if="${adv.class.name == 'com.vates.wifibus.backoffice.model.BannerAd'}">
 											        <label class="form-label">* Texto del Banner:</label>
 											        <div class="controls">
-											        	<input class="form-control" type="text" th:field="*{advertisementForms[__${advRow.index}__].text}"/>
+											        	<input class="form-control" type="text" th:field="*{advertisements[__${advRow.index}__].text}"/>
 											        </div>
 											    </div>
 	                                        </div>
 	                                    </div>
 	                                </div>
 								</div>
-								<div class="form-group" th:classappend="${#fields.hasErrors('advertisementForms')} ? has-error">
-									<label class="control-label" th:errors="*{advertisementForms}">[Errors]</label>
+								<div class="form-group" th:classappend="${#fields.hasErrors('advertisements')} ? has-error">
+									<label class="control-label" th:errors="*{advertisements}">[Errors]</label>
 								</div>
 	                            <div class="form-actions">
         							<a th:href="@{/campaigns}" class="btn btn-warning" >Cancelar</a>
