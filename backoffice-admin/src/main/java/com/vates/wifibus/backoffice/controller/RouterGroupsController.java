@@ -82,7 +82,6 @@ public class RouterGroupsController {
         	model.addAttribute("selections", routerGroups.getContent());
         	return "groups";
     	}
-    	
     }
 
 	@RequestMapping("/groups/new")
@@ -157,10 +156,8 @@ public class RouterGroupsController {
 			Iterator<Question> it = qts.iterator();
 			while(it.hasNext()){
 				Question q = it.next();
-				for(Question qt : questions){
-					if(qt.getId().intValue() == q.getId().intValue()){
-						it.remove();
-					}
+				if(questions.contains(q)){
+					it.remove();
 				}
 			}
 		}

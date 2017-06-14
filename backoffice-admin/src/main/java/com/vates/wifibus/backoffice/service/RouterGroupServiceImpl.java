@@ -12,8 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.vates.wifibus.backoffice.model.Answer;
-import com.vates.wifibus.backoffice.model.Question;
 import com.vates.wifibus.backoffice.model.RouterGroup;
 import com.vates.wifibus.backoffice.model.RouterGroupForm;
 import com.vates.wifibus.backoffice.repository.RouterGroupRepository;
