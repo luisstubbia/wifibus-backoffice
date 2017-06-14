@@ -61,7 +61,7 @@ public class QuestionFormValidator implements Validator {
 						errors.rejectValue("answers", "answerForm.required.label", "Respuesta(" +index+ ") - La titulo de la respuesta es requerido");
 					}
 					if (anw.getValue() == null) {
-						errors.rejectValue("answers", "answerForm.required.value", "Respuesta(" +index+ ") - La valor de la respuesta es requerida");
+						errors.rejectValue("answers", "answerForm.required.value", "Respuesta(" +index+ ") - La valor de la respuesta debe ser numerico");
 					}
 				}
 			}
