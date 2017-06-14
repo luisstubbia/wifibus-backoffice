@@ -75,17 +75,26 @@ public abstract class AbstractEntity {
 	
     @Override
     public boolean equals(Object obj) {
-        if (obj == this) {
+        if (obj == this)
         	return true;
-        }
+        if (obj == null)
+        	return false;
+        if (getClass() != obj.getClass())
+            return false;
         AbstractEntity entity = (AbstractEntity) obj;
-        return entity.id.intValue() == id.intValue();
+        if (id == null){
+        	if (entity.id != null)
+        		return false;
+        } else if (id.intValue() != entity.id.intValue())
+        	return false;
+        return true;
     }
-
+    
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result + id.hashCode();
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 }

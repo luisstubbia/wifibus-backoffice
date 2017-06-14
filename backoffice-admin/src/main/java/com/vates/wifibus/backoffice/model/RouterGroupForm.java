@@ -1,6 +1,5 @@
 package com.vates.wifibus.backoffice.model;
 
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
