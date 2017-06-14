@@ -34,8 +34,8 @@
 	                                <div class="panel panel-info" th:each="itm, itmRow : *{items}">
 	                                    <div class="panel-heading">
 											<h4 class="panel-title">
-												<button th:if="${itm.index > 1}" type="submit" class="close fa fa-times-circle" name="removeItm" th:value="*{items[__${itmRow.index}__].index}" aria-hidden="true">&nbsp;</button>
-												<button th:if="${itm.index == 1}" type="submit" class="close fa fa-plus" name="action" value="addItm" aria-hidden="true">&nbsp;</button>
+												<button th:if="${itmRow.index > 0}" type="submit" class="close fa fa-times-circle" name="removeItm" th:value="*{items[__${itmRow.index}__].index}" aria-hidden="true">&nbsp;</button>
+												<button th:if="${itmRow.index == 0}" type="submit" class="close fa fa-plus" name="action" value="addItm" aria-hidden="true">&nbsp;</button>
 												<a data-toggle="collapse" data-parent="#accordion" th:href="@{'#collapse' + ${itm.index}}">
 													<strong class="page-header">Regla <span th:text="${itm.index}"/></strong>
 					                            </a>
