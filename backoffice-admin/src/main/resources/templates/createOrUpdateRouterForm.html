@@ -47,6 +47,7 @@
 						            <label class="form-label">Grupo</label>
 						            <div class="controls">
 						            	<select class="form-control" th:field="*{group}">
+						            		<option value="0">Sin Seleccionar</option>
 							              	<option th:each="gr : ${groups}" th:value="${{gr}}" th:text="${gr.name}">Group</option>
 							            </select>
 							            <label class="control-label" th:errors="*{group}">[Errors]</label>

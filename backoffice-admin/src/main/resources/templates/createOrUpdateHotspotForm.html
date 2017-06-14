@@ -33,6 +33,7 @@
 						            <label class="form-label">Router</label>
 						            <div class="controls">
 						            	<select class="form-control" th:field="*{router}">
+						            		<option value="0">Sin Seleccionar</option>
 							              	<option th:each="rt : ${routers}" th:value="${{rt}}" th:text="|${rt.name} - ${rt.macAddress}|">Group</option>
 							            </select>
 							            <label class="control-label" th:errors="*{router}">[Errors]</label>

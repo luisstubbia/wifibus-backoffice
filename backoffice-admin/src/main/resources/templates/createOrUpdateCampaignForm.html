@@ -41,7 +41,7 @@
                 					<div class="col-sm-4">
 				        				<div class="form-group">
 								            <div class="controls">
-								            	<select class="form-control" th:field="*{type}">instanceof
+								            	<select class="form-control" th:field="*{type}">
 									              	<option th:each="adv : ${T(com.vates.wifibus.backoffice.model.AdvertisementType).values()}" th:value="${{adv}}" th:text="${adv.displayName}">Adv</option>
 									            </select>
 								            </div>
