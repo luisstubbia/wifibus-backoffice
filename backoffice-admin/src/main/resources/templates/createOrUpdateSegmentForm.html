@@ -30,6 +30,7 @@
 						            </div>
 						        </div>
 						        <label class="form-label">Reglas que definen el Segmento:</label>
+						        <input type="hidden" th:value="@{/segments/question/}" id="questionPreviewUrl"/>
 		        				<div class="panel-group" id="accordion">
 	                                <div class="panel panel-info" th:each="itm, itmRow : *{items}">
 	                                    <div class="panel-heading">
@@ -48,7 +49,7 @@
 			                                            <div class="form-group" >
 													        <label class="form-label">* Pregunta:</label>
 													        <div class="controls">
-												            	<select class="form-control" th:field="*{items[__${itmRow.index}__].question}">
+												            	<select class="form-control" th:attr="preview-item-data=${itm.index}" th:field="*{items[__${itmRow.index}__].question}">
 													              	<option value="0">Sin Seleccionar</option>
 													              	<option th:each="qt : ${questions}" th:value="${qt.id}" th:text="${qt.label}">Question</option>
 													            </select>
@@ -58,20 +59,20 @@
 													<div class="col-md-2">
 														<div class="form-group">
 															<label class="form-label">* Operador:</label>
-												            <div class="controls">
-												            	<select class="form-control" th:field="*{items[__${itmRow.index}__].operator}">
-												            		<option value="0">Sin Seleccionar</option>
+												            <div class="controls" th:attr="id='operator_' + ${itm.index}">
+												            	<select class="form-control" th:classappend="selectOperators_ + ${itm.index}" th:field="*{items[__${itmRow.index}__].operator}">
+												            		<option value="0">---</option>
 													              	<option th:each="op : ${T(com.vates.wifibus.backoffice.model.OperatorType).values()}" th:value="${{op}}" th:text="${op.displayName}">Op</option>
 													            </select>
 												            </div>
 								                		</div>
 													</div>
-													<div class="col-md-2">
+													<div class="col-md-4">
 														<div class="form-group">
 															<label class="form-label">* Respuesta:</label>
 												            <div class="controls">
-												            	<input type="hidden" th:field="*{items[__${itmRow.index}__].value}"/>
-												            	<div th:field="${itm.index}"></div>
+												            	<input type="hidden" th:classappend="responseValue_ + ${itm.index}" th:field="*{items[__${itmRow.index}__].value}"/>
+												            	<div th:attr="id='response_preview_' + ${itm.index}"></div>
 												            </div>
 								                		</div>
 													</div>
@@ -83,6 +84,7 @@
 								<div class="form-group" th:classappend="${#fields.hasErrors('items')} ? has-error">
 									<label class="control-label" th:errors="*{items}">[Errors]</label>
 								</div>
+								<div id="preview" style="display: none;"></div>
 	                            <div class="form-actions">
         							<a th:href="@{/segments}" class="btn btn-warning" >Cancelar</a>
         							<button type="submit" name="action" value="save" class="btn btn-info">Guardar Segmento</button>
@@ -112,8 +114,39 @@
 				});
 		    }
 		});
+		
 		$(document).on('focus',".datepicker_field", function(){
 			$(this).datetimepicker({locale: 'es'});
+		});
+    	
+		function copyPreviewValue(element){
+			var id = element.id.split("_");
+			$(".responseValue_" + id[1]).val($('#' + element.id).val());
+		}
+		
+		function updatePreviewForm(model){
+			var previewItemValue = $(model).attr('preview-item-data');
+    		if($(model).val() > 0){
+    			url = $('#questionPreviewUrl').val() + $(model).val() + "/" + previewItemValue;
+				$("#preview").load(url, function(responseTxt, statusTxt, xhr){
+					if(statusTxt == "success"){
+						$("#response_preview_" + previewItemValue).html($("#preview_" + previewItemValue).html());
+						$(".selectOperators_" + previewItemValue).empty().append($("#operators_" + previewItemValue).html());
+						$("#previewValue_" + previewItemValue).val($(".responseValue_" + previewItemValue).val());
+						
+					}
+				});
+    		}
+    	}
+    	
+    	$('select[preview-item-data]').change(function(ev) {
+    		updatePreviewForm(this);
+    	});
+    	
+		$(document).ready(function() {
+			$('select[preview-item-data]').each(function() {
+				updatePreviewForm(this);
+			});
 		});
 	</script>
 </body>

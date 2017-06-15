@@ -1,5 +1,8 @@
 package com.vates.wifibus.backoffice.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Tipos de operadores.
  * 
@@ -57,6 +60,26 @@ public enum OperatorType {
 		    }
 	    }
 	    return null;
+	}
+	
+	/**
+	 * Returns the Operation Type that matches the displayName.
+	 *
+	 * @param displayName
+	 * @return OperationType
+	 */
+	public static List<OperatorType> lookupByQuestionType(QuestionType type) {
+		List<OperatorType> ots = new ArrayList<OperatorType>();
+		if (type != null) {
+			for (OperatorType b : OperatorType.values()) {
+				for(QuestionType qt : b.getQuestionTypes()){
+					if(qt.equals(type)){
+						ots.add(b);
+					}
+				}
+		    }
+	    }
+	    return ots;
 	}
 	
 }

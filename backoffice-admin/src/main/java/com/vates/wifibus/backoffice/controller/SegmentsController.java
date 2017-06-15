@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.vates.wifibus.backoffice.model.SegmentItem;
+import com.vates.wifibus.backoffice.model.OperatorType;
 import com.vates.wifibus.backoffice.model.PaginatorForm;
+import com.vates.wifibus.backoffice.model.Question;
 import com.vates.wifibus.backoffice.model.Segment;
 import com.vates.wifibus.backoffice.model.SegmentForm;
 import com.vates.wifibus.backoffice.service.QuestionService;
@@ -123,6 +125,22 @@ public class SegmentsController {
     public String deleteBrandPage(@PathVariable Long id) {
 		segmentService.deleteById(id);
     	return "redirect:/segments";
+    }
+    
+    @RequestMapping(value = "/segments/question/{questionId}/{elementId}", method = RequestMethod.GET)
+    public String getQuestionFormat(@PathVariable("questionId") Long questionId, 
+    		@PathVariable("elementId") String elementId, Model model) {
+        Optional<Question> opQt = questionService.getById(questionId);
+        if (opQt.isPresent()) {
+        	Question qt = opQt.get();
+        	model.addAttribute("operators", OperatorType.lookupByQuestionType(qt.getType()));
+        	model.addAttribute("elementId", elementId);
+        	if(!qt.isOpen()){
+        		model.addAttribute("answers", qt.getAnswers());
+        	}
+        	return "ajaxs/ajax_" + qt.getType().name() + " :: responsePreview";
+        } 
+        return null;
     }
     
     /**
