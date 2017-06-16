@@ -48,9 +48,7 @@ public class SegmentFormValidator implements Validator {
 	}
 
 	private void validateItems(Errors errors, SegmentForm form) {
-		if(CollectionUtils.isEmpty(form.getItems())){
-			errors.rejectValue("items", "segmentForm.required.items", "El segmento debe tener al menos una regla");
-		} else {
+		if(!CollectionUtils.isEmpty(form.getItems())){
 			for(SegmentItem itm : form.getItems()){
 				if (itm.getQuestion() == null) {
 					errors.rejectValue("items", "segmentForm.required.question", "Regla(" +itm.getIndex()+ ") - La regla debe indicar cual es la pregunta");

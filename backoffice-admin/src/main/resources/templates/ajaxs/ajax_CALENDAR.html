@@ -9,7 +9,7 @@
 	      	<option th:each="op : ${operators}" th:value="${{op}}" th:text="${op.displayName}">Op</option>
 	    </select>
 		<div th:attr="id='preview_' + ${elementId}">
-			<input class="form-control datepicker_field" onchange="copyPreviewValue(this);" type="text" th:attr="id='previewValue_' + ${elementId}"/>
+			<input class="form-control" onchange="copyPreviewValue(this);" type="text" th:attr="id='previewValue_' + ${elementId}"/>
 		</div>
 	</div>									            
 </html>

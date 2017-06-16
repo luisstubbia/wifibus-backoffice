@@ -41,6 +41,19 @@ public class RouterGroupFormValidator implements Validator {
         	originalGroup = routerGroupService.getById(form.getId()).get();
         }
         validateName(errors, form, numberOfOccurrences, originalGroup);
+        validateItems(errors, form);
+	}
+
+	private void validateItems(Errors errors, RouterGroupForm form) {
+		if(form.getBrand() == null){
+			errors.rejectValue("brand", "routerGroupForm.required.brand", "Debe seleccionar un Branding");
+		}
+		if(form.getTermAndCondition() == null){
+			errors.rejectValue("termAndCondition", "routerGroupForm.required.termAndCondition", "Debe seleccionar un Termino y condición");
+		}
+		if(form.getCampaign() == null){
+			errors.rejectValue("campaign", "routerGroupForm.required.campaign", "Debe seleccionar una Campaña");
+		}
 	}
 
 	private void validateName(Errors errors, RouterGroupForm form, int numberOfOccurrences, RouterGroup originalGroup) {

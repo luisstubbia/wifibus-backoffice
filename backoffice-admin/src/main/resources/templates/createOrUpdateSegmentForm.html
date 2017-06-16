@@ -25,7 +25,7 @@
 							    <div class="form-group" th:classappend="${#fields.hasErrors('descripcion')} ? has-error">
 						            <label class="form-label">Descripción:</label>
 						            <div class="controls">
-						            	<textarea class="form-control" rows="3" th:field="*{descripcion}"/>
+						            	<textarea class="form-control" rows="2" th:field="*{descripcion}"/>
 						                <label class="control-label" th:errors="*{descripcion}">[Errors]</label>
 						            </div>
 						        </div>
@@ -60,7 +60,8 @@
 														<div class="form-group">
 															<label class="form-label">* Operador:</label>
 												            <div class="controls" th:attr="id='operator_' + ${itm.index}">
-												            	<select class="form-control" th:classappend="selectOperators_ + ${itm.index}" th:field="*{items[__${itmRow.index}__].operator}">
+												            	<input type="hidden" th:classappend="responseOperator_ + ${itm.index}" th:value="${itm.operator}" />
+												            	<select class="form-control" onchange="copyOperatorValue(this);" th:classappend="selectOperators_ + ${itm.index}" th:field="*{items[__${itmRow.index}__].operator}">
 												            		<option value="0">---</option>
 													              	<option th:each="op : ${T(com.vates.wifibus.backoffice.model.OperatorType).values()}" th:value="${{op}}" th:text="${op.displayName}">Op</option>
 													            </select>
@@ -114,10 +115,11 @@
 				});
 		    }
 		});
-		
-		$(document).on('focus',".datepicker_field", function(){
-			$(this).datetimepicker({locale: 'es'});
-		});
+    	
+    	function copyOperatorValue(element){
+			var id = element.className.split("_");
+			$(".responseOperator_" + id[1]).val($(".selectOperators_" + id[1]).val());
+		}
     	
 		function copyPreviewValue(element){
 			var id = element.id.split("_");
@@ -133,7 +135,7 @@
 						$("#response_preview_" + previewItemValue).html($("#preview_" + previewItemValue).html());
 						$(".selectOperators_" + previewItemValue).empty().append($("#operators_" + previewItemValue).html());
 						$("#previewValue_" + previewItemValue).val($(".responseValue_" + previewItemValue).val());
-						
+						$(".selectOperators_" + previewItemValue).val($(".responseOperator_" + previewItemValue).val());
 					}
 				});
     		}

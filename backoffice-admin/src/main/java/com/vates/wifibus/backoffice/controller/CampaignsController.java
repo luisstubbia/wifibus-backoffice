@@ -24,6 +24,7 @@ import com.vates.wifibus.backoffice.model.Campaign;
 import com.vates.wifibus.backoffice.model.CampaignForm;
 import com.vates.wifibus.backoffice.model.PaginatorForm;
 import com.vates.wifibus.backoffice.service.CampaignService;
+import com.vates.wifibus.backoffice.service.SegmentService;
 import com.vates.wifibus.backoffice.validator.CampaignFormValidator;
 
 /**
@@ -37,6 +38,9 @@ public class CampaignsController {
 	
 	@Autowired
 	private CampaignService campaignService;
+	
+	@Autowired
+	private SegmentService segmentService;
 
 	@Autowired
 	private CampaignFormValidator campaignValidator;
@@ -89,6 +93,7 @@ public class CampaignsController {
     		}
     	}
     	model.addAttribute(campaignForm);
+    	model.addAttribute("segments", segmentService.getAll());
     	return "createOrUpdateCampaignForm";
     }
     
@@ -96,7 +101,8 @@ public class CampaignsController {
     public String createCampaignInfoPage(CampaignForm campaign, BindingResult result, Model model, 
     		@ModelAttribute("action") String action, @ModelAttribute("removeAdv") String advId, 
     		@ModelAttribute("moveUpAdv") String upAdvId, @ModelAttribute("moveDownAdv") String downAdvId, 
-    		SessionStatus status) {   	
+    		SessionStatus status) {
+    	model.addAttribute("segments", segmentService.getAll());
     	if(!StringUtils.isEmpty(advId)){
         	removeAdv(campaign, Integer.parseInt(advId));
         	return "createOrUpdateCampaignForm";
@@ -123,6 +129,7 @@ public class CampaignsController {
     public String addAdvertisementView(CampaignForm campaign, BindingResult result, Model model, SessionStatus status) {
     	AdvertisementType adv = AdvertisementType.lookupByName(campaign.getType());
     	campaign.addAdvertisementItem(adv.getInstance());
+    	model.addAttribute("segments", segmentService.getAll());
     	return "createOrUpdateCampaignForm";
     }
     

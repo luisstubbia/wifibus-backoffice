@@ -25,7 +25,7 @@
 							    <div class="form-group" th:classappend="${#fields.hasErrors('descripcion')} ? has-error">
 						            <label class="form-label">Descripción:</label>
 						            <div class="controls">
-						            	<textarea class="form-control" rows="3" th:field="*{descripcion}"/>
+						            	<textarea class="form-control" rows="2" th:field="*{descripcion}"/>
 						                <label class="control-label" th:errors="*{descripcion}">[Errors]</label>
 						            </div>
 						        </div>
@@ -77,9 +77,18 @@
 											    <div class="form-group">
 											        <label class="form-label">Descripcion:</label>
 											        <div class="controls">
-											        	<textarea class="form-control" rows="3" th:field="*{advertisements[__${advRow.index}__].descripcion}"/>
+											        	<textarea class="form-control" rows="2" th:field="*{advertisements[__${advRow.index}__].descripcion}"/>
 											        </div>
 											    </div>
+											    <div class="form-group">
+										            <label class="form-label">Segmento:</label>
+										            <div class="controls">
+										            	<select class="form-control" th:field="*{advertisements[__${advRow.index}__].segment}">
+										            		<option value="0">Sin Seleccionar</option>
+											              	<option th:each="sg : ${segments}" th:value="${{sg}}" th:text="|${sg.name}|">Segment</option>
+											            </select>
+										            </div>
+										        </div>
 											    <div class="row">
 													<div class="col-lg-4">
 											        	<div class="form-group">
