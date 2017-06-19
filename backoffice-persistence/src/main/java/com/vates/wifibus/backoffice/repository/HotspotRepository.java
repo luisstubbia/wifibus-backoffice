@@ -1,5 +1,6 @@
 package com.vates.wifibus.backoffice.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -37,5 +38,6 @@ public interface HotspotRepository extends JpaRepository<Hotspot, Long> {
 	
 	Long countByName(String name);
 	
+	List<Hotspot> findByEnabledTrueOrderByNameDesc();
 }
 

@@ -1,9 +1,9 @@
 package com.vates.wifibus.backoffice.service;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Optional;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.vates.wifibus.backoffice.model.Advertisement;
 import com.vates.wifibus.backoffice.model.Campaign;
@@ -32,7 +33,7 @@ public class CampaignServiceImpl implements CampaignService {
     
 	@Autowired
 	private CampaignRepository campaignRepository;
-
+	
 	@Override
 	public Optional<Campaign> getById(long id) {
 		return Optional.ofNullable(campaignRepository.findOne(id));
@@ -45,7 +46,7 @@ public class CampaignServiceImpl implements CampaignService {
 	
 	@Override
 	public Collection<Campaign> getAll() {
-		return campaignRepository.findAll(new Sort("name"));
+		return campaignRepository.findByEnabledTrueOrderByNameDesc();
 	}
 
 	@Override
@@ -71,13 +72,39 @@ public class CampaignServiceImpl implements CampaignService {
 		if(campaignForm.getId() != null){
 			campaign = campaignRepository.getOne(campaignForm.getId());
 		}
+		mergeItems(campaign, campaignForm);
         BeanUtils.copyProperties(campaignForm, campaign, "id", "advertisements");
-        for(Advertisement adv : campaignForm.getAdvertisements()){
-        	adv.setCampaign(campaign);
-        }
-        Set<Advertisement> advs = new LinkedHashSet<Advertisement>(campaignForm.getAdvertisements());
-        campaign.setAdvertisements(advs);
         campaignRepository.save(campaign);
+	}
+
+	private void mergeItems(final Campaign campaign, CampaignForm campaignForm) {
+		campaignForm.getAdvertisements().forEach(item->item.setCampaign(campaign));
+		if(!CollectionUtils.isEmpty(campaign.getAdvertisements())){
+			campaign.getAdvertisements().forEach(item->item.setCampaign(null));
+			// Adding new items
+			campaignForm.getAdvertisements().forEach(item->{
+				if(item.getId() == null)
+					campaign.getAdvertisements().add(item);
+			});
+			// Removing and updating items that already exist.
+			Iterator<Advertisement> it = campaign.getAdvertisements().iterator();
+			while(it.hasNext()){
+				boolean exist = false;
+				Advertisement adv = (Advertisement) it.next();
+				for(Advertisement advForm : campaignForm.getAdvertisements()){
+					if(adv.getId() != null && advForm.getId() != null && adv.getId().intValue() == advForm.getId().intValue()){
+						BeanUtils.copyProperties(advForm, adv, "id");
+						exist = true;
+						break;
+					}
+				}
+				if(!exist && adv.getId() != null){
+					it.remove();
+				}
+			}
+		} else {
+			campaign.setAdvertisements(new LinkedHashSet<Advertisement>(campaignForm.getAdvertisements()));
+		}
 	}
 
 	@Override

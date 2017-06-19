@@ -34,7 +34,7 @@ public class Campaign extends BaseEntity {
 	@NotNull
 	private String landingUrl;
     
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "campaign", cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "campaign", cascade=CascadeType.ALL, orphanRemoval = true)
 	@OrderBy("priority")
     private Set<Advertisement> advertisements;
 	

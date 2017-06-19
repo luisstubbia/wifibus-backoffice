@@ -48,7 +48,7 @@ public class RouterServiceImpl implements RouterService {
 	
 	@Override
 	public Collection<Router> getAll() {
-		return routerRepository.findAll(new Sort("name"));
+		return routerRepository.findByEnabledTrueOrderByNameDesc();
 	}
 
 	@Override

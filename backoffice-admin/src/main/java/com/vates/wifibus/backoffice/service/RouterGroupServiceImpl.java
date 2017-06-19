@@ -42,7 +42,7 @@ public class RouterGroupServiceImpl implements RouterGroupService {
 	
 	@Override
 	public Collection<RouterGroup> getAll() {
-		return groupRepository.findAll(new Sort("name"));
+		return groupRepository.findByEnabledTrueOrderByNameDesc();
 	}
 
 	@Override

@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -27,7 +26,6 @@ import lombok.Setter;
  *
  */
 @Entity
-@Inheritance
 @Table(name = "SEGMENT_ITEMS")
 @EntityListeners(AuditingEntityListener.class)
 @Getter

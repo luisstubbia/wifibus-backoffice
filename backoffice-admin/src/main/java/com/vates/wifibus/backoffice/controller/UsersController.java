@@ -5,6 +5,8 @@ import java.util.NoSuchElementException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -90,7 +92,7 @@ public class UsersController {
    	     return modelAndView;
 	}
     
-	@RequestMapping(value = {"/users/{id}/edit", "/users/new"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/users/{id}/edit", "/users/new", "/users/profile"}, method = RequestMethod.POST)
 	public String saveNewUserPage(UserForm userForm, BindingResult result, Model model,
 			@ModelAttribute("action") String action, SessionStatus status) {
     	userFormValidator.validate(userForm, result);
@@ -109,4 +111,14 @@ public class UsersController {
     	return "redirect:/users";
     }
 	
+	@RequestMapping(value = "/users/profile", method = RequestMethod.GET)
+	public String profile(Model model) throws Exception {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getByUsername(auth.getName())
+        		.orElseThrow(() -> new NoSuchElementException(String.format("User=%s not found", auth.getName())));;
+		UserForm userForm = new UserForm();
+  	    BeanUtils.copyProperties(user, userForm);
+  	    model.addAttribute("userForm", userForm);
+		return "createOrUpdateUserForm";
+	}
 }

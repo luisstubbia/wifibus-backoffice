@@ -42,7 +42,7 @@ public class ServiceTermServiceImpl implements ServiceTermService {
 	
 	@Override
 	public Collection<ServiceTerm> getAll() {
-		return termsRepository.findAll(new Sort("name"));
+		return termsRepository.findByEnabledTrueOrderByNameDesc();
 	}
 
 	@Override

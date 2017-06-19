@@ -1,5 +1,6 @@
 package com.vates.wifibus.backoffice.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -29,4 +30,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 	void deleteById(Long questionId);
 	
 	Long countByName(String name);
+	
+	List<Question> findByEnabledTrueOrderByNameDesc();
 }

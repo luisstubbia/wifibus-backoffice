@@ -1,5 +1,6 @@
 package com.vates.wifibus.backoffice.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -36,6 +37,7 @@ public interface ServiceTermRepository extends JpaRepository<ServiceTerm, Long> 
 	void deleteById(Long termsId);
 	
 	Long countByName(String name);
-	
+
+	List<ServiceTerm> findByEnabledTrueOrderByNameDesc();
 }
 

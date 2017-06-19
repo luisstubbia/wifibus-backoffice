@@ -1,6 +1,8 @@
 package com.vates.wifibus.backoffice.service;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.vates.wifibus.backoffice.model.Answer;
 import com.vates.wifibus.backoffice.model.Question;
@@ -43,7 +46,7 @@ public class QuestionServiceImpl implements QuestionService {
 	
 	@Override
 	public Collection<Question> getAll() {
-		return questionRepository.findAll(new Sort("name"));
+		return questionRepository.findByEnabledTrueOrderByNameDesc();
 	}
 
 	@Override
@@ -69,12 +72,39 @@ public class QuestionServiceImpl implements QuestionService {
 		if(questionForm.getId() != null){
 			question = questionRepository.getOne(questionForm.getId());
 		}
+		mergeItems(question, questionForm);
         BeanUtils.copyProperties(questionForm, question, "id", "questions");
-        for(Answer ans : questionForm.getAnswers()){
-        	ans.setQuestion(question);
-        }
-        question.setAnswers(questionForm.getAnswers());
         questionRepository.save(question);
+	}
+
+	private void mergeItems(final Question question, QuestionForm questionForm) {
+		questionForm.getAnswers().forEach(item->item.setQuestion(question));
+		if(!CollectionUtils.isEmpty(question.getAnswers())){
+			question.getAnswers().forEach(item->item.setQuestion(null));
+			// Adding new items
+			questionForm.getAnswers().forEach(item->{
+				if(item.getId() == null)
+					question.getAnswers().add(item);
+			});
+			// Removing and updating items that already exist.
+			Iterator<Answer> it = question.getAnswers().iterator();
+			while(it.hasNext()){
+				boolean exist = false;
+				Answer ans = (Answer) it.next();
+				for(Answer ansForm : questionForm.getAnswers()){
+					if(ans.getId() != null && ansForm.getId() != null && ans.getId().intValue() == ansForm.getId().intValue()){
+						BeanUtils.copyProperties(ansForm, ans, "id");
+						exist = true;
+						break;
+					}
+				}
+				if(!exist && ans.getId() != null){
+					it.remove();
+				}
+			}
+		} else {
+			question.setAnswers(new LinkedHashSet<Answer>(questionForm.getAnswers()));
+		}
 	}
 
 	@Override
