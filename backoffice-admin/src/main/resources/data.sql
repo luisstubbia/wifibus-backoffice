@@ -413,6 +413,40 @@ INSERT INTO questions (name, label, type, is_open, enabled, created_date, create
     0
 );
 
+INSERT INTO service_terms (name, description, text, enabled, created_date, created_by, lock_version) VALUES (
+    'default',
+    'Terminos y condiciones generales',
+    'Terminos y condiciones xxxxxxxx',
+    true,
+    now(),
+    'admin',
+    0
+);
+
+INSERT INTO brands (name, description, cobrand, logo_image_url, background_image_url, enabled, created_date, created_by, lock_version) VALUES (
+    'municipalidad-cordoba',
+    'Personalizacion para los routers de las paradas de la Municipalidad de Cordoba',
+    'Municipalidad de C&oacute;rdoba',
+    '//docs.google.com/uc?id=0B-ChTGqpPpqgME5GQlVfbXpFRjA',
+    '//docs.google.com/uc?id=0B-ChTGqpPpqgb3pWSkFTZFlYV3M',
+    true,
+    now(),
+    'admin',
+    0
+);
+
+INSERT INTO brands (name, description, cobrand, logo_image_url, background_image_url, enabled, created_date, created_by, lock_version) VALUES (
+    'mc-donalds',
+    'Personalizacion para los routers de McDonald''''s',
+    'McDonald''''s',
+    '//d701vexhkz032.cloudfront.net/bundles/front/media/images/header/mcdonalds-logo.png',
+    '//d701vexhkz032.cloudfront.net/bundles/front/media/images/banner/mcdls3.jpg',
+    true,
+    now(),
+    'admin',
+    0
+);
+
 INSERT INTO router_groups (name, description, enabled, created_date, created_by, lock_version) VALUES (
     'mc-donalds',
     'Routers en los restaurantes Mc Donalds',
@@ -431,54 +465,60 @@ INSERT INTO router_groups (name, description, enabled, created_date, created_by,
     0
 );
 
-INSERT INTO router_groups (name, description, enabled, created_date, created_by, lock_version) VALUES (
+INSERT INTO router_groups (name, description, brand_id, enabled, created_date, created_by, lock_version) VALUES (
     'bus-sur',
     'Routers en las paradas de bus, zona sur',
+    (SELECT id FROM brands WHERE name = 'municipalidad-cordoba'),
     true,
     now(),
     'admin',
     0
 );
 
-INSERT INTO router_groups (name, description, enabled, created_date, created_by, lock_version) VALUES (
+INSERT INTO router_groups (name, description, brand_id, enabled, created_date, created_by, lock_version) VALUES (
     'bus-norte',
     'Routers en las paradas de bus, zona norte',
+    (SELECT id FROM brands WHERE name = 'municipalidad-cordoba'),
     true,
     now(),
     'admin',
     0
 );
 
-INSERT INTO router_groups (name, description, enabled, created_date, created_by, lock_version) VALUES (
+INSERT INTO router_groups (name, description, brand_id, enabled, created_date, created_by, lock_version) VALUES (
     'bus-este',
     'Routers en las paradas de bus, zona este',
+    (SELECT id FROM brands WHERE name = 'municipalidad-cordoba'),
     true,
     now(),
     'admin',
     0
 );
 
-INSERT INTO router_groups (name, description, enabled, created_date, created_by, lock_version) VALUES (
+INSERT INTO router_groups (name, description, brand_id, enabled, created_date, created_by, lock_version) VALUES (
     'bus-oeste',
     'Routers en las paradas de bus, zona oeste',
+    (SELECT id FROM brands WHERE name = 'municipalidad-cordoba'),
     true,
     now(),
     'admin',
     0
 );
 
-INSERT INTO router_groups (name, description, enabled, created_date, created_by, lock_version) VALUES (
+INSERT INTO router_groups (name, description, brand_id, enabled, created_date, created_by, lock_version) VALUES (
     'bus-centro',
     'Routers en las paradas de bus, zona centro',
+    (SELECT id FROM brands WHERE name = 'municipalidad-cordoba'),
     true,
     now(),
     'admin',
     0
 );
 
-INSERT INTO router_groups (name, description, enabled, created_date, created_by, lock_version) VALUES (
+INSERT INTO router_groups (name, description, brand_id, enabled, created_date, created_by, lock_version) VALUES (
     'bus-circunvalacion',
     'Routers en las paradas de bus, zona circunvalacion',
+    (SELECT id FROM brands WHERE name = 'municipalidad-cordoba'),
     true,
     now(),
     'admin',
@@ -513,7 +553,7 @@ INSERT INTO router_groups (name, description, enabled, created_date, created_by,
 );
 
 INSERT INTO routers (name, description, mac_address, ip_v4_address, group_id, location, latitude, longitude, enabled, created_date, created_by, lock_version) VALUES (
-    'mac-donalds-1',
+    'mc-donalds-1',
     'Router en el Mc Donalds de Av. Colon al 900',
     'xx:xx:xx:xx:xx:11',
     '192.168.0.21',
@@ -528,7 +568,7 @@ INSERT INTO routers (name, description, mac_address, ip_v4_address, group_id, lo
 );
 
 INSERT INTO routers (name, description, mac_address, ip_v4_address, group_id, location, latitude, longitude, enabled, created_date, created_by, lock_version) VALUES (
-    'mac-donalds-2',
+    'mc-donalds-2',
     'Router en el Mc Donalds de Alto Palermo, Av. Santa Fe 3253',
     'xx:xx:xx:xx:xx:22',
     '192.168.0.22',
@@ -543,7 +583,7 @@ INSERT INTO routers (name, description, mac_address, ip_v4_address, group_id, lo
 );
 
 INSERT INTO routers (name, description, mac_address, ip_v4_address, group_id, location, latitude, longitude, enabled, created_date, created_by, lock_version) VALUES (
-    'mac-donalds-3',
+    'mc-donalds-3',
     'Router en el Mc Donalds de Av. Santa Fe 3684',
     'xx:xx:xx:xx:xx:33',
     '192.168.0.23',
@@ -571,6 +611,19 @@ INSERT INTO routers (name, description, mac_address, ip_v4_address, group_id, lo
     'admin',
     0
 );
+
+INSERT INTO hotspots (name, description, router_id, enabled, created_date, created_by, lock_version) VALUES (
+    'mc-donalds-1',
+    'Hostpost para el router mc-donalds-1',
+    (SELECT id FROM routers WHERE name = 'mc-donalds-1'),
+    true,
+    now(),
+    'admin',
+    0
+);
+
+
+
 
 
 
