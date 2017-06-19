@@ -52,4 +52,9 @@ public abstract class Advertisement extends BaseEntity {
 	@NotNull
 	private Integer priority;
 	
+	@ManyToOne
+    @JoinColumn(name = "SEGMENT_ID")
+	@NotNull
+	private Segment segment;
+	
 }
