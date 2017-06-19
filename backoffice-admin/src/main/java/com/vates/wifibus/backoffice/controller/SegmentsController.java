@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -102,6 +103,9 @@ public class SegmentsController {
     	model.addAttribute("questions", questionService.getAll());
         if(!StringUtils.isEmpty(itmId)){
         	removeItm(segment, Integer.parseInt(itmId));
+        	if(CollectionUtils.isEmpty(segment.getItems())){
+        		segment.addSegmentItem();
+        	}
         	return "createOrUpdateSegmentForm";
         }
         segmentValidator.validate(segment, result);

@@ -89,4 +89,15 @@ public abstract class AbstractEntity {
         	return false;
         return true;
     }
+    
+    @Override
+    public int hashCode(){
+    	final int hash = 31;
+    	int result = 2;
+    	if(id != null){
+    		return result * hash + id.hashCode();
+    	} else {
+    		return result * hash + super.hashCode();
+    	}
+    }
 }

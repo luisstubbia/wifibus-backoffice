@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Collection<User> getAll() {
-        return userRepository.findAll(new Sort("username"));
+        return userRepository.findByEnabledTrueOrderByUsernameDesc();
     }
 
     @Override

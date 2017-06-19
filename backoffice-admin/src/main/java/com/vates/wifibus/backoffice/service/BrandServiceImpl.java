@@ -42,7 +42,7 @@ public class BrandServiceImpl implements BrandService {
 	
 	@Override
 	public Collection<Brand> getAll() {
-		return brandRepository.findAll(new Sort("name"));
+		return brandRepository.findByEnabledTrueOrderByNameDesc();
 	}
 
 	@Override

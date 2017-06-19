@@ -1,5 +1,6 @@
 package com.vates.wifibus.backoffice.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -35,4 +36,5 @@ public interface RouterGroupRepository extends JpaRepository<RouterGroup, Long> 
 	
 	Long countByName(String name);
 	
+	List<RouterGroup> findByEnabledTrueOrderByNameDesc();
 }

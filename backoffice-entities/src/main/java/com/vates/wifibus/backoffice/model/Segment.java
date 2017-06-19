@@ -6,7 +6,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
-import javax.persistence.Inheritance;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -23,14 +22,13 @@ import lombok.Setter;
  *
  */
 @Entity
-@Inheritance
 @Table(name = "SEGMENTS")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 public class Segment extends BaseEntity {
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "segment", cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "segment", cascade=CascadeType.ALL, orphanRemoval = true)
     private Set<SegmentItem> items;
 	
 }

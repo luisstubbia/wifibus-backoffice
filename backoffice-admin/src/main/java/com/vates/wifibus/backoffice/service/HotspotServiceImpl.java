@@ -42,7 +42,7 @@ public class HotspotServiceImpl implements HotspotService {
 	
 	@Override
 	public Collection<Hotspot> getAll() {
-		return hotspotRepository.findAll(new Sort("name"));
+		return hotspotRepository.findByEnabledTrueOrderByNameDesc();
 	}
 
 	@Override
