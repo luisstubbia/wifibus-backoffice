@@ -73,7 +73,7 @@ public class QuestionServiceImpl implements QuestionService {
 			question = questionRepository.getOne(questionForm.getId());
 		}
 		mergeItems(question, questionForm);
-        BeanUtils.copyProperties(questionForm, question, "id", "questions");
+        BeanUtils.copyProperties(questionForm, question, "id", "answers");
         questionRepository.save(question);
 	}
 
