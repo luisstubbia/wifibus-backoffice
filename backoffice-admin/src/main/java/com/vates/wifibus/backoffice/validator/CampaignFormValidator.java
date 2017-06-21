@@ -65,6 +65,9 @@ public class CampaignFormValidator implements Validator {
 				if (adv.getDuration() == null || adv.getDuration().intValue() <= 0) {
 					errors.rejectValue("advertisements", "advertisementForm.required.duration", "Anuncio(" +adv.getPriority()+ ") - La duración del anuncio es requerida y debe ser mayor a 0");
 				}
+				if (adv.getSegment() == null) {
+					errors.rejectValue("advertisements", "advertisementForm.required.segment", "Anuncio(" +adv.getPriority()+ ") - Debe estar asociado a un segmento");
+				}
 				if(adv instanceof VideoAd){
 					validateVideoAd(errors, (VideoAd) adv);
 				} else if (adv instanceof BannerAd){
