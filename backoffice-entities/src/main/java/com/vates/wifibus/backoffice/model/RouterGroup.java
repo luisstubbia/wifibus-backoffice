@@ -3,6 +3,9 @@ package com.vates.wifibus.backoffice.model;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -51,4 +54,11 @@ public class RouterGroup extends BaseEntity {
             joinColumns = @JoinColumn(name = "GROUP_ID"),
             inverseJoinColumns = @JoinColumn(name = "QUESTION_ID"))
     private Set<Question> questions;
+	
+	@ElementCollection(targetClass = ButtonType.class)
+	@CollectionTable(name = "ROUTER_GROUPS_BUTTONS", 
+	        joinColumns = @JoinColumn(name = "GROUP_ID")
+	)
+	@Column(name = "BUTTON")
+	private Set<ButtonType> buttons;
 }

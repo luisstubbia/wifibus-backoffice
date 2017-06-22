@@ -61,6 +61,25 @@
 						        </div>
 						        <div class="row">
 						        	<div class="col-lg-5">
+						        		<label>Botones Disponibles:</label>
+						        		<div class="text-center form-group">
+											<button name="addButton" th:value="${bt.id}" class="btn btn-social-icon btn-xs" th:each="bt : ${buttonList}" th:classappend="|btn-${bt.type}|">
+												<i class="fa" th:classappend="|fa-${bt.type}|"></i>
+											</button>
+										</div>
+                            		</div>
+                            		<div class="col-lg-5 form-group" th:classappend="${#fields.hasErrors('buttons')} ? has-error">
+                            			<label>Botones Seleccionados:</label>
+                            			<div class="text-center form-group">
+                            				<button name="removeButton" th:value="${bt.id}" class="btn btn-social-icon btn-xs" th:each="bt, btRow : *{buttons}" th:classappend="|btn-${bt.type}|">
+												<i class="fa" th:classappend="|fa-${bt.type}|"><input type="hidden" th:field="*{buttons[__${btRow.index}__].id}"/></i>
+											</button>
+                            			</div>
+                            			<label class="control-label" th:errors="*{buttons}">[Errors]</label>
+                            		</div>
+		                        </div>
+						        <div class="row">
+						        	<div class="col-lg-5">
 						        		<label>Preguntas Disponibles:</label>
 						        		<div class="table-responsive overflow">
                                 			<table class="table-responsive overflow table table-striped table-bordered table-hover">
@@ -81,7 +100,7 @@
 			                                </table>
 			                            </div>
                             		</div>
-                            		<div class="col-lg-5">
+                            		<div class="col-lg-5 form-group" th:classappend="${#fields.hasErrors('questions')} ? has-error">
 						        		<label>Preguntas Seleccionadas:</label>
 						        		<div class="table-responsive overflow" th:classappend="${#fields.hasErrors('questions')} ? has-error">
                                 			<table class="table table-striped table-bordered table-hover">
@@ -101,6 +120,7 @@
 			                                    </tbody>
 			                                </table>
 			                            </div>
+			                            <label class="control-label" th:errors="*{questions}">[Errors]</label>
                             		</div>
 		                        </div>
 							    <div class="form-actions">

@@ -1,7 +1,10 @@
 package com.vates.wifibus.backoffice.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.vates.wifibus.backoffice.model.ButtonType;
 import com.vates.wifibus.backoffice.model.PaginatorForm;
 import com.vates.wifibus.backoffice.model.Question;
 import com.vates.wifibus.backoffice.model.RouterGroup;
@@ -89,7 +93,7 @@ public class RouterGroupsController {
 		RouterGroupForm routerGroupForm = new RouterGroupForm();
 		model.addAttribute("routerGroupForm", routerGroupForm);
 		addFormDetails(model);
-		updateQuestionList(model, routerGroupForm.getQuestions());
+		updateLinkedList(model, routerGroupForm);
     	return "createOrUpdateGroupForm";
     }
 
@@ -108,28 +112,39 @@ public class RouterGroupsController {
     	}
     	model.addAttribute(routerGroupForm);
     	addFormDetails(model);
-    	updateQuestionList(model, routerGroupForm.getQuestions());
+    	updateLinkedList(model, routerGroupForm);
     	return "createOrUpdateGroupForm";
     }
 
     @RequestMapping(value = {"/groups/{groupId}/edit", "/groups/new"}, method = RequestMethod.POST)
     public String createRouterGroupInfoPage(RouterGroupForm routerGroupForm, BindingResult result, Model model, 
     		@ModelAttribute("action") String action, @ModelAttribute("addQuestion") String addQstId,
-    		@ModelAttribute("removeQuestion") String rmQstId, SessionStatus status) {
+    		@ModelAttribute("removeQuestion") String rmQstId, @ModelAttribute("addButton") String addbtnId,
+    		@ModelAttribute("removeButton") String rmBtnId, SessionStatus status) {
     	addFormDetails(model);
     	if(!StringUtils.isEmpty(rmQstId)){
         	removeQuestion(routerGroupForm, Long.parseLong(rmQstId));
-        	updateQuestionList(model, routerGroupForm.getQuestions());
+        	updateLinkedList(model, routerGroupForm);
         	return "createOrUpdateGroupForm";
         }
         if(!StringUtils.isEmpty(addQstId)){
         	addQuestion(routerGroupForm, Long.parseLong(addQstId));
-        	updateQuestionList(model, routerGroupForm.getQuestions());
+        	updateLinkedList(model, routerGroupForm);
+        	return "createOrUpdateGroupForm";
+        }
+        if(!StringUtils.isEmpty(rmBtnId)){
+        	removeButton(routerGroupForm, Long.parseLong(rmBtnId));
+        	updateLinkedList(model, routerGroupForm);
+        	return "createOrUpdateGroupForm";
+        }
+        if(!StringUtils.isEmpty(addbtnId)){
+        	addButton(routerGroupForm, Long.parseLong(addbtnId));
+        	updateLinkedList(model, routerGroupForm);
         	return "createOrUpdateGroupForm";
         }
     	groupValidator.validate(routerGroupForm, result);
         if (result.hasErrors()) {
-        	updateQuestionList(model, routerGroupForm.getQuestions());
+        	updateLinkedList(model, routerGroupForm);
         	return "createOrUpdateGroupForm";
         } else {
         	groupService.addOrUpdateRouterGroup(routerGroupForm);
@@ -150,20 +165,24 @@ public class RouterGroupsController {
 		model.addAttribute("campaigns", campaignService.getAll());
 	}
     
+    private void updateLinkedList(Model model, RouterGroupForm routerGroupForm){
+    	updateButtonList(model, routerGroupForm.getButtons());
+    	updateQuestionList(model, routerGroupForm.getQuestions());
+    }
+    
+    private void updateButtonList(Model model, Collection<ButtonType> buttons){
+    	List<ButtonType> bts = new ArrayList<ButtonType>(EnumSet.allOf(ButtonType.class));
+		bts.removeAll(buttons);
+		model.addAttribute("buttonList", bts);
+    }
+    
     private void updateQuestionList(Model model, Collection<Question> questions){
     	Collection<Question> qts = questionService.getAll();
-		if(!CollectionUtils.isEmpty(qts) && !CollectionUtils.isEmpty(questions)){
-			Iterator<Question> it = qts.iterator();
-			while(it.hasNext()){
-				Question q = it.next();
-				if(questions.contains(q)){
-					it.remove();
-				}
-			}
-		}
+    	qts.removeAll(questions);
 		model.addAttribute("questionList", qts);
     }
     
+    // Question operations.
 	private void addQuestion(RouterGroupForm routerGroupForm, long questionId) {
 		boolean addQuestion = true;
 		for( Question q : routerGroupForm.getQuestions()){
@@ -183,6 +202,31 @@ public class RouterGroupsController {
 		while(it.hasNext()){
 			Question q = it.next();
 			if(q.getId().intValue() == questionId){
+				it.remove();
+			}
+		}
+	}
+	
+	// Button operations.
+	private void addButton(RouterGroupForm routerGroupForm, long buttonId) {
+		boolean addButton = true;
+		for( ButtonType b : routerGroupForm.getButtons()){
+			if(b.getId().intValue() == buttonId){
+				addButton = false;
+				break;
+			}
+		}
+		if(addButton){
+			ButtonType btn = ButtonType.lookupById(buttonId);
+			routerGroupForm.addButton(btn);
+		}
+	}
+
+	private void removeButton(RouterGroupForm routerGroupForm, long buttonId) {
+		Iterator<ButtonType> it = routerGroupForm.getButtons().iterator();
+		while(it.hasNext()){
+			ButtonType b = it.next();
+			if(b.getId().intValue() == buttonId){
 				it.remove();
 			}
 		}
