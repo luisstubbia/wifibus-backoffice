@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -53,6 +54,12 @@ public class RouterGroupFormValidator implements Validator {
 		}
 		if(form.getCampaign() == null){
 			errors.rejectValue("campaign", "routerGroupForm.required.campaign", "Debe seleccionar una Campaña");
+		}
+		if(CollectionUtils.isEmpty(form.getButtons())){
+			errors.rejectValue("buttons", "routerGroupForm.required.buttons", "Debe seleccionar al menos un boton");
+		}
+		if(CollectionUtils.isEmpty(form.getQuestions())){
+			errors.rejectValue("questions", "routerGroupForm.required.questions", "Debe seleccionar al menos una pregunta");
 		}
 	}
 
