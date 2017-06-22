@@ -54,7 +54,6 @@ public abstract class Advertisement extends BaseEntity {
 	
 	@ManyToOne
     @JoinColumn(name = "SEGMENT_ID")
-	@NotNull
 	private Segment segment;
 	
 }
