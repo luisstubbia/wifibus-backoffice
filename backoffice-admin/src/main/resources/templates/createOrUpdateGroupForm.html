@@ -61,6 +61,24 @@
 						        </div>
 						        <div class="row">
 						        	<div class="col-lg-5">
+						        		<label>Botones Disponibles:</label>
+						        		<div class="text-center form-group">
+											<button name="addButton" th:value="${bt.id}" class="btn btn-social-icon btn-xs" th:each="bt : ${buttonList}" th:classappend="|btn-${bt.type}|">
+												<i class="fa" th:classappend="|fa-${bt.type}|"></i>
+											</button>
+										</div>
+                            		</div>
+                            		<div class="col-lg-5">
+                            			<label>Botones Seleccionados:</label>
+                            			<div class="text-center form-group">
+                            				<button name="removeButton" th:value="${bt.id}" class="btn btn-social-icon btn-xs" th:each="bt, btRow : *{buttons}" th:classappend="|btn-${bt.type}|">
+												<i class="fa" th:classappend="|fa-${bt.type}|"><input type="hidden" th:field="*{buttons[__${btRow.index}__].id}"/></i>
+											</button>
+                            			</div>
+                            		</div>
+		                        </div>
+						        <div class="row">
+						        	<div class="col-lg-5">
 						        		<label>Preguntas Disponibles:</label>
 						        		<div class="table-responsive overflow">
                                 			<table class="table-responsive overflow table table-striped table-bordered table-hover">

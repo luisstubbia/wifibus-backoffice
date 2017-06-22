@@ -32,6 +32,8 @@ public class RouterGroupForm {
 	private Campaign campaign;
 	
 	private Set<Question> questions = new LinkedHashSet<Question>();
+	
+	private Set<ButtonType> buttons = new LinkedHashSet<ButtonType>();
 
 	public Long getId() {
 		return id;
@@ -91,5 +93,17 @@ public class RouterGroupForm {
     
 	public void addQuestion(Question question){
 		questions.add(question);
+	}
+
+	public Set<ButtonType> getButtons() {
+		return buttons;
+	}
+
+	public void setButtons(Set<ButtonType> buttons) {
+		this.buttons = buttons;
+	}
+	
+	public void addButton(ButtonType bt){
+		buttons.add(bt);
 	}
 }
