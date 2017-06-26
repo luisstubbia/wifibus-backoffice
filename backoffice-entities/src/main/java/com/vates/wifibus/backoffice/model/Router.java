@@ -14,6 +14,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 /**
@@ -39,9 +41,11 @@ public class Router extends BaseEntity {
 	@ManyToOne
     @JoinColumn(name = "GROUP_ID")
 	@NotNull
+	@JsonIgnore
 	private RouterGroup group;
 	
 	@OneToMany(mappedBy = "router", cascade = CascadeType.ALL)
+	@JsonIgnore
     private Set<Hotspot> hotspots;
 	
 	@Column(name = "LOCATION", nullable = false, length = 500)

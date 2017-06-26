@@ -11,21 +11,22 @@ import java.util.List;
  */
 public enum OperatorType {
 
-    EQUAL("=", QuestionType.CALENDAR, QuestionType.NUMBER, QuestionType.TEXT, QuestionType.DROPDOWN),
-    GREATER_THAN(">", QuestionType.CALENDAR, QuestionType.NUMBER),
-    SMALLER_THAN("<", QuestionType.CALENDAR, QuestionType.NUMBER),
-    EQUAL_GREATER_THAN(">=", QuestionType.CALENDAR, QuestionType.NUMBER),
-	EQUAL_SMALLER_THAN("<=", QuestionType.CALENDAR, QuestionType.NUMBER),
-	AGE_EQUAL("Años =", QuestionType.CALENDAR, QuestionType.NUMBER),
-	AGE_GREATER_THAN("Años >", QuestionType.CALENDAR, QuestionType.NUMBER),
-	AGE_SMALLER_THAN("Años <", QuestionType.CALENDAR, QuestionType.NUMBER);
+    EQUAL("=", "{x} igual a: {y}", QuestionType.CALENDAR, QuestionType.NUMBER, QuestionType.TEXT, QuestionType.DROPDOWN),
+    GREATER_THAN(">", "{x} mayor a: {y}", QuestionType.CALENDAR, QuestionType.NUMBER),
+    SMALLER_THAN("<", "{x} menor a: {y}", QuestionType.CALENDAR, QuestionType.NUMBER),
+    EQUAL_GREATER_THAN(">=", "{x} mayor o igual a: {y}", QuestionType.CALENDAR, QuestionType.NUMBER),
+	EQUAL_SMALLER_THAN("<=", "{x} menor o igual a: {y}", QuestionType.CALENDAR, QuestionType.NUMBER),
+	AGE_EQUAL("Años =", "fecha(x) igual a: {Años}", QuestionType.CALENDAR, QuestionType.NUMBER),
+	AGE_GREATER_THAN("Años >", "fecha(x) mayor a: {Años}", QuestionType.CALENDAR, QuestionType.NUMBER),
+	AGE_SMALLER_THAN("Años <", "fecha(x) menor a: {Años}", QuestionType.CALENDAR, QuestionType.NUMBER);
 	
 	private String displayName;
-	
+	private String description;
 	private QuestionType[] questionTypes;
 	
-	OperatorType(String displayName, QuestionType... questionTypes){
+	OperatorType(String displayName, String description, QuestionType... questionTypes){
 		this.displayName = displayName;
+		this.setDescription(description);
 		this.questionTypes = questionTypes;
 	}
 
@@ -37,6 +38,14 @@ public enum OperatorType {
 		this.displayName = displayName;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 	public QuestionType[] getQuestionTypes() {
 		return questionTypes;
 	}
@@ -80,6 +89,5 @@ public enum OperatorType {
 		    }
 	    }
 	    return ots;
-	}
-	
+	}	
 }
