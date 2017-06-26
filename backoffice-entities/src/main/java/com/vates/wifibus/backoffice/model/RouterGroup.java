@@ -67,5 +67,6 @@ public class RouterGroup extends BaseEntity {
 	        joinColumns = @JoinColumn(name = "GROUP_ID")
 	)
 	@Column(name = "BUTTON")
+	@JsonIgnore
 	private Set<ButtonType> buttons;
 }

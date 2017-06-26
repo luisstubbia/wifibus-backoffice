@@ -1,6 +1,6 @@
 package com.vates.wifibus.backoffice.api.resource;
 
-import java.util.Set;
+import java.util.Map;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,7 +26,7 @@ public class Configurator extends BaseResource<RouterGroup> {
 	private Brand branding;
 	private ServiceTerm termsAndConditions;
 	private Campaign campaign;
-	private Set<ButtonType> buttons;
+	private Map<String, ButtonType> buttons;
 
 	public Configurator() {
 
@@ -36,7 +36,6 @@ public class Configurator extends BaseResource<RouterGroup> {
 		this.branding = group.getBrand();
 		this.termsAndConditions = group.getTermAndCondition();
 		this.campaign = group.getCampaign();
-		this.buttons = group.getButtons();
 	}
 
 	public Brand getBranding() {
@@ -51,7 +50,7 @@ public class Configurator extends BaseResource<RouterGroup> {
 		return campaign;
 	}
 
-	public Set<ButtonType> getButtons() {
+	public Map<String, ButtonType> getButtons() {
 		return buttons;
 	}
 
@@ -68,5 +67,9 @@ public class Configurator extends BaseResource<RouterGroup> {
 				.toUriString();
 		addLink(PROFILE_LINK, new EntityLink("POST", profileUri));
 
+	}
+
+	public void fillButtons(Map<String, ButtonType> buttons) {
+		this.buttons = buttons;
 	}
 }
