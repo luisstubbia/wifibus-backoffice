@@ -16,6 +16,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,7 @@ import lombok.Setter;
 @MappedSuperclass
 @Getter
 @Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public abstract class AbstractEntity {
 
 	@Id
@@ -63,6 +65,7 @@ public abstract class AbstractEntity {
 	
 	@Column(name = "ENABLED", nullable = false)
 	@NotNull
+	@JsonIgnore
 	private boolean enabled = true;
 
 	public Long getId() {

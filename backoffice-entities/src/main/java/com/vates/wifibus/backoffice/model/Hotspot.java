@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +30,7 @@ public class Hotspot extends BaseEntity {
 	@ManyToOne
     @JoinColumn(name = "ROUTER_ID")
 	@NotNull
+	@JsonIgnore
 	private Router router;
 	
 }

@@ -14,6 +14,9 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,13 +38,16 @@ public abstract class Advertisement extends BaseEntity {
 	@ManyToOne
     @JoinColumn(name = "CAMPAIGN_ID")
 	@NotNull
+	@JsonIgnore
 	private Campaign campaign;
 	
 	@Column(name = "START_DATE", nullable = false)
 	@NotNull
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
 	private Date startDate;
 
 	@Column(name = "END_DATE")
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
 	private Date endDate;
 	
 	@Column(name = "DURATION", nullable = false)
@@ -54,6 +60,7 @@ public abstract class Advertisement extends BaseEntity {
 	
 	@ManyToOne
     @JoinColumn(name = "SEGMENT_ID")
+	@JsonIgnore
 	private Segment segment;
 	
 }

@@ -1,11 +1,14 @@
 package com.vates.wifibus.backoffice.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * Tipos de botones.
  * 
  * @author Luis Stubbia
  *
  */
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ButtonType {
 	GOOGLE(1, "google", "Google+"),
 	FACEBOOK(2, "facebook", "Facebook"),

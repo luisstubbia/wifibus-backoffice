@@ -18,6 +18,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,24 +37,29 @@ import lombok.Setter;
 public class RouterGroup extends BaseEntity {
 
 	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+	@JsonIgnore
     private Set<Router> routers;
 	
 	@ManyToOne
     @JoinColumn(name = "CAMPAIGN_ID")
+	@JsonIgnore
 	private Campaign campaign;
 	
 	@ManyToOne
     @JoinColumn(name = "BRAND_ID")
+	@JsonIgnore
 	private Brand brand;
 	
 	@ManyToOne
     @JoinColumn(name = "TERM_AND_CONDITION_ID")
+	@JsonIgnore
 	private ServiceTerm termAndCondition;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "ROUTER_GROUPS_QUESTIONS",
             joinColumns = @JoinColumn(name = "GROUP_ID"),
             inverseJoinColumns = @JoinColumn(name = "QUESTION_ID"))
+	@JsonIgnore
     private Set<Question> questions;
 	
 	@ElementCollection(targetClass = ButtonType.class)
