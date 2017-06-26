@@ -13,12 +13,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class Profile extends BaseResource<Map<String, String>> {
 
 	public static final String SESSION_LINK = "sessions";
-	
+
 	private String macAddress;
 	private String userName;
 	private String externalLogin;
 	private Map<String, String> request;
-	
+
 	public String getMacAddress() {
 		return macAddress;
 	}
@@ -50,13 +50,13 @@ public class Profile extends BaseResource<Map<String, String>> {
 	public void setRequest(Map<String, String> request) {
 		this.request = request;
 	}
-	
+
 	@Override
 	void populateLinks(Map<String, String> resource) {
 		setSelf();
-		
-		String sessionUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/" + SESSION_LINK + "/{mac_address}")
-				.buildAndExpand(macAddress).toUriString();
-		addLink(SESSION_LINK+"-close", new EntityLink("POST", sessionUri));
+
+		String sessionUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/" + SESSION_LINK + "/{mac_address}").buildAndExpand(macAddress).toUriString();
+		addLink(SESSION_LINK + "-close", new EntityLink("POST", sessionUri));
 	}
 }

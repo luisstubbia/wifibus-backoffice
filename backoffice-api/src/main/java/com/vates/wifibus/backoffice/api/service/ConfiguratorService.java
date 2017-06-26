@@ -3,8 +3,7 @@ package com.vates.wifibus.backoffice.api.service;
 import com.vates.wifibus.backoffice.api.resource.Configurator;
 
 /**
- * Servicio para manejar las configuraciones necesarias, 
- * basadas en un hotspot.
+ * Servicio para manejar las configuraciones necesarias, basadas en un hotspot.
  * 
  * @author luis.stubbia
  *

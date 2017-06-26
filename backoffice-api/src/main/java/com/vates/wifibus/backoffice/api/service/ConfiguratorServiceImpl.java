@@ -14,30 +14,29 @@ import com.vates.wifibus.backoffice.repository.RouterGroupRepository;
 import com.vates.wifibus.backoffice.repository.RouterRepository;
 
 /**
- * Servicio para manejar las configuraciones necesarias, 
- * basadas en un hotspot.
+ * Servicio para manejar las configuraciones necesarias, basadas en un hotspot.
  * 
  * @author luis.stubbia
  *
  */
 @Service
 public class ConfiguratorServiceImpl implements ConfiguratorService {
-	
+
 	@Autowired
 	private RouterRepository routerRepository;
-	
+
 	@Autowired
 	private RouterGroupRepository groupRepository;
-	
+
 	@Autowired
 	private HotspotRepository hotspotRepository;
-	
+
 	@Override
 	public Configurator getConfigurations(Long hotspotId) {
 		Configurator conf = new Configurator();
-		if(hotspotId != null){
+		if (hotspotId != null) {
 			Hotspot hotspot = hotspotRepository.findOne(hotspotId);
-			if(hotspot != null){
+			if (hotspot != null) {
 				Router router = routerRepository.findOne(hotspot.getRouter().getId());
 				RouterGroup group = groupRepository.findOne(router.getGroup().getId());
 				conf = new Configurator(group);

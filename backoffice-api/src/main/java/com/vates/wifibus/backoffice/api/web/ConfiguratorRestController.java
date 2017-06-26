@@ -27,7 +27,7 @@ public class ConfiguratorRestController {
 	@RequestMapping(method = RequestMethod.GET)
 	ResponseEntity<Configurator> getCOnfigurations(@PathVariable Long hotspotId) {
 		Configurator configs = configuratorService.getConfigurations(hotspotId);
-		if(configs.hasErrors()){
+		if (configs.hasErrors()) {
 			new ServiceException(configs.getErrors());
 		}
 		return ResponseEntity.ok(configs);
