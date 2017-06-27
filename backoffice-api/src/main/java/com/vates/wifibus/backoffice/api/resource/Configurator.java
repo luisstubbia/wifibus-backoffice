@@ -63,7 +63,7 @@ public class Configurator extends BaseResource<RouterGroup> {
 		addLink(CAMPAIGN_LINK, new EntityLink("GET", campaignUri));
 
 		String profileUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/" + PROFILE_LINK + "/campaign/{id}").buildAndExpand(resource.getCampaign().getId())
+				.path("/" + CAMPAIGN_LINK + "/{id}").buildAndExpand(resource.getCampaign().getId())
 				.toUriString();
 		addLink(PROFILE_LINK, new EntityLink("POST", profileUri));
 
