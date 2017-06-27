@@ -368,7 +368,7 @@ INSERT INTO questions (name, label, type, is_open, enabled, created_date, create
     'admin',
     0
 );
-
+ 
 INSERT INTO answers (name, label, question_id, value, enabled, created_date, created_by, lock_version) VALUES (
     'Sexo-Femenino',
     'Femenino',
@@ -744,4 +744,13 @@ INSERT INTO ROUTER_GROUPS_BUTTONS (GROUP_ID,BUTTON) VALUES (
 INSERT INTO ROUTER_GROUPS_BUTTONS (GROUP_ID,BUTTON) VALUES (
 	(SELECT id FROM router_groups WHERE name = 'aeroparque-bue'),
 	2
+);
+INSERT INTO ROUTER_GROUPS_QUESTIONS (GROUP_ID, QUESTION_ID) VALUES (
+	(SELECT id FROM router_groups WHERE name = 'aeroparque-bue'),
+	(SELECT id FROM questions WHERE name = 'SEX')
+);
+
+INSERT INTO ROUTER_GROUPS_QUESTIONS (GROUP_ID, QUESTION_ID) VALUES (
+	(SELECT id FROM router_groups WHERE name = 'aeroparque-bue'),
+	(SELECT id FROM questions WHERE name = 'AGE')
 );

@@ -1,13 +1,15 @@
 package com.vates.wifibus.backoffice.api.resource;
 
-import java.util.Map;
+import java.util.Set;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.vates.wifibus.backoffice.api.config.ApplicationConfiguration;
 import com.vates.wifibus.backoffice.model.Brand;
 import com.vates.wifibus.backoffice.model.ButtonType;
 import com.vates.wifibus.backoffice.model.Campaign;
+import com.vates.wifibus.backoffice.model.Question;
 import com.vates.wifibus.backoffice.model.RouterGroup;
 import com.vates.wifibus.backoffice.model.ServiceTerm;
 
@@ -23,10 +25,12 @@ public class Configurator extends BaseResource<RouterGroup> {
 	public static final String CAMPAIGN_LINK = "campaigns";
 	public static final String PROFILE_LINK = "profiles";
 
+	private Config config;
 	private Brand branding;
 	private ServiceTerm termsAndConditions;
 	private Campaign campaign;
-	private Map<String, ButtonType> buttons;
+	private Set<ButtonType> buttons;
+	private Set<Question> questions;
 
 	public Configurator() {
 
@@ -36,6 +40,8 @@ public class Configurator extends BaseResource<RouterGroup> {
 		this.branding = group.getBrand();
 		this.termsAndConditions = group.getTermAndCondition();
 		this.campaign = group.getCampaign();
+		this.questions = group.getQuestions();
+		this.buttons = group.getButtons();
 	}
 
 	public Brand getBranding() {
@@ -50,10 +56,23 @@ public class Configurator extends BaseResource<RouterGroup> {
 		return campaign;
 	}
 
-	public Map<String, ButtonType> getButtons() {
+	public Set<Question> getQuestions() {
+		return questions;
+	}
+	
+	public Set<ButtonType> getButtons() {
 		return buttons;
 	}
 
+	public Config getConfig() {
+		return config;
+	}
+
+	public void setConfig(ApplicationConfiguration app) {
+		config = new Config();
+		config.setApiKeys(app.getApiKeys());
+	}
+	
 	@Override
 	public void populateLinks(RouterGroup resource) {
 		setSelf();
@@ -67,9 +86,5 @@ public class Configurator extends BaseResource<RouterGroup> {
 				.toUriString();
 		addLink(PROFILE_LINK, new EntityLink("POST", profileUri));
 
-	}
-
-	public void fillButtons(Map<String, ButtonType> buttons) {
-		this.buttons = buttons;
 	}
 }

@@ -1,5 +1,7 @@
 package com.vates.wifibus.backoffice.api.config;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -8,24 +10,11 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:app.properties")
 public class ApplicationConfiguration {
 
-	@Value("${config.api_keys.facebook}")
-	private String facebookAPI;
+	@Value("#{${config.api_keys}}")
+	private Map<String,String> apiKeys;
 
-	@Value("${config.api_keys.google}")
-	private String googleAPI;
-	
-	@Value("${config.api_keys.mail}")
-	private String mailAPI;
-	
-	public String getFacebookAPI() {
-		return facebookAPI;
+	public Map<String, String> getApiKeys() {
+		return apiKeys;
 	}
 
-	public String getGoogleAPI() {
-		return googleAPI;
-	}
-
-	public String getMailAPI() {
-		return mailAPI;
-	}
 }
