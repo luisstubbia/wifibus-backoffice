@@ -38,5 +38,8 @@ public interface SegmentRepository extends JpaRepository<Segment, Long> {
 	Long countByName(String name);
 	
 	List<Segment> findByEnabledTrueOrderByNameDesc();
+	
+	@Query("select s from Segment s where s.id in (select a.segment.id from Advertisement a where a.campaign.id = ?1)") 
+	List<Segment> getSegmentByCampaing(Long campaignId);
 }
 
