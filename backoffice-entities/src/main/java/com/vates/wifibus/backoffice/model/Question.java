@@ -15,6 +15,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,6 +35,7 @@ public class Question extends LabeledEntity {
 
 	@Column(name = "IS_OPEN", nullable = false)
 	@NotNull
+	@JsonIgnore
 	private boolean open = true;
 	
 	@Column(name = "TYPE", nullable = false)

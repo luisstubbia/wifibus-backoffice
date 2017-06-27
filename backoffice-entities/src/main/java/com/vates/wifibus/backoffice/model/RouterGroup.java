@@ -59,7 +59,6 @@ public class RouterGroup extends BaseEntity {
     @JoinTable(name = "ROUTER_GROUPS_QUESTIONS",
             joinColumns = @JoinColumn(name = "GROUP_ID"),
             inverseJoinColumns = @JoinColumn(name = "QUESTION_ID"))
-	@JsonIgnore
     private Set<Question> questions;
 	
 	@ElementCollection(targetClass = ButtonType.class)
@@ -67,6 +66,5 @@ public class RouterGroup extends BaseEntity {
 	        joinColumns = @JoinColumn(name = "GROUP_ID")
 	)
 	@Column(name = "BUTTON")
-	@JsonIgnore
 	private Set<ButtonType> buttons;
 }
