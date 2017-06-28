@@ -29,7 +29,7 @@ import lombok.Setter;
 @MappedSuperclass
 @Getter
 @Setter
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "version"})
 public abstract class AbstractEntity {
 
 	@Id

@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +26,7 @@ import lombok.Setter;
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
+@JsonIgnoreProperties({"name", "version"})
 public class ServiceTerm extends BaseEntity {
 
 	@Column(name = "TEXT", nullable = false)
