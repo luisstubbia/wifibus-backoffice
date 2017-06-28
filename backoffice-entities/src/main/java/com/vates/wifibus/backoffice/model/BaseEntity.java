@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,6 +24,7 @@ public abstract class BaseEntity extends AbstractEntity {
 	private String name;
 	
 	@Column(name = "DESCRIPTION", nullable = true, length = 500)
+	@JsonIgnore
 	private String descripcion;
 	
 }

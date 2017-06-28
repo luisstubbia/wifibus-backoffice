@@ -1,6 +1,7 @@
 package com.vates.wifibus.backoffice.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Tipos de botones.
@@ -24,6 +25,7 @@ public enum ButtonType {
 		this.displayName = displayName;
 	}
 	
+	@JsonIgnore
 	public String getDisplayName() {
 		return displayName;
 	}
