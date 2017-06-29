@@ -9,6 +9,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,6 +29,7 @@ public class ProfileValue extends AbstractEntity {
 
 	@ManyToOne
     @JoinColumn(name = "PROFILE_ID")
+	@JsonIgnore
 	private Profile profile;
 	
 	@Column(name = "KEY", nullable = false)

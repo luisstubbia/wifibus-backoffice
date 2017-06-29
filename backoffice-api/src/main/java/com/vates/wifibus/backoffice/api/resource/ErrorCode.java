@@ -16,8 +16,13 @@ public enum ErrorCode {
 	SESSION_NOT_FOUND("1001", "No se encontró una sesion activa para esa direccion MAC.", HttpStatus.NOT_FOUND), 
 	PROFILE_NOT_FOUND("1001","No se encontró ningun perfil asociado para esos datos.", HttpStatus.NOT_FOUND),
 
-	BAD_INPUT("2001", "Ingreso de datos incorrectos.", HttpStatus.BAD_REQUEST), 
-	SERVICE_ERROR("2002", "Error interno del servicio.", HttpStatus.INTERNAL_SERVER_ERROR);
+	PROFILE_MISSING_USERNAME("2001","El nombre de usuario es requerido.", HttpStatus.BAD_REQUEST),
+	PROFILE_MISSING_MAC_ADRESS("2002","La direccion MAC del sipositivo es requerida.", HttpStatus.BAD_REQUEST),
+	PROFILE_MISSING_VALUES("2003","Debe indicar al menos un valor de entrada.", HttpStatus.BAD_REQUEST),
+	PROFILE_MISSING_LOGIN_SOURCE("2004","Debe indicar el origen del inicio de sesion.", HttpStatus.BAD_REQUEST),
+	
+	BAD_INPUT("3001", "Ingreso de datos incorrectos.", HttpStatus.BAD_REQUEST), 
+	SERVICE_ERROR("3002", "Error interno del servicio.", HttpStatus.INTERNAL_SERVER_ERROR);
 
 	private String code;
 	private String description;

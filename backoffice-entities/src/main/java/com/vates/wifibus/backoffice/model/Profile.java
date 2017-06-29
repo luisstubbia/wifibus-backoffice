@@ -6,6 +6,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -33,6 +35,15 @@ public class Profile extends AbstractEntity {
 	@NotNull
 	private String username;
 
+	@Column(name = "MAC_ADDRESS", nullable = false, length = 17)
+	@NotNull
+	private String macAddress;
+	
+	@Column(name = "LOGIN_SOURCE", nullable = false)
+	@Enumerated(EnumType.STRING)
+	@NotNull
+	private ButtonType loginSource;
+	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "profile", cascade=CascadeType.ALL, orphanRemoval = true)
     private Set<ProfileValue> values;
 }

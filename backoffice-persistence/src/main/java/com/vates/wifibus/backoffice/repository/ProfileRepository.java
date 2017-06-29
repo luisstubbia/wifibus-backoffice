@@ -19,6 +19,8 @@ import com.vates.wifibus.backoffice.model.Profile;
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
 	
 	Optional<Profile> findOneByUsername(String name);
+	
+	Optional<Profile> findOneByMacAddress(String macAddress);
 		
 	@Modifying
 	@Transactional

@@ -3,7 +3,7 @@ package com.vates.wifibus.backoffice.api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.vates.wifibus.backoffice.api.resource.Configurator;
+import com.vates.wifibus.backoffice.api.resource.ConfiguratorResponse;
 import com.vates.wifibus.backoffice.api.config.ApplicationConfiguration;
 import com.vates.wifibus.backoffice.api.resource.BussinesError;
 import com.vates.wifibus.backoffice.api.resource.ErrorCode;
@@ -36,14 +36,14 @@ public class ConfiguratorServiceImpl implements ConfiguratorService {
 	private HotspotRepository hotspotRepository;
 
 	@Override
-	public Configurator getConfigurations(Long hotspotId) {
-		Configurator conf = new Configurator();
+	public ConfiguratorResponse getConfigurations(Long hotspotId) {
+		ConfiguratorResponse conf = new ConfiguratorResponse();
 		if (hotspotId != null) {
 			Hotspot hotspot = hotspotRepository.findOne(hotspotId);
 			if (hotspot != null) {
 				Router router = routerRepository.findOne(hotspot.getRouter().getId());
 				RouterGroup group = groupRepository.findOne(router.getGroup().getId());
-				conf = new Configurator(group);
+				conf = new ConfiguratorResponse(group);
 				conf.setConfig(app);
 				conf.populateLinks(group);
 			} else {
