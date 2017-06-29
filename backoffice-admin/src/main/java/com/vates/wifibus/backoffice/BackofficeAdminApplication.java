@@ -37,7 +37,7 @@ public class BackofficeAdminApplication extends SpringBootServletInitializer {
 		return builder.sources(BackofficeAdminApplication.class);
 	}
 
-	@Bean
+	//@Bean
 	public CommandLineRunner loadData(UserRepository repository) {
 		return (args) -> {
 
@@ -67,9 +67,9 @@ public class BackofficeAdminApplication extends SpringBootServletInitializer {
 
 		ApplicationContext app = SpringApplication.run(BackofficeAdminApplication.class, args);
 		
-		PasswordEncoder passwordEncoder = app.getBean(PasswordEncoder.class);
-		System.out.println("Admin password = [" + passwordEncoder.encode("admin") + "]");
-		System.out.println("User password = [" + passwordEncoder.encode("demo") + "]");
+		//PasswordEncoder passwordEncoder = app.getBean(PasswordEncoder.class);
+		//System.out.println("Admin password = [" + passwordEncoder.encode("admin") + "]");
+		//System.out.println("User password = [" + passwordEncoder.encode("demo") + "]");
 		
 	}
 
