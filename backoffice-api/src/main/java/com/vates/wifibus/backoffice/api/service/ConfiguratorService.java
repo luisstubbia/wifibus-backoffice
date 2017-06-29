@@ -1,6 +1,6 @@
 package com.vates.wifibus.backoffice.api.service;
 
-import com.vates.wifibus.backoffice.api.resource.Configurator;
+import com.vates.wifibus.backoffice.api.resource.ConfiguratorResponse;
 
 /**
  * Servicio para manejar las configuraciones necesarias, basadas en un hotspot.
@@ -16,6 +16,6 @@ public interface ConfiguratorService {
 	 * @param hotspotId
 	 * @return configurator resource
 	 */
-	Configurator getConfigurations(Long hotspotId);
+	ConfiguratorResponse getConfigurations(Long hotspotId);
 
 }

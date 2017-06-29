@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * Recurso base.
@@ -15,10 +18,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  * @param <T>
  *
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class BaseResource<T> {
 
 	public static final String SELF_LINK = "self";
-
+	public static final String CAMPAIGN_LINK = "campaigns";
+	public static final String PROFILE_LINK = "profiles";
+	public static final String SESSION_LINK = "sessions";
+	
 	private Map<String, EntityLink> links;
 
 	private List<BussinesError> errors;
@@ -106,9 +113,12 @@ public abstract class BaseResource<T> {
 	/**
 	 * Get self link
 	 */
-	public void setSelf() {
+	public void setSelf(String type) {
+		if(StringUtils.isEmpty(type)){
+			type = "GET";
+		}
 		String selfUri = ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString();
-		addLink(SELF_LINK, new EntityLink("GET", selfUri));
+		addLink(SELF_LINK, new EntityLink(type, selfUri));
 	}
 
 	/**

@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vates.wifibus.backoffice.api.resource.Configurator;
+import com.vates.wifibus.backoffice.api.resource.ConfiguratorResponse;
 import com.vates.wifibus.backoffice.api.service.ConfiguratorService;
 import com.vates.wifibus.backoffice.api.util.ServiceException;
 
 /**
- * API REST: Configurations
+ * API REST: Configuraciones
  * 
  * @author luis.stubbia
  *
@@ -25,8 +25,8 @@ public class ConfiguratorRestController {
 	private ConfiguratorService configuratorService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	ResponseEntity<Configurator> getConfigurations(@PathVariable Long hotspotId) {
-		Configurator configs = configuratorService.getConfigurations(hotspotId);
+	ResponseEntity<ConfiguratorResponse> getConfigurations(@PathVariable Long hotspotId) {
+		ConfiguratorResponse configs = configuratorService.getConfigurations(hotspotId);
 		if (configs.hasErrors()) {
 			new ServiceException(configs.getErrors());
 		}

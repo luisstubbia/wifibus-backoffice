@@ -8,36 +8,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vates.wifibus.backoffice.api.resource.Campaing;
-import com.vates.wifibus.backoffice.api.resource.Filter;
+import com.vates.wifibus.backoffice.api.resource.CampaignResponse;
+import com.vates.wifibus.backoffice.api.resource.FilterRequest;
 import com.vates.wifibus.backoffice.api.service.CampaignService;
 import com.vates.wifibus.backoffice.api.util.ServiceException;
 
 /**
- * API REST: Profiles
+ * API REST: Campañas
  * 
  * @author luis.stubbia
  *
  */
 @RestController
-@RequestMapping("/campaigns/{campaignId}")
 public class CampaignRestController {
 
 	@Autowired
 	private CampaignService campaignService;
 
-	@RequestMapping(method = RequestMethod.POST)
-	ResponseEntity<Campaing> getAdvertisements(@PathVariable Long campaignId, @RequestBody Filter filter) {
-		Campaing campaign = campaignService.getAdvertisements(campaignId, filter);
+	@RequestMapping(value = "/campaigns/{campaignId}/{profileId}" , method = RequestMethod.POST)
+	ResponseEntity<CampaignResponse> getAdvertisements(@PathVariable Long campaignId, @PathVariable Long profileId, 
+			@RequestBody FilterRequest filter) {
+		CampaignResponse campaign = campaignService.filterAdvertisements(campaignId, profileId, filter);
 		if (campaign.hasErrors()) {
 			new ServiceException(campaign.getErrors());
 		}
 		return ResponseEntity.ok(campaign);
 	}
 	
-	@RequestMapping(method = RequestMethod.GET)
-	ResponseEntity<Campaing> getCampaing(@PathVariable Long campaignId) {
-		Campaing campaign = campaignService.getCampaign(campaignId);
+	@RequestMapping(value = "/campaigns/{campaignId}" , method = RequestMethod.GET)
+	ResponseEntity<CampaignResponse> getCampaing(@PathVariable Long campaignId) {
+		CampaignResponse campaign = campaignService.getCampaign(campaignId);
 		if (campaign.hasErrors()) {
 			new ServiceException(campaign.getErrors());
 		}
