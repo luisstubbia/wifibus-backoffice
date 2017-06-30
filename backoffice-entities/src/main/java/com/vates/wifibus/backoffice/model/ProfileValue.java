@@ -32,7 +32,7 @@ public class ProfileValue extends AbstractEntity {
 	@JsonIgnore
 	private Profile profile;
 	
-	@Column(name = "KEY", nullable = false)
+	@Column(name = "KEY_ID", nullable = false)
 	private String key;
 	
 	@Column(name = "VALUE", nullable = false)

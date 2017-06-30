@@ -13,7 +13,6 @@ public class CALENDARBuilder extends QuestionBuilder {
 
 	private static final List<OperatorType> AGE_TYPES = Arrays.asList(OperatorType.AGE_EQUAL, OperatorType.AGE_GREATER_THAN, OperatorType.AGE_SMALLER_THAN);
 	 
-	@SuppressWarnings("finally")
 	@Override
 	public boolean validAnswer(SegmentItem item, String value) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -22,36 +21,33 @@ public class CALENDARBuilder extends QuestionBuilder {
         LocalDate actualValue = null;
 		int expectedNbrValue = 0;
 		int actualNbrValue = 0;
-		try {
-			expectedValue = LocalDate.parse(item.getValue(), formatter);
-			if(AGE_TYPES.contains(item.getOperator())){
-				actualNbrValue = Integer.parseInt(value);
-				expectedNbrValue = calculateAge(expectedValue);
-			} else {
-				actualValue = LocalDate.parse(value, formatter);
-			}
-			switch (item.getOperator()) {
-				case EQUAL:
-					return validateEqual(expectedValue, actualValue);
-				case GREATER_THAN:
-					return validateGreaterThan(expectedValue, actualValue);
-				case SMALLER_THAN:
-					return validateSmallerThan(expectedValue, actualValue);
-				case EQUAL_GREATER_THAN:
-					return validateEqualGreaterThan(expectedValue, actualValue);
-				case EQUAL_SMALLER_THAN:
-					return validateEqualSmallerThan(expectedValue, actualValue);
-				case AGE_EQUAL:
-					return validateAgeEqual(expectedNbrValue, actualNbrValue);
-				case AGE_GREATER_THAN:
-					return validateAgeGreaterThan(expectedNbrValue, actualNbrValue);
-				case AGE_SMALLER_THAN:
-					return validateAgeSmallerThan(expectedNbrValue, actualNbrValue);
-				default:
-					return false;
-			}
-		} finally {
-			return false;
+	
+		expectedValue = LocalDate.parse(item.getValue(), formatter);
+		if(AGE_TYPES.contains(item.getOperator())){
+			actualNbrValue = Integer.parseInt(value);
+			expectedNbrValue = calculateAge(expectedValue);
+		} else {
+			actualValue = LocalDate.parse(value, formatter);
+		}
+		switch (item.getOperator()) {
+			case EQUAL:
+				return validateEqual(expectedValue, actualValue);
+			case GREATER_THAN:
+				return validateGreaterThan(expectedValue, actualValue);
+			case SMALLER_THAN:
+				return validateSmallerThan(expectedValue, actualValue);
+			case EQUAL_GREATER_THAN:
+				return validateEqualGreaterThan(expectedValue, actualValue);
+			case EQUAL_SMALLER_THAN:
+				return validateEqualSmallerThan(expectedValue, actualValue);
+			case AGE_EQUAL:
+				return validateAgeEqual(expectedNbrValue, actualNbrValue);
+			case AGE_GREATER_THAN:
+				return validateAgeGreaterThan(expectedNbrValue, actualNbrValue);
+			case AGE_SMALLER_THAN:
+				return validateAgeSmallerThan(expectedNbrValue, actualNbrValue);
+			default:
+				return false;
 		}
 	}
 
