@@ -1,6 +1,9 @@
 package com.vates.wifibus.backoffice.api.util;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.util.CollectionUtils;
 
 import com.vates.wifibus.backoffice.api.resource.BussinesError;
 
@@ -17,6 +20,10 @@ public class ServiceException extends Exception {
 
 	private List<BussinesError> errors;
 
+	public ServiceException(BussinesError error) {
+		this.addError(error);
+	}
+	
 	public ServiceException(List<BussinesError> list) {
 		this.errors = list;
 	}
@@ -27,5 +34,12 @@ public class ServiceException extends Exception {
 
 	public void setErrors(List<BussinesError> errors) {
 		this.errors = errors;
+	}
+	
+	public void addError(BussinesError error){
+		if(CollectionUtils.isEmpty(errors)){
+			errors = new ArrayList<BussinesError>();
+		}
+		errors.add(error);
 	}
 }

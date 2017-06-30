@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vates.wifibus.backoffice.api.resource.CampaignResponse;
 import com.vates.wifibus.backoffice.api.resource.ProfileRequest;
-import com.vates.wifibus.backoffice.api.resource.ProfileResponse;
+import com.vates.wifibus.backoffice.api.service.CampaignService;
 import com.vates.wifibus.backoffice.api.service.ProfileService;
 import com.vates.wifibus.backoffice.api.util.ServiceException;
+import com.vates.wifibus.backoffice.model.Profile;
 
 /**
  * API REST: Perfil de Usuario
@@ -25,21 +27,17 @@ public class ProfileRestController {
 	@Autowired
 	private ProfileService profileService;
 
-	@RequestMapping(value = "/profiles/{profileId}", method = RequestMethod.GET)
-	ResponseEntity<ProfileResponse> getProfile(@PathVariable Long profileId) {
-		ProfileResponse profile = profileService.getProfile(profileId);
-		if (profile.hasErrors()) {
-			new ServiceException(profile.getErrors());
+	@Autowired
+	private CampaignService campaignService;
+		
+	@RequestMapping(value = "/profiles/{campaignId}", method = RequestMethod.POST)
+	ResponseEntity<CampaignResponse> getProfile(@PathVariable Long campaignId, 
+			@RequestBody ProfileRequest profileReq) throws Exception {
+		Profile profile = profileService.addOrUpdateProfile(profileReq.toModel());
+		CampaignResponse campaign = campaignService.filterAdvertisements(campaignId, profile);
+		if (campaign.hasErrors()) {
+			new ServiceException(campaign.getErrors());
 		}
-		return ResponseEntity.ok(profile);
-	}
-	
-	@RequestMapping(value = "/profiles", method = RequestMethod.POST)
-	ResponseEntity<ProfileResponse> getProfile(@RequestBody ProfileRequest profileReq) {
-		ProfileResponse profile = profileService.addOrUpdateProfile(profileReq.toModel());
-		if (profile.hasErrors()) {
-			new ServiceException(profile.getErrors());
-		}
-		return ResponseEntity.ok(profile);
+		return ResponseEntity.ok(campaign);
 	}
 }

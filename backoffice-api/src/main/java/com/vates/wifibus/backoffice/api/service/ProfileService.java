@@ -1,6 +1,6 @@
 package com.vates.wifibus.backoffice.api.service;
 
-import com.vates.wifibus.backoffice.api.resource.ProfileResponse;
+import com.vates.wifibus.backoffice.api.util.ServiceException;
 import com.vates.wifibus.backoffice.model.Profile;
 
 /**
@@ -16,12 +16,12 @@ public interface ProfileService {
 	 * @param profileId
 	 * @return
 	 */
-	ProfileResponse getProfile(Long profileId);
+	Profile getProfile(Long profileId) throws ServiceException;
 
 	/**
 	 * Guarda o actualiza la informacion de un profile
 	 * @param profile
 	 * @return
 	 */
-	ProfileResponse addOrUpdateProfile(Profile profile);
+	Profile addOrUpdateProfile(Profile profile) throws ServiceException;
 }

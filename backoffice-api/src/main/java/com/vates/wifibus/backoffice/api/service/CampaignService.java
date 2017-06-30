@@ -1,7 +1,7 @@
 package com.vates.wifibus.backoffice.api.service;
 
 import com.vates.wifibus.backoffice.api.resource.CampaignResponse;
-import com.vates.wifibus.backoffice.api.resource.FilterRequest;
+import com.vates.wifibus.backoffice.model.Profile;
 
 /**
  * Servicio para obtener los anuncios, de acuerdo a la campaña seleccionada y los filtros aplicados.
@@ -14,11 +14,11 @@ public interface CampaignService {
 	/**
 	 * Busca los anuncios aplicables a los filtros enviados.
 	 * @param campaignId
-	 * @param profileId
-	 * @param filters
+	 * @param profile
 	 * @return Campaign resource
+	 * @throws Exception 
 	 */
-	CampaignResponse filterAdvertisements(Long campaignId, Long profileId, FilterRequest filter);
+	CampaignResponse filterAdvertisements(Long campaignId, Profile profile) throws Exception;
 
 	/**
 	 * Devuelve la informacion de una campaña, sin filtros.

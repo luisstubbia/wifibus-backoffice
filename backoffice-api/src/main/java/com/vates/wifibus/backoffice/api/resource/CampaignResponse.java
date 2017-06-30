@@ -9,11 +9,13 @@ import com.vates.wifibus.backoffice.model.Campaign;
 
 public class CampaignResponse extends BaseResource<Campaign>{
 
+	private Long profileId;
 	private String name;
 	private String landingUrl;
 	private Set<Advertisement> advertisements;
 	
-	public CampaignResponse(Campaign campaign){
+	public CampaignResponse(Campaign campaign, Long profileId){
+		this.profileId = profileId;
 		this.name = campaign.getName();
 		this.landingUrl = campaign.getLandingUrl();
 		this.advertisements = campaign.getAdvertisements();
@@ -23,6 +25,10 @@ public class CampaignResponse extends BaseResource<Campaign>{
 
 	}
 
+	public Long getProfileId() {
+		return profileId;
+	}
+	
 	public String getName() {
 		return name;
 	}

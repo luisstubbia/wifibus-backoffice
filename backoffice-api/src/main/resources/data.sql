@@ -548,7 +548,7 @@ INSERT INTO routers (name, description, mac_address, ip_v4_address, group_id, lo
     0
 );
 
-INSERT INTO brands (lock_version,created_by,created_date,enabled,name,BACKGROUND_NAME_URL,COBRAND,LOGO_IMAGE_URL) VALUES (
+INSERT INTO brands (lock_version,created_by,created_date,enabled,name,BACKGROUND_IMAGE_URL,COBRAND,LOGO_IMAGE_URL) VALUES (
 	0,
 	'admin',
 	now(),
@@ -559,7 +559,7 @@ INSERT INTO brands (lock_version,created_by,created_date,enabled,name,BACKGROUND
 	'//docs.google.com/uc?id=0B-ChTGqpPpqgME5GQlVfbXpFRjA'
 );
 
-INSERT INTO brands (lock_version,created_by,created_date,enabled,name,BACKGROUND_NAME_URL,COBRAND,LOGO_IMAGE_URL) VALUES (
+INSERT INTO brands (lock_version,created_by,created_date,enabled,name,BACKGROUND_IMAGE_URL,COBRAND,LOGO_IMAGE_URL) VALUES (
 	0,
 	'admin',
 	now(),
