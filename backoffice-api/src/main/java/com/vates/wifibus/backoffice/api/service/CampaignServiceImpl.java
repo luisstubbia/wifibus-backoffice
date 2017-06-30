@@ -3,7 +3,6 @@ package com.vates.wifibus.backoffice.api.service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +12,7 @@ import com.vates.wifibus.backoffice.api.resource.BussinesError;
 import com.vates.wifibus.backoffice.api.resource.CampaignResponse;
 import com.vates.wifibus.backoffice.api.resource.ErrorCode;
 import com.vates.wifibus.backoffice.api.util.QuestionBuilder;
+import com.vates.wifibus.backoffice.model.Advertisement;
 import com.vates.wifibus.backoffice.model.ButtonType;
 import com.vates.wifibus.backoffice.model.Campaign;
 import com.vates.wifibus.backoffice.model.Profile;
@@ -80,10 +80,20 @@ public class CampaignServiceImpl implements CampaignService {
 		} else {
 			segmentIds = filterByQuestions(segments, profile);
 		}
-		if(CollectionUtils.isEmpty(segmentIds))
+		
+		if(CollectionUtils.isEmpty(segmentIds)){
 			return null;
-		Optional<Campaign> campaign = campaignRepository.getFilerAdvertisementByCampaign(campaignId, segmentIds);
-		return campaign.get();
+		} else {
+			Campaign campaign = campaignRepository.findOne(campaignId);
+			Iterator<Advertisement> advIt = campaign.getAdvertisements().iterator();
+			while(advIt.hasNext()){
+				Advertisement adv = advIt.next();
+				if(!segmentIds.contains(adv.getSegment().getId())){
+					advIt.remove();
+				}
+			}
+			return campaign;
+		}
 	}
 
 	/**

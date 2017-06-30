@@ -632,8 +632,8 @@ INSERT INTO segment_items (lock_version,created_by,created_date,enabled,OPERATOR
 	'admin',
 	now(),
 	TRUE,
-	'GREATER_THAN',
-	'20',
+	'AGE_GREATER_THAN',
+	'12-11-1984',
 	2,
 	2
 );
@@ -688,6 +688,40 @@ INSERT INTO ADVERTISEMENTS (lock_version,created_by,created_date,enabled,descrip
 	'Municipalidad de Córdoba',
 	1,
 	1
+);
+
+INSERT INTO ADVERTISEMENTS (lock_version,created_by,created_date,enabled,description,NAME,TYPE,DURATION,PRIORITY,START_DATE,SOURCE_URL,TEXT,CAMPAIGN_ID,SEGMENT_ID) VALUES (
+	0,
+	'admin',
+	now(),
+	TRUE,
+	'Banner publicitario de la Municipalidad de Córdoba 2',
+	'banner-municipalidad-cordoba2',
+	'BANNER',
+	10,
+	2,
+	now(),
+	'//docs.google.com/uc?id=0B-ChTGqpPpqgME5GQlVfbXpFRjA',
+	'Municipalidad de Córdoba',
+	1,
+	2
+);
+
+INSERT INTO ADVERTISEMENTS (lock_version,created_by,created_date,enabled,description,NAME,TYPE,DURATION,PRIORITY,START_DATE,SOURCE_URL,TEXT,CAMPAIGN_ID,SEGMENT_ID) VALUES (
+	0,
+	'admin',
+	now(),
+	TRUE,
+	'Banner publicitario de la Municipalidad de Córdoba 3',
+	'banner-municipalidad-cordoba3',
+	'BANNER',
+	10,
+	2,
+	now(),
+	'//docs.google.com/uc?id=0B-ChTGqpPpqgME5GQlVfbXpFRjA',
+	'Municipalidad de Córdoba',
+	2,
+	2
 );
 
 INSERT INTO router_groups (name, description, enabled, created_date, created_by, lock_version,BRAND_ID,CAMPAIGN_ID,TERM_AND_CONDITION_ID) VALUES (
@@ -753,4 +787,9 @@ INSERT INTO ROUTER_GROUPS_QUESTIONS (GROUP_ID, QUESTION_ID) VALUES (
 INSERT INTO ROUTER_GROUPS_QUESTIONS (GROUP_ID, QUESTION_ID) VALUES (
 	(SELECT id FROM router_groups WHERE name = 'aeroparque-bue'),
 	(SELECT id FROM questions WHERE name = 'AGE')
+);
+
+INSERT INTO ROUTER_GROUPS_QUESTIONS (GROUP_ID, QUESTION_ID) VALUES (
+	(SELECT id FROM router_groups WHERE name = 'aeroparque-bue'),
+	(SELECT id FROM questions WHERE name = 'BIRTH_DATE')
 );
