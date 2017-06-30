@@ -16,9 +16,9 @@ public enum OperatorType {
     SMALLER_THAN("<", "{x} menor a: {y}", QuestionType.CALENDAR, QuestionType.NUMBER),
     EQUAL_GREATER_THAN(">=", "{x} mayor o igual a: {y}", QuestionType.CALENDAR, QuestionType.NUMBER),
 	EQUAL_SMALLER_THAN("<=", "{x} menor o igual a: {y}", QuestionType.CALENDAR, QuestionType.NUMBER),
-	AGE_EQUAL("Años =", "fecha(x) igual a: {Años}", QuestionType.CALENDAR, QuestionType.NUMBER),
-	AGE_GREATER_THAN("Años >", "fecha(x) mayor a: {Años}", QuestionType.CALENDAR, QuestionType.NUMBER),
-	AGE_SMALLER_THAN("Años <", "fecha(x) menor a: {Años}", QuestionType.CALENDAR, QuestionType.NUMBER);
+	AGE_EQUAL("Años =", "fecha(x) igual a: {Años}", QuestionType.CALENDAR),
+	AGE_GREATER_THAN("Años >", "fecha(x) mayor a: {Años}", QuestionType.CALENDAR),
+	AGE_SMALLER_THAN("Años <", "fecha(x) menor a: {Años}", QuestionType.CALENDAR);
 	
 	private String displayName;
 	private String description;

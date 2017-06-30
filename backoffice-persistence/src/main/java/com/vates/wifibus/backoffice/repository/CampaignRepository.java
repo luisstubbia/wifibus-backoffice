@@ -32,4 +32,7 @@ public interface CampaignRepository extends JpaRepository<Campaign, Long> {
 	Long countByName(String name);
 	
 	List<Campaign> findByEnabledTrueOrderByNameDesc();
+	
+	@Query("select c from Campaign c, Advertisement a where a.campaign.id = ?1 and c.id = ?1 and a.segment.id in (?2)")
+	Optional<Campaign> getFilerAdvertisementByCampaign(Long campaignId, List<Long> ids);
 }

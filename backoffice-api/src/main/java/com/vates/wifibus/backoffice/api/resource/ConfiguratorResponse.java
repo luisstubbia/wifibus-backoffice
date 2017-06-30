@@ -74,6 +74,10 @@ public class ConfiguratorResponse extends BaseResource<RouterGroup> {
 
 		String campaignUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/" + CAMPAIGN_LINK + "/{id}")
 				.buildAndExpand(resource.getCampaign().getId()).toUriString();
-		addLink(CAMPAIGN_LINK, new EntityLink("GET", campaignUri));
+		addLink("get_" + CAMPAIGN_LINK, new EntityLink("GET", campaignUri));
+		
+		String profileUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/" + PROFILE_LINK + "/{id}")
+				.buildAndExpand(resource.getCampaign().getId()).toUriString();
+		addLink("add_"+PROFILE_LINK, new EntityLink("POST", profileUri));
 	}
 }

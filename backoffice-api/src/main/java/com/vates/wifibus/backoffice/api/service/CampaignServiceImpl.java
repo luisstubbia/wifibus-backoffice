@@ -1,19 +1,25 @@
 package com.vates.wifibus.backoffice.api.service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.vates.wifibus.backoffice.api.resource.BussinesError;
 import com.vates.wifibus.backoffice.api.resource.CampaignResponse;
-import com.vates.wifibus.backoffice.api.resource.FilterRequest;
 import com.vates.wifibus.backoffice.api.resource.ErrorCode;
+import com.vates.wifibus.backoffice.api.util.QuestionBuilder;
+import com.vates.wifibus.backoffice.model.ButtonType;
 import com.vates.wifibus.backoffice.model.Campaign;
 import com.vates.wifibus.backoffice.model.Profile;
+import com.vates.wifibus.backoffice.model.ProfileValue;
 import com.vates.wifibus.backoffice.model.Segment;
+import com.vates.wifibus.backoffice.model.SegmentItem;
 import com.vates.wifibus.backoffice.repository.CampaignRepository;
-import com.vates.wifibus.backoffice.repository.ProfileRepository;
 import com.vates.wifibus.backoffice.repository.SegmentRepository;
 
 /**
@@ -29,28 +35,16 @@ public class CampaignServiceImpl implements CampaignService {
 	
 	@Autowired
 	private SegmentRepository segmentRepository;
-	
-	@Autowired
-	private ProfileRepository profileRepository;
-	
+		
 	@Override
-	public CampaignResponse filterAdvertisements(Long campaignId, Long profileId, FilterRequest filter) {
+	public CampaignResponse filterAdvertisements(Long campaignId, Profile profile) throws Exception {
 		CampaignResponse campaignReq = new CampaignResponse();
-		validateRequest(filter, campaignReq);
-		if(!campaignReq.hasErrors()){
-			Campaign campaign = campaignRepository.findOne(campaignId);
-			Profile profile = profileRepository.findOne(profileId);
-			if(campaign != null && profile != null){
-				applyFilters(campaign, profile, filter);
-				campaignReq = new CampaignResponse(campaign);
-				campaignReq.populateLinks(campaign);
-			} else {
-				if(campaign == null){
-					campaignReq.addError(new BussinesError(ErrorCode.CAMPAIGN_NOT_FOUND));
-				} else {
-					campaignReq.addError(new BussinesError(ErrorCode.PROFILE_NOT_FOUND));
-				}
-			}
+		Campaign campaign = applyFilters(campaignId, profile);
+		if(campaign != null){
+			campaignReq = new CampaignResponse(campaign, profile.getId());
+			campaignReq.populateLinks(campaign);
+		} else {
+			campaignReq.addError(new BussinesError(ErrorCode.ADVERTISEMENT_NOT_FOUND));
 		}
 		return campaignReq;
 	}
@@ -61,7 +55,7 @@ public class CampaignServiceImpl implements CampaignService {
 		if (campaignId != null) {
 			Campaign camp = campaignRepository.findOne(campaignId);
 			if(camp != null){
-				campaignReq = new CampaignResponse(camp);
+				campaignReq = new CampaignResponse(camp, null);
 				campaignReq.populateLinks(camp);
 			} else {
 				campaignReq.addError(new BussinesError(ErrorCode.CAMPAIGN_NOT_FOUND));
@@ -78,24 +72,63 @@ public class CampaignServiceImpl implements CampaignService {
 	 * @param profile
 	 * @return list of advs
 	 */
-	private void applyFilters(Campaign campaign, Profile profile, FilterRequest filter) {
-		List<Segment> segments = segmentRepository.getSegmentByCampaing(campaign.getId());
-		filterByQuestions(segments, filter);
-		filterByProfile(segments, profile);
+	private Campaign applyFilters(Long campaignId, Profile profile) throws Exception {
+		List<Segment> segments = segmentRepository.getSegmentByCampaign(campaignId);
+		List<Long> segmentIds;
+		if(profile.getLoginSource().equals(ButtonType.FACEBOOK)) {
+			segmentIds = filterByFacebook(segments, profile);
+		} else {
+			segmentIds = filterByQuestions(segments, profile);
+		}
+		if(CollectionUtils.isEmpty(segmentIds))
+			return null;
+		Optional<Campaign> campaign = campaignRepository.getFilerAdvertisementByCampaign(campaignId, segmentIds);
+		return campaign.get();
 	}
 
-	private void filterByProfile(List<Segment> segments, Profile profile) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void filterByQuestions(List<Segment> segments, FilterRequest filter) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Get valid segments.
+	 * 
+	 * @param segments
+	 * @param profile
+	 * @param campaign
+	 * @return segment list
+	 * @throws Exception
+	 */
+	private List<Long> filterByQuestions(List<Segment> segments, Profile profile) throws Exception {
+		List<Long> segmentIds = new ArrayList<Long>();
+		Iterator<Segment> segIt = segments.iterator();
+		while(segIt.hasNext()){
+			Segment seg = segIt.next();
+			boolean validSegment = true;
+			for(SegmentItem item : seg.getItems()){
+				boolean validQuestion = false;
+				for(ProfileValue answer : profile.getValues()){
+					if(item.getQuestion().getName().equals(answer.getKey())){
+						validQuestion = true;
+						QuestionBuilder builder = QuestionBuilder.builder(item.getQuestion().getType());
+						if(!builder.validAnswer(item, answer.getValue())){
+							validQuestion = false;
+							break;
+						}
+					}
+				}
+				if(!validQuestion){
+					validSegment = false;
+					break;
+				}
+			}
+			if(!validSegment){
+				segIt.remove();
+			} else {
+				segmentIds.add(seg.getId());
+			}
+		}
+		return segmentIds;
 	}
 	
-	private void validateRequest(FilterRequest filter, CampaignResponse campaignReq) {
+	private List<Long> filterByFacebook(List<Segment> segments, Profile profile) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 }
