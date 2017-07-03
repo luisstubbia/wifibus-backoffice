@@ -32,7 +32,7 @@ import lombok.Setter;
 @Setter
 public class Campaign extends BaseEntity {
 
-	@Column(name = "CAPTION", nullable = false, unique = false, length = 1024)
+	@Column(name = "LANDING_URL", nullable = false, unique = false, length = 1024)
 	@NotNull
 	private String landingUrl;
     
