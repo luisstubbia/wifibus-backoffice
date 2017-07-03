@@ -42,7 +42,6 @@ public class CampaignServiceImpl implements CampaignService {
 		Campaign campaign = applyFilters(campaignId, profile);
 		if(campaign != null){
 			campaignReq = new CampaignResponse(campaign, profile.getId());
-			campaignReq.populateLinks(campaign);
 		} else {
 			campaignReq.addError(new BussinesError(ErrorCode.ADVERTISEMENT_NOT_FOUND));
 		}
@@ -56,7 +55,6 @@ public class CampaignServiceImpl implements CampaignService {
 			Campaign camp = campaignRepository.findOne(campaignId);
 			if(camp != null){
 				campaignReq = new CampaignResponse(camp, null);
-				campaignReq.populateLinks(camp);
 			} else {
 				campaignReq.addError(new BussinesError(ErrorCode.CAMPAIGN_NOT_FOUND));
 			}

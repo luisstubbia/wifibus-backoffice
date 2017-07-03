@@ -45,7 +45,6 @@ public class ConfiguratorServiceImpl implements ConfiguratorService {
 				RouterGroup group = groupRepository.findOne(router.getGroup().getId());
 				conf = new ConfiguratorResponse(group);
 				conf.setConfig(app);
-				conf.populateLinks(group);
 			} else {
 				conf.addError(new BussinesError(ErrorCode.CONFIGURATION_NOT_FOUND));
 			}
