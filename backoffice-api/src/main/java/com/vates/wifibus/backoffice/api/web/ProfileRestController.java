@@ -31,7 +31,7 @@ public class ProfileRestController {
 	private CampaignService campaignService;
 		
 	@RequestMapping(value = "/profiles/{campaignId}", method = RequestMethod.POST)
-	ResponseEntity<CampaignResponse> getProfile(@PathVariable Long campaignId, 
+	ResponseEntity<CampaignResponse> setProfile(@PathVariable Long campaignId, 
 			@RequestBody ProfileRequest profileReq) throws Exception {
 		Profile profile = profileService.addOrUpdateProfile(profileReq.toModel());
 		CampaignResponse campaign = campaignService.filterAdvertisements(campaignId, profile);
@@ -39,5 +39,11 @@ public class ProfileRestController {
 			new ServiceException(campaign.getErrors());
 		}
 		return ResponseEntity.ok(campaign);
+	}
+	
+	@RequestMapping(value = "/profiles/{profileId}", method = RequestMethod.GET)
+	ResponseEntity<Profile> getProfile(@PathVariable Long profileId) throws Exception {
+		Profile profile = profileService.getProfile(profileId);
+		return ResponseEntity.ok(profile);
 	}
 }

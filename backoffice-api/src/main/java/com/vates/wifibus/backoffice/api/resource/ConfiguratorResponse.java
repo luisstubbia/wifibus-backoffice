@@ -2,8 +2,6 @@ package com.vates.wifibus.backoffice.api.resource;
 
 import java.util.Set;
 
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import com.vates.wifibus.backoffice.api.config.ApplicationConfiguration;
 import com.vates.wifibus.backoffice.model.Brand;
 import com.vates.wifibus.backoffice.model.ButtonType;
@@ -18,8 +16,9 @@ import com.vates.wifibus.backoffice.model.ServiceTerm;
  * @author luis.stubbia
  *
  */
-public class ConfiguratorResponse extends BaseResource<RouterGroup> {
+public class ConfiguratorResponse extends BaseResource {
 
+	private Long campaignId;
 	private Config config;
 	private Brand branding;
 	private ServiceTerm termsAndConditions;
@@ -32,6 +31,7 @@ public class ConfiguratorResponse extends BaseResource<RouterGroup> {
 	}
 
 	public ConfiguratorResponse(RouterGroup group) {
+		this.campaignId = group.getCampaign().getId();
 		this.branding = group.getBrand();
 		this.termsAndConditions = group.getTermAndCondition();
 		this.campaign = group.getCampaign();
@@ -39,6 +39,10 @@ public class ConfiguratorResponse extends BaseResource<RouterGroup> {
 		this.buttons = group.getButtons();
 	}
 
+	public Long getCampaignId() {
+		return campaignId;
+	}
+	
 	public Brand getBranding() {
 		return branding;
 	}
@@ -66,18 +70,5 @@ public class ConfiguratorResponse extends BaseResource<RouterGroup> {
 	public void setConfig(ApplicationConfiguration app) {
 		config = new Config();
 		config.setApiKeys(app.getApiKeys());
-	}
-	
-	@Override
-	public void populateLinks(RouterGroup resource) {
-		setSelf(null);
-
-		String campaignUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/" + CAMPAIGN_LINK + "/{id}")
-				.buildAndExpand(resource.getCampaign().getId()).toUriString();
-		addLink("get_" + CAMPAIGN_LINK, new EntityLink("GET", campaignUri));
-		
-		String profileUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/" + PROFILE_LINK + "/{id}")
-				.buildAndExpand(resource.getCampaign().getId()).toUriString();
-		addLink("add_"+PROFILE_LINK, new EntityLink("POST", profileUri));
 	}
 }
