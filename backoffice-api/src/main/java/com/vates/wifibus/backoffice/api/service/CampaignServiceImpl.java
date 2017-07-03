@@ -86,7 +86,7 @@ public class CampaignServiceImpl implements CampaignService {
 			Iterator<Advertisement> advIt = campaign.getAdvertisements().iterator();
 			while(advIt.hasNext()){
 				Advertisement adv = advIt.next();
-				if(!segmentIds.contains(adv.getSegment().getId())){
+				if(adv.getSegment() != null && !segmentIds.contains(adv.getSegment().getId())){
 					advIt.remove();
 				}
 			}
