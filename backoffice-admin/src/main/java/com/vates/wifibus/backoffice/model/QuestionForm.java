@@ -34,6 +34,8 @@ public class QuestionForm {
 	
 	private Set<Answer> answers = new LinkedHashSet<Answer>();
 
+	private Set<String> properties = new LinkedHashSet<String>();
+	
 	public QuestionForm(){
 		open = true;
 		type = QuestionType.TEXT;
@@ -108,6 +110,18 @@ public class QuestionForm {
 		Answer anw = new Answer();
 		anw.setIndex(answers.size() + 1);
 		answers.add(anw);
+	}
+
+	public Set<String> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(Set<String> properties) {
+		this.properties = properties;
+	}
+	
+	public void addProperty(String property){
+		properties.add(property);
 	}
 }
 

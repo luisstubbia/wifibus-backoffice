@@ -3,12 +3,15 @@ package com.vates.wifibus.backoffice.model;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -42,6 +45,13 @@ public class Question extends LabeledEntity {
     @Enumerated(EnumType.STRING)
     private QuestionType type;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade=CascadeType.ALL, orphanRemoval = true)
     private Set<Answer> answers;
+	
+	@ElementCollection
+	@CollectionTable(name = "QUESTIONS_PROPERTIES", 
+	        joinColumns = @JoinColumn(name = "QUESTION_ID")
+	)
+	@Column(name = "PROPERTIES")
+    private Set<String> properties;
 }
