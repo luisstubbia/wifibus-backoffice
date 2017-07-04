@@ -102,8 +102,8 @@ public class QuestionServiceImpl implements QuestionService {
 					it.remove();
 				}
 			}
-		} else {
-			question.setAnswers(new LinkedHashSet<Answer>(questionForm.getAnswers()));
+		} else if(!CollectionUtils.isEmpty(questionForm.getAnswers())){
+				question.setAnswers(new LinkedHashSet<Answer>(questionForm.getAnswers()));
 		}
 	}
 

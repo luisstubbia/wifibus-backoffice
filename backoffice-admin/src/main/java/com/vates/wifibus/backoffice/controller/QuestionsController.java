@@ -1,5 +1,9 @@
 package com.vates.wifibus.backoffice.controller;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.vates.wifibus.backoffice.config.WebSecurityConfig;
 import com.vates.wifibus.backoffice.model.Answer;
 import com.vates.wifibus.backoffice.model.PaginatorForm;
 import com.vates.wifibus.backoffice.model.Question;
@@ -36,6 +41,9 @@ public class QuestionsController {
 	@Autowired
 	private QuestionService questionService;
 
+	@Autowired
+	private WebSecurityConfig app;
+	
 	@Autowired
 	private QuestionFormValidator questionValidator;
 	
@@ -70,6 +78,7 @@ public class QuestionsController {
 	public String getQuestionNewPage(Model model) {
     	QuestionForm questionForm = new QuestionForm();
 		model.addAttribute("questionForm", questionForm);
+		model.addAttribute("apiProperties", app.getApiProperties());
     	return "createOrUpdateQuestionForm";
     }
     
@@ -84,15 +93,28 @@ public class QuestionsController {
     		}
     	}
     	model.addAttribute(questionForm);
+    	updatePropertyList(model, questionForm.getProperties());
     	return "createOrUpdateQuestionForm";
     }
     
     @RequestMapping(value = {"/questions/{questionId}/edit", "/questions/new"}, method = RequestMethod.POST)
     public String createQuestionInfoPage(QuestionForm question, BindingResult result, Model model, 
     		@ModelAttribute("action") String action, @ModelAttribute("removeAnw") String anwId,  
+    		@ModelAttribute("addProp") String addProp, @ModelAttribute("removeProp") String rmProp,
     		SessionStatus status) {
         if(!StringUtils.isEmpty(anwId)){
         	removeAnw(question, Integer.parseInt(anwId));
+        	updatePropertyList(model, question.getProperties());
+        	return "createOrUpdateQuestionForm";
+        }
+        if(!StringUtils.isEmpty(addProp)){
+        	question.addProperty(addProp);
+        	updatePropertyList(model, question.getProperties());
+        	return "createOrUpdateQuestionForm";
+        }
+        if(!StringUtils.isEmpty(rmProp)){
+        	removeProp(question, rmProp);
+        	updatePropertyList(model, question.getProperties());
         	return "createOrUpdateQuestionForm";
         }
         QuestionType type = QuestionType.lookupByName(question.getType().name());
@@ -100,6 +122,7 @@ public class QuestionsController {
         question.setType(type);
         questionValidator.validate(question, result);
         if (result.hasErrors()) {
+        	updatePropertyList(model, question.getProperties());
             return "createOrUpdateQuestionForm";
         } else {
         	questionService.addOrUpdateQuestion(question);
@@ -114,6 +137,7 @@ public class QuestionsController {
 		if(!type.isOpen()){
     		question.addAnswer();
     	}
+		updatePropertyList(model, question.getProperties());
 		return "createOrUpdateQuestionForm";
     }
     
@@ -137,5 +161,32 @@ public class QuestionsController {
 				break;
 			}
 		}
+    }
+    
+    /**
+     * Remove property
+     * 
+     * @param question
+     * @param Property
+     */
+	private void removeProp(QuestionForm question, String property) {
+		Iterator<String> it = question.getProperties().iterator();
+		while(it.hasNext()){
+			String prop = it.next();
+			if(prop.equals(property)){
+				it.remove();
+			}
+		}
+	}
+	
+	/**
+	 * Filter property list
+	 * @param model
+	 * @param properties
+	 */
+    private void updatePropertyList(Model model, Collection<String> properties){
+    	List<String> props = new ArrayList<String>(app.getApiProperties());
+    	props.removeAll(properties);
+		model.addAttribute("apiProperties", props);
     }
 }
