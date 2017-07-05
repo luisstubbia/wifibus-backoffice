@@ -111,19 +111,15 @@ public class CampaignServiceImpl implements CampaignService {
 			Segment seg = segIt.next();
 			boolean validSegment = true;
 			for(SegmentItem item : seg.getItems()){
-				boolean validQuestion = false;
 				ProfileValue answer = mapper.getValue(item.getQuestion(), profile);
 				if(answer != null){
-					validQuestion = true;
 					QuestionBuilder builder = QuestionBuilder.builder(item.getQuestion().getType());
 					if(!builder.validAnswer(item, answer.getValue())){
-						validQuestion = false;
+						validSegment = false;
 						break;
 					}
-				}
-				if(!validQuestion){
+				} else {
 					validSegment = false;
-					break;
 				}
 			}
 			if(!validSegment){
