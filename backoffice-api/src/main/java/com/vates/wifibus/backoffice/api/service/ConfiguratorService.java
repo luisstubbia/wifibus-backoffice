@@ -13,9 +13,9 @@ public interface ConfiguratorService {
 	/**
 	 * Busca las configuraciones aplicables a un hotspot particular.
 	 * 
-	 * @param hotspotId
+	 * @param hotspotName
 	 * @return configurator resource
 	 */
-	ConfiguratorResponse getConfigurations(Long hotspotId);
+	ConfiguratorResponse getConfigurations(String hotspotName);
 
 }

@@ -1,5 +1,6 @@
 package com.vates.wifibus.backoffice.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -19,8 +20,6 @@ import com.vates.wifibus.backoffice.model.Profile;
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
 	
 	Optional<Profile> findOneByUsername(String name);
-	
-	Optional<Profile> findOneByMacAddress(String macAddress);
 		
 	@Modifying
 	@Transactional
@@ -28,5 +27,7 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
 	void deleteById(Long profileId);
 	
 	Long countByUsername(String name);
+	
+	@Query("select p from Profile p JOIN p.macAddress mc where mc = ?1")
+	List<Profile> getProfileByMacAddress(String macAddress);
 }
-

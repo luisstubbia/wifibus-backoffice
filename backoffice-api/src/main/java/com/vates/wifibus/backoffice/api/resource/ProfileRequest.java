@@ -1,5 +1,6 @@
 package com.vates.wifibus.backoffice.api.resource;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
@@ -55,8 +56,11 @@ public class ProfileRequest {
 	
 	public Profile toModel() {
 		Profile profile = new Profile();
-		BeanUtils.copyProperties(this, profile);
+		BeanUtils.copyProperties(this, profile, "macAddress");
 		profile.getValues().forEach(item->item.setProfile(profile));
+		LinkedHashSet<String> macSet = new LinkedHashSet<String>(1);
+		macSet.add(macAddress);
+		profile.setMacAddress(macSet);
 		return profile;
 	}
 }
