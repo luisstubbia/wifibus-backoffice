@@ -369,6 +369,11 @@ INSERT INTO questions (name, label, type, is_open, enabled, created_date, create
     0
 );
 
+INSERT INTO QUESTIONS_PROPERTIES VALUES(
+	(SELECT id FROM questions WHERE name = 'SEX'),
+	'facebook.gender'
+);
+
 INSERT INTO answers (name, label, question_id, value, enabled, created_date, created_by, lock_version) VALUES (
     'Sexo-Femenino',
     'Femenino',
@@ -402,6 +407,11 @@ INSERT INTO questions (name, label, type, is_open, enabled, created_date, create
     0
 );
 
+INSERT INTO QUESTIONS_PROPERTIES VALUES(
+	(SELECT id FROM questions WHERE name = 'BIRTH_DATE'),
+	'facebook.birthday'
+);
+
 INSERT INTO questions (name, label, type, is_open, enabled, created_date, created_by, lock_version) VALUES (
     'AGE',
     'Edad',
@@ -411,6 +421,11 @@ INSERT INTO questions (name, label, type, is_open, enabled, created_date, create
     now(),
     'admin',
     0
+);
+
+INSERT INTO QUESTIONS_PROPERTIES VALUES(
+	(SELECT id FROM questions WHERE name = 'AGE'),
+	'facebook.birthday'
 );
 
 INSERT INTO service_terms (name, description, text, enabled, created_date, created_by, lock_version) VALUES (

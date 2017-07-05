@@ -2,7 +2,7 @@ package com.vates.wifibus.backoffice.api.util;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,19 +15,23 @@ public class CALENDARBuilder extends QuestionBuilder {
 	 
 	@Override
 	public boolean validAnswer(SegmentItem item, String value) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         
         LocalDate expectedValue = null;
         LocalDate actualValue = null;
 		int expectedNbrValue = 0;
 		int actualNbrValue = 0;
 	
-		expectedValue = LocalDate.parse(item.getValue(), formatter);
+		expectedValue = LocalDate.parse(item.getValue(), DATE_FORMATTER);
 		if(AGE_TYPES.contains(item.getOperator())){
-			actualNbrValue = Integer.parseInt(value);
-			expectedNbrValue = calculateAge(expectedValue);
+			try {
+				DATE_FORMATTER.parse(value);
+				actualNbrValue = CALCULATE_AGE(LocalDate.parse(value, DATE_FORMATTER));
+			} catch (DateTimeParseException e) {
+				actualNbrValue = Integer.parseInt(value);
+			}
+			expectedNbrValue = CALCULATE_AGE(expectedValue);
 		} else {
-			actualValue = LocalDate.parse(value, formatter);
+			actualValue = LocalDate.parse(value, DATE_FORMATTER);
 		}
 		switch (item.getOperator()) {
 			case EQUAL:
@@ -134,7 +138,7 @@ public class CALENDARBuilder extends QuestionBuilder {
 	 * @param birthDate
 	 * @return int
 	 */
-	public int calculateAge(LocalDate birthDate) {
+	public static int CALCULATE_AGE(LocalDate birthDate) {
 		LocalDate today = LocalDate.now();
         return Period.between(birthDate, today).getYears();
     }

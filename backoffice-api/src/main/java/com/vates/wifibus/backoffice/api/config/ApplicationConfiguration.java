@@ -1,5 +1,6 @@
 package com.vates.wifibus.backoffice.api.config;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -20,13 +21,13 @@ public class ApplicationConfiguration {
 	private Map<String,String> apiKeys;
 
 	@Value("#{${config.api_properties.facebook}}")
-	private Map<String,String> propertiesMapper;
+	private Map<String,List<String>> propertiesMapper;
 
 	public Map<String, String> getApiKeys() {
 		return apiKeys;
 	}
 
-	public Map<String, String> getPropertiesMapper() {
+	public Map<String, List<String>> getPropertiesMapper() {
 		return propertiesMapper;
 	}
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.vates.wifibus.backoffice.api.config.ApplicationConfiguration;
 import com.vates.wifibus.backoffice.api.resource.BussinesError;
 import com.vates.wifibus.backoffice.api.resource.CampaignResponse;
 import com.vates.wifibus.backoffice.api.resource.ErrorCode;
@@ -35,7 +36,10 @@ public class CampaignServiceImpl implements CampaignService {
 	
 	@Autowired
 	private SegmentRepository segmentRepository;
-		
+	
+	@Autowired
+	private ApplicationConfiguration app;
+	
 	@Override
 	public CampaignResponse filterAdvertisements(Long campaignId, Profile profile) throws Exception {
 		CampaignResponse campaignReq = new CampaignResponse();
@@ -100,6 +104,7 @@ public class CampaignServiceImpl implements CampaignService {
 	 */	
 	private List<Long> filterByProfile(List<Segment> segments, Profile profile) throws Exception {
 		ProfileMapper mapper = ProfileMapper.getMapper(profile);
+		mapper.setApp(app);
 		List<Long> segmentIds = new ArrayList<Long>();
 		Iterator<Segment> segIt = segments.iterator();
 		while(segIt.hasNext()){

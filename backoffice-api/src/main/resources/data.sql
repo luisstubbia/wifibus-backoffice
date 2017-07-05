@@ -368,7 +368,12 @@ INSERT INTO questions (name, label, type, is_open, enabled, created_date, create
     'admin',
     0
 );
- 
+
+INSERT INTO QUESTIONS_PROPERTIES VALUES(
+	(SELECT id FROM questions WHERE name = 'SEX'),
+	'facebook.gender'
+);
+
 INSERT INTO answers (name, label, question_id, value, enabled, created_date, created_by, lock_version) VALUES (
     'Sexo-Femenino',
     'Femenino',
@@ -402,6 +407,11 @@ INSERT INTO questions (name, label, type, is_open, enabled, created_date, create
     0
 );
 
+INSERT INTO QUESTIONS_PROPERTIES VALUES(
+	(SELECT id FROM questions WHERE name = 'BIRTH_DATE'),
+	'facebook.birthday'
+);
+
 INSERT INTO questions (name, label, type, is_open, enabled, created_date, created_by, lock_version) VALUES (
     'AGE',
     'Edad',
@@ -411,6 +421,11 @@ INSERT INTO questions (name, label, type, is_open, enabled, created_date, create
     now(),
     'admin',
     0
+);
+
+INSERT INTO QUESTIONS_PROPERTIES VALUES(
+	(SELECT id FROM questions WHERE name = 'AGE'),
+	'facebook.birthday'
 );
 
 INSERT INTO router_groups (name, description, enabled, created_date, created_by, lock_version) VALUES (
@@ -638,7 +653,7 @@ INSERT INTO segment_items (lock_version,created_by,created_date,enabled,OPERATOR
 	2
 );
 
-INSERT INTO campaigns (lock_version,created_by,created_date,enabled,description,NAME,CAPTION) VALUES (
+INSERT INTO campaigns (lock_version,created_by,created_date,enabled,description,NAME,LANDING_URL) VALUES (
 	0,
 	'admin',
 	now(),
@@ -648,7 +663,7 @@ INSERT INTO campaigns (lock_version,created_by,created_date,enabled,description,
 	'627442937445-21nlqm6c0o085el5jqagha86614r5uf3.wifibus.com'
 );
 
-INSERT INTO campaigns (lock_version,created_by,created_date,enabled,NAME,CAPTION) VALUES (
+INSERT INTO campaigns (lock_version,created_by,created_date,enabled,NAME,LANDING_URL) VALUES (
 	0,
 	'admin',
 	now(),
