@@ -17,6 +17,13 @@ public abstract class QuestionBuilder {
 	private static final String PATH = "com.vates.wifibus.backoffice.api.util.";
 	private static final String SUFFIX = "Builder";
 	
+	/**
+	 * Get Question type instance.
+	 * 
+	 * @param questionType
+	 * @return
+	 * @throws Exception
+	 */
 	public static QuestionBuilder builder(QuestionType questionType) throws Exception {
 		Class<?> c = Class.forName(PATH + questionType.name() + SUFFIX);
 		return (QuestionBuilder) c.newInstance();

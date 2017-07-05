@@ -11,9 +11,9 @@ import org.springframework.util.CollectionUtils;
 import com.vates.wifibus.backoffice.api.resource.BussinesError;
 import com.vates.wifibus.backoffice.api.resource.CampaignResponse;
 import com.vates.wifibus.backoffice.api.resource.ErrorCode;
+import com.vates.wifibus.backoffice.api.util.ProfileMapper;
 import com.vates.wifibus.backoffice.api.util.QuestionBuilder;
 import com.vates.wifibus.backoffice.model.Advertisement;
-import com.vates.wifibus.backoffice.model.ButtonType;
 import com.vates.wifibus.backoffice.model.Campaign;
 import com.vates.wifibus.backoffice.model.Profile;
 import com.vates.wifibus.backoffice.model.ProfileValue;
@@ -73,12 +73,7 @@ public class CampaignServiceImpl implements CampaignService {
 	private Campaign applyFilters(Long campaignId, Profile profile) throws Exception {
 		List<Segment> segments = segmentRepository.getSegmentByCampaign(campaignId);
 		List<Long> segmentIds;
-		if(profile.getLoginSource().equals(ButtonType.FACEBOOK)) {
-			segmentIds = filterByFacebook(segments, profile);
-		} else {
-			segmentIds = filterByQuestions(segments, profile);
-		}
-		
+		segmentIds = filterByProfile(segments, profile);
 		if(CollectionUtils.isEmpty(segmentIds)){
 			return null;
 		} else {
@@ -102,8 +97,9 @@ public class CampaignServiceImpl implements CampaignService {
 	 * @param campaign
 	 * @return segment list
 	 * @throws Exception
-	 */
-	private List<Long> filterByQuestions(List<Segment> segments, Profile profile) throws Exception {
+	 */	
+	private List<Long> filterByProfile(List<Segment> segments, Profile profile) throws Exception {
+		ProfileMapper mapper = ProfileMapper.getMapper(profile);
 		List<Long> segmentIds = new ArrayList<Long>();
 		Iterator<Segment> segIt = segments.iterator();
 		while(segIt.hasNext()){
@@ -111,14 +107,13 @@ public class CampaignServiceImpl implements CampaignService {
 			boolean validSegment = true;
 			for(SegmentItem item : seg.getItems()){
 				boolean validQuestion = false;
-				for(ProfileValue answer : profile.getValues()){
-					if(item.getQuestion().getName().equals(answer.getKey())){
-						validQuestion = true;
-						QuestionBuilder builder = QuestionBuilder.builder(item.getQuestion().getType());
-						if(!builder.validAnswer(item, answer.getValue())){
-							validQuestion = false;
-							break;
-						}
+				ProfileValue answer = mapper.getValue(item.getQuestion(), profile);
+				if(answer != null){
+					validQuestion = true;
+					QuestionBuilder builder = QuestionBuilder.builder(item.getQuestion().getType());
+					if(!builder.validAnswer(item, answer.getValue())){
+						validQuestion = false;
+						break;
 					}
 				}
 				if(!validQuestion){
@@ -133,10 +128,5 @@ public class CampaignServiceImpl implements CampaignService {
 			}
 		}
 		return segmentIds;
-	}
-	
-	private List<Long> filterByFacebook(List<Segment> segments, Profile profile) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
