@@ -1,6 +1,7 @@
 package com.vates.wifibus.backoffice.api.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -83,13 +84,40 @@ public class CampaignServiceImpl implements CampaignService {
 			Iterator<Advertisement> advIt = campaign.getAdvertisements().iterator();
 			while(advIt.hasNext()){
 				Advertisement adv = advIt.next();
-				if(adv.getSegment() != null && (CollectionUtils.isEmpty(segmentIds) || !segmentIds.contains(adv.getSegment().getId()))){
+				if(mustRemoveAdv(adv, segmentIds)) {
 					advIt.remove();
 				}
 			}
 			return campaign;
 		}
 		return null;
+	}
+
+	/**
+	 * This method validates if the advertisement must be removed or not.
+	 * 
+	 * @param adv
+	 * @param segmentIds
+	 * @return boolean
+	 */
+	private boolean mustRemoveAdv(Advertisement adv, List<Long> segmentIds) {
+		Date today = new Date();
+		boolean validDate = true;
+		if(adv.getStartDate().equals(today) || adv.getStartDate().before(today)) {
+			if(adv.getEndDate() != null){
+				if(!adv.getEndDate().equals(today) && !adv.getEndDate().after(today)) {
+					validDate = false;
+				}
+			}
+		} else {
+			validDate = false;
+		}
+		if(adv.getSegment() == null) {
+			return validDate;
+		} else if (!CollectionUtils.isEmpty(segmentIds) && segmentIds.contains(adv.getSegment().getId())) {
+			return validDate;
+		}
+		return false;
 	}
 
 	/**
