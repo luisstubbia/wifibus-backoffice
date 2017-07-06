@@ -739,6 +739,22 @@ INSERT INTO ADVERTISEMENTS (lock_version,created_by,created_date,enabled,descrip
 	2
 );
 
+INSERT INTO ADVERTISEMENTS (lock_version,created_by,created_date,enabled,description,NAME,TYPE,DURATION,PRIORITY,START_DATE,SOURCE_URL,TEXT,CAMPAIGN_ID) VALUES (
+	0,
+	'admin',
+	now(),
+	TRUE,
+	'Banner publicitario de la Municipalidad de Córdoba 4',
+	'banner-municipalidad-cordoba4',
+	'BANNER',
+	10,
+	2,
+	now(),
+	'//docs.google.com/uc?id=0B-ChTGqpPpqgME5GQlVfbXpFRjA',
+	'Municipalidad de Córdoba',
+	2
+);
+
 INSERT INTO router_groups (name, description, enabled, created_date, created_by, lock_version,BRAND_ID,CAMPAIGN_ID,TERM_AND_CONDITION_ID) VALUES (
     'aeroparque-bue',
     'Routers de aeroparque de Buenos Aires',

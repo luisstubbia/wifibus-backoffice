@@ -113,9 +113,9 @@ public class CampaignServiceImpl implements CampaignService {
 			validDate = false;
 		}
 		if(adv.getSegment() == null) {
-			return validDate;
+			return !validDate;
 		} else if (!CollectionUtils.isEmpty(segmentIds) && segmentIds.contains(adv.getSegment().getId())) {
-			return validDate;
+			return !validDate;
 		}
 		return false;
 	}

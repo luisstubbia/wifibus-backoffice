@@ -143,7 +143,7 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 	
 	private boolean isValidMACAddress(String mac) {
-		Pattern p = Pattern.compile("^([a-fA-F0-9][:-]){5}[a-fA-F0-9][:-]$");
+		Pattern p = Pattern.compile("^([0-9a-fA-F]{2}[:-]){5}[0-9a-fA-F]{2}$");
 		Matcher m = p.matcher(mac);
 		return m.find();
 	}

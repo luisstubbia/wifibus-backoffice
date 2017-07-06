@@ -101,7 +101,7 @@ public class RouterFormValidator implements Validator {
 	private void validateAddress(Errors errors, RouterForm form) {
 		if (StringUtils.isEmpty(form.getMacAddress())) {
 			errors.rejectValue("macaddress", "routerForm.required.macaddress", "MAC Address es requerida");
-		} else if (isValidMACAddress(form.getMacAddress())) {
+		} else if (!isValidMACAddress(form.getMacAddress())) {
 			errors.rejectValue("macaddress", "routerForm.invalid.macaddress", "La MAC Address es incorrecta");
 		}
 		if (StringUtils.isEmpty(form.getIpv4address())) {
@@ -122,7 +122,7 @@ public class RouterFormValidator implements Validator {
 	}
 	
 	private boolean isValidMACAddress(String mac) {
-		Pattern p = Pattern.compile("^([a-fA-F0-9][:-]){5}[a-fA-F0-9][:-]$");
+		Pattern p = Pattern.compile("^([0-9a-fA-F]{2}[:-]){5}[0-9a-fA-F]{2}$");
 		 Matcher m = p.matcher(mac);
 		return m.find();
 	}
