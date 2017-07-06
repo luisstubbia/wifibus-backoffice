@@ -1,8 +1,11 @@
 package com.vates.wifibus.backoffice.api.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,22 +45,42 @@ public class ProfileServiceImpl implements ProfileService {
 		return null;
 	}
 
+	@Transactional
 	@Override
 	public Profile addOrUpdateProfile(Profile profile) throws ServiceException {
 		validateProfile(profile);
 		Profile finalProfile;
+		String mac = profile.getMacAddress().iterator().next();
+		cleanDuplicatedMacAddress(mac);
 		Optional<Profile> dbProfile = profileRepository.findOneByUsername(profile.getUsername());
-		if(!dbProfile.isPresent()){
-			dbProfile = profileRepository.findOneByMacAddress(profile.getMacAddress());
-		}
 		if(dbProfile.isPresent()){
 			finalProfile = dbProfile.get();
 			mergeProfile(profile, finalProfile);
 		} else {
 			finalProfile = profile;
 		}
+		finalProfile.getMacAddress().add(mac);
 		profileRepository.save(finalProfile);
 		return finalProfile;
+	}
+
+	/**
+	 * Remove duplicated mac address
+	 * @param mac
+	 */
+	private void cleanDuplicatedMacAddress(String mac) {
+		List<Profile> profiles = profileRepository.getProfileByMacAddress(mac);
+		if(!CollectionUtils.isEmpty(profiles)){
+			for(Profile prof : profiles){
+				Iterator<String> macIt = prof.getMacAddress().iterator();
+				while(macIt.hasNext()){
+					if(macIt.next().equals(mac)){
+						macIt.remove();
+					}
+				}
+			}
+			profileRepository.save(profiles);
+		}
 	}
 
 	/**
@@ -93,7 +116,7 @@ public class ProfileServiceImpl implements ProfileService {
 		if(StringUtils.isEmpty(profileReq.getUsername())){
 			errors.add(new BussinesError(ErrorCode.PROFILE_MISSING_USERNAME));
 		}
-		if(StringUtils.isEmpty(profileReq.getMacAddress())){
+		if(CollectionUtils.isEmpty(profileReq.getMacAddress())){
 			errors.add(new BussinesError(ErrorCode.PROFILE_MISSING_MAC_ADRESS));
 		}
 		if(profileReq.getLoginSource() == null){

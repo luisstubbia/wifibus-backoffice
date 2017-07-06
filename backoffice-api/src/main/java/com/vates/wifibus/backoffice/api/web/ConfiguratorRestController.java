@@ -18,15 +18,15 @@ import com.vates.wifibus.backoffice.api.util.ServiceException;
  *
  */
 @RestController
-@RequestMapping("/configurations/{hotspotId}")
+@RequestMapping("/configurations/{hotspotName}")
 public class ConfiguratorRestController {
 
 	@Autowired
 	private ConfiguratorService configuratorService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	ResponseEntity<ConfiguratorResponse> getConfigurations(@PathVariable Long hotspotId) {
-		ConfiguratorResponse configs = configuratorService.getConfigurations(hotspotId);
+	ResponseEntity<ConfiguratorResponse> getConfigurations(@PathVariable String hotspotName) {
+		ConfiguratorResponse configs = configuratorService.getConfigurations(hotspotName);
 		if (configs.hasErrors()) {
 			new ServiceException(configs.getErrors());
 		}

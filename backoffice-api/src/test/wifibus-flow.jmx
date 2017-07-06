@@ -102,9 +102,9 @@
       <hashTree/>
       <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Environment Variables" enabled="true">
         <collectionProp name="Arguments.arguments">
-          <elementProp name="hotspotId" elementType="Argument">
-            <stringProp name="Argument.name">hotspotId</stringProp>
-            <stringProp name="Argument.value">1</stringProp>
+          <elementProp name="hotspotName" elementType="Argument">
+            <stringProp name="Argument.name">hotspotName</stringProp>
+            <stringProp name="Argument.value">municipalidad-de-cordoba</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="endpoint.url" elementType="Argument">
@@ -153,7 +153,7 @@
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">${endpoint.url}/configurations/${hotspotId}</stringProp>
+          <stringProp name="HTTPSampler.path">${endpoint.url}/configurations/${hotspotName}</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>

@@ -3,12 +3,15 @@ package com.vates.wifibus.backoffice.model;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -35,9 +38,13 @@ public class Profile extends AbstractEntity {
 	@NotNull
 	private String username;
 
-	@Column(name = "MAC_ADDRESS", nullable = false, length = 17)
-	@NotNull
-	private String macAddress;
+	@ElementCollection
+	@CollectionTable(name = "PROFILES_MAC_ADDRESS", 
+	        joinColumns = @JoinColumn(name = "PROFILE_ID")
+	)
+	@Column(name = "MAC_ADDRESS")
+    private Set<String> macAddress;
+	
 	
 	@Column(name = "LOGIN_SOURCE", nullable = false)
 	@Enumerated(EnumType.STRING)
