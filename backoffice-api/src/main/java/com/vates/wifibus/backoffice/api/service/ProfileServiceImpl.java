@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.transaction.Transactional;
 
@@ -118,6 +120,16 @@ public class ProfileServiceImpl implements ProfileService {
 		}
 		if(CollectionUtils.isEmpty(profileReq.getMacAddress())){
 			errors.add(new BussinesError(ErrorCode.PROFILE_MISSING_MAC_ADRESS));
+		} else {
+			for(String mac : profileReq.getMacAddress()){
+				List<String> error = new ArrayList<String>();
+				if(!isValidMACAddress(mac)){
+					error.add("MAC invalida: "+ mac);
+				}
+				if(!CollectionUtils.isEmpty(error)){
+					errors.add(new BussinesError(ErrorCode.PROFILE_MISSING_MAC_ADRESS, error));
+				}
+			}
 		}
 		if(profileReq.getLoginSource() == null){
 			errors.add(new BussinesError(ErrorCode.PROFILE_MISSING_LOGIN_SOURCE));
@@ -126,7 +138,13 @@ public class ProfileServiceImpl implements ProfileService {
 			errors.add(new BussinesError(ErrorCode.PROFILE_MISSING_VALUES));
 		}
 		if(!CollectionUtils.isEmpty(errors)){
-			new ServiceException(errors);
+			throw new ServiceException(errors);
 		}
+	}
+	
+	private boolean isValidMACAddress(String mac) {
+		Pattern p = Pattern.compile("^([a-fA-F0-9][:-]){5}[a-fA-F0-9][:-]$");
+		Matcher m = p.matcher(mac);
+		return m.find();
 	}
 }
