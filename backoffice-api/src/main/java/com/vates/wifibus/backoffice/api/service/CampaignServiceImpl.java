@@ -78,19 +78,18 @@ public class CampaignServiceImpl implements CampaignService {
 		List<Segment> segments = segmentRepository.getSegmentByCampaign(campaignId);
 		List<Long> segmentIds;
 		segmentIds = filterByProfile(segments, profile);
-		if(CollectionUtils.isEmpty(segmentIds)){
-			return null;
-		} else {
-			Campaign campaign = campaignRepository.findOne(campaignId);
+		Campaign campaign = campaignRepository.findOne(campaignId);
+		if(campaign != null){
 			Iterator<Advertisement> advIt = campaign.getAdvertisements().iterator();
 			while(advIt.hasNext()){
 				Advertisement adv = advIt.next();
-				if(adv.getSegment() != null && !segmentIds.contains(adv.getSegment().getId())){
+				if(adv.getSegment() != null && (CollectionUtils.isEmpty(segmentIds) || !segmentIds.contains(adv.getSegment().getId()))){
 					advIt.remove();
 				}
 			}
 			return campaign;
 		}
+		return null;
 	}
 
 	/**
