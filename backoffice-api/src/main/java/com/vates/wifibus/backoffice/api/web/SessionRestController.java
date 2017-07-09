@@ -18,7 +18,7 @@ import com.vates.wifibus.backoffice.api.util.ServiceException;
 import com.vates.wifibus.backoffice.model.Profile;
 
 /**
- * API REST: Configuraciones
+ * API REST: Session.
  * 
  * @author luis.stubbia
  *
