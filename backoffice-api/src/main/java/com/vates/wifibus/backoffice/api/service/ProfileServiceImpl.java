@@ -39,12 +39,11 @@ public class ProfileServiceImpl implements ProfileService {
 			if(profile != null){
 				return profile;
 			} else {
-				new ServiceException(new BussinesError(ErrorCode.PROFILE_NOT_FOUND));
+				throw new ServiceException(new BussinesError(ErrorCode.PROFILE_NOT_FOUND));
 			}
 		} else {
-			new ServiceException(new BussinesError(ErrorCode.BAD_INPUT));
+			throw new ServiceException(new BussinesError(ErrorCode.BAD_INPUT));
 		}
-		return null;
 	}
 
 	@Transactional

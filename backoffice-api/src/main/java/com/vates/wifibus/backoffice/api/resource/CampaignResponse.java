@@ -5,6 +5,11 @@ import java.util.Set;
 import com.vates.wifibus.backoffice.model.Advertisement;
 import com.vates.wifibus.backoffice.model.Campaign;
 
+/**
+ * 
+ * @author luis.stubbia
+ *
+ */
 public class CampaignResponse extends BaseResource{
 
 	private Long profileId;
