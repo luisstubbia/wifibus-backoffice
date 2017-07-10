@@ -34,16 +34,16 @@ public class CampaignRestController {
 		Profile profile = profileService.getProfile(profileId);
 		CampaignResponse campaign = campaignService.filterAdvertisements(campaignId, profile);
 		if (campaign.hasErrors()) {
-			new ServiceException(campaign.getErrors());
+			throw new ServiceException(campaign.getErrors());
 		}
 		return ResponseEntity.ok(campaign);
 	}
 	
 	@RequestMapping(value = "/campaigns/{campaignId}" , method = RequestMethod.GET)
-	ResponseEntity<CampaignResponse> getCampaing(@PathVariable Long campaignId) {
+	ResponseEntity<CampaignResponse> getCampaing(@PathVariable Long campaignId) throws ServiceException {
 		CampaignResponse campaign = campaignService.getCampaign(campaignId);
 		if (campaign.hasErrors()) {
-			new ServiceException(campaign.getErrors());
+			throw new ServiceException(campaign.getErrors());
 		}
 		return ResponseEntity.ok(campaign);
 	}

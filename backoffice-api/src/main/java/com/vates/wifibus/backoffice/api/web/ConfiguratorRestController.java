@@ -25,10 +25,10 @@ public class ConfiguratorRestController {
 	private ConfiguratorService configuratorService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	ResponseEntity<ConfiguratorResponse> getConfigurations(@PathVariable String hotspotName) {
+	ResponseEntity<ConfiguratorResponse> getConfigurations(@PathVariable String hotspotName) throws ServiceException {
 		ConfiguratorResponse configs = configuratorService.getConfigurations(hotspotName);
 		if (configs.hasErrors()) {
-			new ServiceException(configs.getErrors());
+			throw new ServiceException(configs.getErrors());
 		}
 		return ResponseEntity.ok(configs);
 	}

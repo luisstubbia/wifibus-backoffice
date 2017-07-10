@@ -36,7 +36,7 @@ public class ProfileRestController {
 		Profile profile = profileService.addOrUpdateProfile(profileReq.toModel());
 		CampaignResponse campaign = campaignService.filterAdvertisements(campaignId, profile);
 		if (campaign.hasErrors()) {
-			new ServiceException(campaign.getErrors());
+			throw new ServiceException(campaign.getErrors());
 		}
 		return ResponseEntity.ok(campaign);
 	}
