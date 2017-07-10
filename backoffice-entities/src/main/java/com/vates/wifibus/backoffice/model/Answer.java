@@ -43,4 +43,8 @@ public class Answer extends LabeledEntity {
 	@JsonIgnore
 	private Integer index;
 	
+	@Override
+	public String toString(){
+		return getId() + " - value: " + this.value;
+	}
 }
