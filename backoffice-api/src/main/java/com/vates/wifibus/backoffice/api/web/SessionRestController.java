@@ -34,12 +34,9 @@ public class SessionRestController {
 
 	@RequestMapping(value = "/sessions/{macAddress}/{profileId}", method = RequestMethod.POST)
 	ResponseEntity<SessionResponse> createNewSession(@PathVariable String macAddress, @PathVariable Long profileId) throws ServiceException {
-		SessionResponse session = getSession(macAddress);
-		if(session == null) {
-			Profile profile = profileService.getProfile(profileId);
-			session = new SessionResponse(profile, macAddress);
-			redis.opsForValue().set(macAddress, session);
-		}
+		Profile profile = profileService.getProfile(profileId);
+		SessionResponse session = new SessionResponse(profile, macAddress);
+		redis.opsForValue().set(macAddress, session);
 		return ResponseEntity.ok(session);
 	}
 
