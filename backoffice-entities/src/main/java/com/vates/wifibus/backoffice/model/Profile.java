@@ -42,7 +42,6 @@ public class Profile extends AbstractEntity {
 	@CollectionTable(name = "PROFILES_MAC_ADDRESS", 
 	        joinColumns = @JoinColumn(name = "PROFILE_ID")
 	)
-	@Column(name = "MAC_ADDRESS")
     private Set<String> macAddress;
 	
 	
