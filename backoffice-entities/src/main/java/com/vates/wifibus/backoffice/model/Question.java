@@ -52,6 +52,5 @@ public class Question extends LabeledEntity {
 	@CollectionTable(name = "QUESTIONS_PROPERTIES", 
 	        joinColumns = @JoinColumn(name = "QUESTION_ID")
 	)
-	@Column(name = "PROPERTIES")
     private Set<String> properties;
 }
