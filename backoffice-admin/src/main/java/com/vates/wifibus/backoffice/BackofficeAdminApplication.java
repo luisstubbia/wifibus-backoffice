@@ -9,9 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.vates.wifibus.backoffice.formatter.DateFormatter;
 import com.vates.wifibus.backoffice.model.User;
@@ -40,16 +38,13 @@ public class BackofficeAdminApplication extends SpringBootServletInitializer {
 	//@Bean
 	public CommandLineRunner loadData(UserRepository repository) {
 		return (args) -> {
-
 			repository.save(new User("tgonzalez", "Tito", "Gonzalez"));
-
 			logger.info("Customers found with findAll():");
 			logger.info("-------------------------------");
 			for (User user : repository.findAll()) {
 				logger.info(user.toString());
 			}
 			logger.info("----------------------------------------------------------------------------------------");
-
 			User user = repository.findOne(1L);
 			logger.info("user found with findOne(1L):");
 			logger.info("--------------------------------");
@@ -64,13 +59,6 @@ public class BackofficeAdminApplication extends SpringBootServletInitializer {
 	}
 
 	public static void main(String[] args) {
-
-		ApplicationContext app = SpringApplication.run(BackofficeAdminApplication.class, args);
-		
-		//PasswordEncoder passwordEncoder = app.getBean(PasswordEncoder.class);
-		//System.out.println("Admin password = [" + passwordEncoder.encode("admin") + "]");
-		//System.out.println("User password = [" + passwordEncoder.encode("demo") + "]");
-		
+		SpringApplication.run(BackofficeAdminApplication.class, args);		
 	}
-
 }
