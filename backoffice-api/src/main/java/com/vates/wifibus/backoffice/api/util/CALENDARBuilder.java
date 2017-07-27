@@ -18,21 +18,28 @@ public class CALENDARBuilder extends QuestionBuilder {
         
         LocalDate expectedValue = null;
         LocalDate actualValue = null;
-		int expectedNbrValue = 0;
-		int actualNbrValue = 0;
-	
-		expectedValue = LocalDate.parse(item.getValue(), DATE_FORMATTER);
-		if(AGE_TYPES.contains(item.getOperator())){
-			try {
-				DATE_FORMATTER.parse(value);
-				actualNbrValue = CALCULATE_AGE(LocalDate.parse(value, DATE_FORMATTER));
-			} catch (DateTimeParseException e) {
-				actualNbrValue = Integer.parseInt(value);
+		Integer expectedNbrValue = 0;
+		Integer actualNbrValue = 0;
+		try{
+			DATE_FORMATTER.parse(item.getValue());
+			expectedValue = LocalDate.parse(item.getValue(), DATE_FORMATTER);
+			if(AGE_TYPES.contains(item.getOperator())){
+				expectedNbrValue = CALCULATE_AGE(expectedValue);
 			}
-			expectedNbrValue = CALCULATE_AGE(expectedValue);
-		} else {
-			actualValue = LocalDate.parse(value, DATE_FORMATTER);
+		} catch (DateTimeParseException e){
+			expectedNbrValue = Integer.parseInt(item.getValue());
 		}
+
+		try {
+			DATE_FORMATTER.parse(value);
+			actualValue = LocalDate.parse(value, DATE_FORMATTER);
+			if(AGE_TYPES.contains(item.getOperator())){
+				actualNbrValue = CALCULATE_AGE(actualValue);
+			}
+		} catch (DateTimeParseException e) {
+			actualNbrValue = Integer.parseInt(value);
+		}
+		
 		switch (item.getOperator()) {
 			case EQUAL:
 				return validateEqual(expectedValue, actualValue);
@@ -142,4 +149,12 @@ public class CALENDARBuilder extends QuestionBuilder {
 		LocalDate today = LocalDate.now();
         return Period.between(birthDate, today).getYears();
     }
+	
+	public static void main(String[] args){
+		CALENDARBuilder build = new CALENDARBuilder();
+		SegmentItem item = new SegmentItem();
+		item.setValue("26");
+		item.setOperator(OperatorType.AGE_GREATER_THAN);
+		build.validAnswer(item, "20");
+	}
 }

@@ -11,7 +11,7 @@
 		<div th:attr="id='preview_' + ${elementId}">
 			<select class="form-control" th:attr="id='previewValue_' + ${elementId}" onchange="copyPreviewValue(this);">
 				<option value="0">Sin Seleccionar</option>
-		      	<option th:each="anw : ${answers}" th:value="${anw.id}" th:text="${anw.label}">Answer</option>
+		      	<option th:each="anw : ${answers}" th:value="${anw.value}" th:text="${anw.label}">Answer</option>
 		    </select>
 		</div>
 	</div>									            
