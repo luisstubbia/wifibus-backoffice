@@ -149,12 +149,4 @@ public class CALENDARBuilder extends QuestionBuilder {
 		LocalDate today = LocalDate.now();
         return Period.between(birthDate, today).getYears();
     }
-	
-	public static void main(String[] args){
-		CALENDARBuilder build = new CALENDARBuilder();
-		SegmentItem item = new SegmentItem();
-		item.setValue("26");
-		item.setOperator(OperatorType.AGE_GREATER_THAN);
-		build.validAnswer(item, "20");
-	}
 }
