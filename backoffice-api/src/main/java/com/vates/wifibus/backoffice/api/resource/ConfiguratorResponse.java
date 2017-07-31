@@ -18,6 +18,7 @@ import com.vates.wifibus.backoffice.model.ServiceTerm;
  */
 public class ConfiguratorResponse extends BaseResource {
 
+	private Long groupId;
 	private Long campaignId;
 	private Config config;
 	private Brand branding;
@@ -31,6 +32,7 @@ public class ConfiguratorResponse extends BaseResource {
 	}
 
 	public ConfiguratorResponse(RouterGroup group) {
+		this.groupId = group.getId();
 		this.campaignId = group.getCampaign().getId();
 		this.branding = group.getBrand();
 		this.termsAndConditions = group.getTermAndCondition();
@@ -39,6 +41,10 @@ public class ConfiguratorResponse extends BaseResource {
 		this.buttons = group.getButtons();
 	}
 
+	public Long getGroupId() {
+		return groupId;
+	}
+	
 	public Long getCampaignId() {
 		return campaignId;
 	}

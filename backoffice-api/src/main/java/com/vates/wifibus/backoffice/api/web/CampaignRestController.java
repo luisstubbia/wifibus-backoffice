@@ -28,11 +28,11 @@ public class CampaignRestController {
 	@Autowired
 	private ProfileService profileService;
 	
-	@RequestMapping(value = "/campaigns/{campaignId}/{profileId}" , method = RequestMethod.GET)
-	ResponseEntity<CampaignResponse> getAdvertisements(@PathVariable Long campaignId, 
+	@RequestMapping(value = "/campaigns/{groupId}/{profileId}" , method = RequestMethod.GET)
+	ResponseEntity<CampaignResponse> getAdvertisements(@PathVariable Long groupId, 
 			@PathVariable Long profileId) throws Exception {
 		Profile profile = profileService.getProfile(profileId);
-		CampaignResponse campaign = campaignService.filterAdvertisements(campaignId, profile);
+		CampaignResponse campaign = campaignService.filterAdvertisements(groupId, profile);
 		if (campaign.hasErrors()) {
 			throw new ServiceException(campaign.getErrors());
 		}

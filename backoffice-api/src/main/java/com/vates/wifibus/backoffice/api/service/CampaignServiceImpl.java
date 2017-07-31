@@ -21,9 +21,11 @@ import com.vates.wifibus.backoffice.model.Advertisement;
 import com.vates.wifibus.backoffice.model.Campaign;
 import com.vates.wifibus.backoffice.model.Profile;
 import com.vates.wifibus.backoffice.model.ProfileValue;
+import com.vates.wifibus.backoffice.model.RouterGroup;
 import com.vates.wifibus.backoffice.model.Segment;
 import com.vates.wifibus.backoffice.model.SegmentItem;
 import com.vates.wifibus.backoffice.repository.CampaignRepository;
+import com.vates.wifibus.backoffice.repository.RouterGroupRepository;
 import com.vates.wifibus.backoffice.repository.SegmentRepository;
 
 /**
@@ -39,6 +41,9 @@ public class CampaignServiceImpl implements CampaignService {
 	private static StringBuffer LOG_STIRNG;
 	
 	@Autowired
+	private RouterGroupRepository groupRepository;
+	
+	@Autowired
 	private CampaignRepository campaignRepository;
 	
 	@Autowired
@@ -48,13 +53,23 @@ public class CampaignServiceImpl implements CampaignService {
 	private ApplicationConfiguration app;
 	
 	@Override
-	public CampaignResponse filterAdvertisements(Long campaignId, Profile profile) throws Exception {
+	public CampaignResponse filterAdvertisements(Long groupId, Profile profile) throws Exception {
 		CampaignResponse campaignReq = new CampaignResponse();
-		Campaign campaign = applyFilters(campaignId, profile);
-		if(campaign != null){
-			campaignReq = new CampaignResponse(campaign, profile.getId());
+		RouterGroup group = groupRepository.findOne(groupId);
+		if(group != null){
+			Campaign campaign = applyFilters(group.getCampaign().getId(), profile);
+			if(campaign != null){
+				if(CollectionUtils.isEmpty(campaign.getAdvertisements()) && group.getDefaultCampaign() != null){
+					campaign.setAdvertisements(group.getDefaultCampaign().getAdvertisements());
+					campaign.setId(group.getDefaultCampaign().getId());
+					logger.info("Appling default campaign" + group.getDefaultCampaign().getAdvertisements());
+				}
+				campaignReq = new CampaignResponse(campaign, profile.getId(), groupId);
+			} else {
+				campaignReq.addError(new BussinesError(ErrorCode.ADVERTISEMENT_NOT_FOUND));
+			}
 		} else {
-			campaignReq.addError(new BussinesError(ErrorCode.ADVERTISEMENT_NOT_FOUND));
+			campaignReq.addError(new BussinesError(ErrorCode.ROUTER_GROUP_NOT_FOUND));
 		}
 		return campaignReq;
 	}
@@ -65,7 +80,7 @@ public class CampaignServiceImpl implements CampaignService {
 		if (campaignId != null) {
 			Campaign camp = campaignRepository.findOne(campaignId);
 			if(camp != null){
-				campaignReq = new CampaignResponse(camp, null);
+				campaignReq = new CampaignResponse(camp, null, null);
 			} else {
 				campaignReq.addError(new BussinesError(ErrorCode.CAMPAIGN_NOT_FOUND));
 			}

@@ -653,23 +653,25 @@ INSERT INTO segment_items (lock_version,created_by,created_date,enabled,OPERATOR
 	2
 );
 
-INSERT INTO campaigns (lock_version,created_by,created_date,enabled,description,NAME,LANDING_URL) VALUES (
+INSERT INTO campaigns (lock_version,created_by,created_date,enabled,description,NAME,LANDING_URL,DEFAULTED) VALUES (
 	0,
 	'admin',
 	now(),
 	TRUE,
 	'Campaña publicitaria para la Municipalidad de Córdoba',
 	'municipalidad-de-cordoba',
-	'627442937445-21nlqm6c0o085el5jqagha86614r5uf3.wifibus.com'
+	'627442937445-21nlqm6c0o085el5jqagha86614r5uf3.wifibus.com',
+	FALSE
 );
 
-INSERT INTO campaigns (lock_version,created_by,created_date,enabled,NAME,LANDING_URL) VALUES (
+INSERT INTO campaigns (lock_version,created_by,created_date,enabled,NAME,LANDING_URL,DEFAULTED) VALUES (
 	0,
 	'admin',
 	now(),
 	TRUE,
 	'Campaña-dos',
-	'paginaDestinoDos'
+	'paginaDestinoDos',
+	TRUE
 );
 
 INSERT INTO ADVERTISEMENTS (lock_version,created_by,created_date,enabled,description,NAME,TYPE,DURATION,PRIORITY,START_DATE,SOURCE_URL,CAMPAIGN_ID,SEGMENT_ID) VALUES (
@@ -739,7 +741,7 @@ INSERT INTO ADVERTISEMENTS (lock_version,created_by,created_date,enabled,descrip
 	2
 );
 
-INSERT INTO ADVERTISEMENTS (lock_version,created_by,created_date,enabled,description,NAME,TYPE,DURATION,PRIORITY,START_DATE,SOURCE_URL,TEXT,CAMPAIGN_ID) VALUES (
+INSERT INTO ADVERTISEMENTS (lock_version,created_by,created_date,enabled,description,NAME,TYPE,DURATION,PRIORITY,START_DATE,SOURCE_URL,TEXT,CAMPAIGN_ID, SEGMENT_ID) VALUES (
 	0,
 	'admin',
 	now(),
@@ -752,10 +754,11 @@ INSERT INTO ADVERTISEMENTS (lock_version,created_by,created_date,enabled,descrip
 	now(),
 	'//docs.google.com/uc?id=0B-ChTGqpPpqgME5GQlVfbXpFRjA',
 	'Municipalidad de Córdoba',
-	2
+	2,
+	1
 );
 
-INSERT INTO router_groups (name, description, enabled, created_date, created_by, lock_version,BRAND_ID,CAMPAIGN_ID,TERM_AND_CONDITION_ID) VALUES (
+INSERT INTO router_groups (name, description, enabled, created_date, created_by, lock_version,BRAND_ID,CAMPAIGN_ID,TERM_AND_CONDITION_ID,DEFAULT_CAMPAIGN_ID) VALUES (
     'aeroparque-bue',
     'Routers de aeroparque de Buenos Aires',
     true,
@@ -764,7 +767,8 @@ INSERT INTO router_groups (name, description, enabled, created_date, created_by,
     0,
     1,
     1,
-    1
+    1,
+    2
 );
 
 INSERT INTO routers (name, description, mac_address, ip_v4_address, group_id, location, latitude, longitude, enabled, created_date, created_by, lock_version) VALUES (

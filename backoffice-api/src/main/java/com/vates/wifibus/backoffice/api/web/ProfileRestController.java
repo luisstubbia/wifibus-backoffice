@@ -30,11 +30,11 @@ public class ProfileRestController {
 	@Autowired
 	private CampaignService campaignService;
 		
-	@RequestMapping(value = "/profiles/{campaignId}", method = RequestMethod.POST)
-	ResponseEntity<CampaignResponse> setProfile(@PathVariable Long campaignId, 
+	@RequestMapping(value = "/profiles/{groupId}", method = RequestMethod.POST)
+	ResponseEntity<CampaignResponse> setProfile(@PathVariable Long groupId, 
 			@RequestBody ProfileRequest profileReq) throws Exception {
 		Profile profile = profileService.addOrUpdateProfile(profileReq.toModel());
-		CampaignResponse campaign = campaignService.filterAdvertisements(campaignId, profile);
+		CampaignResponse campaign = campaignService.filterAdvertisements(groupId, profile);
 		if (campaign.hasErrors()) {
 			throw new ServiceException(campaign.getErrors());
 		}
