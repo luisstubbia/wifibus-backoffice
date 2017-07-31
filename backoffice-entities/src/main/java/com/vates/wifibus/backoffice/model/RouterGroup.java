@@ -46,6 +46,11 @@ public class RouterGroup extends BaseEntity {
 	private Campaign campaign;
 	
 	@ManyToOne
+    @JoinColumn(name = "DEFAULT_CAMPAIGN_ID")
+	@JsonIgnore
+	private Campaign defaultCampaign;
+	
+	@ManyToOne
     @JoinColumn(name = "BRAND_ID")
 	@JsonIgnore
 	private Brand brand;

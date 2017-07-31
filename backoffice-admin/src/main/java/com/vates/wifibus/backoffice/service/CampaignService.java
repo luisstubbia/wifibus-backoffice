@@ -1,5 +1,7 @@
 package com.vates.wifibus.backoffice.service;
 
+import java.util.Collection;
+
 import org.springframework.data.domain.Page;
 
 import com.vates.wifibus.backoffice.model.Campaign;
@@ -35,4 +37,10 @@ public interface CampaignService extends EntityService<Campaign> {
 	 */
 	Long countByName(String name);
 	
+	/**
+	 * Get campaigns by default
+	 * @param isDefault
+	 * @return
+	 */
+	Collection<Campaign> getCampaignsByDefault(boolean isDefault);
 }

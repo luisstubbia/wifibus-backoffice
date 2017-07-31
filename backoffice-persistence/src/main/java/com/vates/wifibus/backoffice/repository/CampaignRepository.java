@@ -32,4 +32,6 @@ public interface CampaignRepository extends JpaRepository<Campaign, Long> {
 	Long countByName(String name);
 	
 	List<Campaign> findByEnabledTrueOrderByNameDesc();
+	
+	List<Campaign> findByDefaulted(boolean isDefault);
 }

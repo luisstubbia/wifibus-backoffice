@@ -111,4 +111,9 @@ public class CampaignServiceImpl implements CampaignService {
 	public Long countByName(String name) {
 		return campaignRepository.countByName(name);
 	}
+	
+	@Override
+	public Collection<Campaign> getCampaignsByDefault(boolean isDefault) {
+		return campaignRepository.findByDefaulted(isDefault);
+	}
 }

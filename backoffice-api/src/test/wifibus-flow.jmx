@@ -104,12 +104,12 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="hotspotName" elementType="Argument">
             <stringProp name="Argument.name">hotspotName</stringProp>
-            <stringProp name="Argument.value">municipalidad-de-cordoba</stringProp>
+            <stringProp name="Argument.value">hotspot-wifibus</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="endpoint.url" elementType="Argument">
             <stringProp name="Argument.name">endpoint.url</stringProp>
-            <stringProp name="Argument.value">http://localhost:8000</stringProp>
+            <stringProp name="Argument.value">http://wifibus-api-env.jaepvdvzsn.us-west-2.elasticbeanstalk.com</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -124,7 +124,7 @@
           </elementProp>
           <elementProp name="prod" elementType="Argument">
             <stringProp name="Argument.name">prod</stringProp>
-            <stringProp name="Argument.value">http://production.com</stringProp>
+            <stringProp name="Argument.value">http://wifibus-api-env.jaepvdvzsn.us-west-2.elasticbeanstalk.com</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -204,7 +204,7 @@ vars.put(&quot;questions&quot;, response.questions);
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-	&quot;macAddress&quot;: &quot;xx:xx:yy:xx:xx&quot;,&#xd;
+	&quot;macAddress&quot;: &quot;18:db:f2:1a:c2:6d&quot;,&#xd;
 	&quot;username&quot;: &quot;luistubbia&quot;,&#xd;
 	&quot;loginSource&quot;: &quot;GOOGLE&quot;,&#xd;
   	&quot;values&quot;: [{&#xd;
@@ -306,7 +306,7 @@ vars.put(&quot;campaignId&quot;, response.campaignId);
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-	&quot;macAddress&quot;: &quot;xx:xx:11:xx:xx&quot;,&#xd;
+	&quot;macAddress&quot;: &quot;18:db:f2:1a:c2:6d&quot;,&#xd;
 	&quot;username&quot;: &quot;luisFace&quot;,&#xd;
 	&quot;loginSource&quot;: &quot;FACEBOOK&quot;,&#xd;
   	&quot;values&quot;: [{&#xd;
