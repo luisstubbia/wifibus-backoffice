@@ -37,6 +37,8 @@ public class CampaignForm {
 	
 	private String type;
 	
+	private boolean defaulted;
+	
 	public Long getId() {
 		return id;
 	}
@@ -75,6 +77,14 @@ public class CampaignForm {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public boolean isDefaulted() {
+		return defaulted;
+	}
+
+	public void setDefaulted(boolean defaulted) {
+		this.defaulted = defaulted;
 	}
 	
 	public Collection<Advertisement> getAdvertisements() {

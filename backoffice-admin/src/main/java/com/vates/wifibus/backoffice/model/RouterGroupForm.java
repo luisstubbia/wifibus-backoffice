@@ -31,6 +31,8 @@ public class RouterGroupForm {
 	
 	private Campaign campaign;
 	
+	private Campaign defaultCampaign;
+	
 	private Set<Question> questions = new LinkedHashSet<Question>();
 	
 	private Set<ButtonType> buttons = new LinkedHashSet<ButtonType>();
@@ -105,5 +107,13 @@ public class RouterGroupForm {
 	
 	public void addButton(ButtonType bt){
 		buttons.add(bt);
+	}
+
+	public Campaign getDefaultCampaign() {
+		return defaultCampaign;
+	}
+
+	public void setDefaultCampaign(Campaign defaultCampaign) {
+		this.defaultCampaign = defaultCampaign;
 	}
 }

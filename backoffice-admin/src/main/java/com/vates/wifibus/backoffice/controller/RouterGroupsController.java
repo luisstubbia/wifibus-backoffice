@@ -162,7 +162,8 @@ public class RouterGroupsController {
     private void addFormDetails(Model model) {
 		model.addAttribute("brands", brandService.getAll());
 		model.addAttribute("terms", termService.getAll());
-		model.addAttribute("campaigns", campaignService.getAll());
+		model.addAttribute("campaigns", campaignService.getCampaignsByDefault(false));
+		model.addAttribute("defaultCampaigns", campaignService.getCampaignsByDefault(true));
 	}
     
     private void updateLinkedList(Model model, RouterGroupForm routerGroupForm){

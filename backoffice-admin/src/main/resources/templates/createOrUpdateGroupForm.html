@@ -49,6 +49,15 @@
 							            <label class="control-label" th:errors="*{termAndCondition}">[Errors]</label>
 						            </div>
 						        </div>
+						        <div class="form-group" th:classappend="${#fields.hasErrors('defaultCampaign')} ? has-error">
+						            <label class="form-label">Campaña por defecto:</label>
+						            <div class="controls">
+						            	<select class="form-control" th:field="*{defaultCampaign}">
+							              	<option th:each="cm : ${defaultCampaigns}" th:value="${{cm}}" th:text="|${cm.name}|">Group</option>
+							            </select>
+							            <label class="control-label" th:errors="*{defaultCampaign}">[Errors]</label>
+						            </div>
+						        </div>
 						        <div class="form-group" th:classappend="${#fields.hasErrors('campaign')} ? has-error">
 						            <label class="form-label">Campañas</label>
 						            <div class="controls">

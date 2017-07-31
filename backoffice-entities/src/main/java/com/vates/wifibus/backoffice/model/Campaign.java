@@ -32,6 +32,11 @@ import lombok.Setter;
 @Setter
 public class Campaign extends BaseEntity {
 
+	@Column(name = "DEFAULTED", nullable = false)
+	@NotNull
+	@JsonIgnore
+	private boolean defaulted = false;
+	
 	@Column(name = "LANDING_URL", nullable = false, unique = false, length = 1024)
 	@NotNull
 	private String landingUrl;

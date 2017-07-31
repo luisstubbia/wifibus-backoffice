@@ -29,6 +29,11 @@
 						                <label class="control-label" th:errors="*{descripcion}">[Errors]</label>
 						            </div>
 						        </div>
+						        <div class="form-group">
+								    <label class="form-label">
+										<input th:type="checkbox" th:field="*{defaulted}" th:value="*{defaulted}"/> Campaña por defecto?                                   		
+									</label>
+								</div>	
 						        <div class="form-group" th:classappend="${#fields.hasErrors('landingUrl')} ? has-error">
 						            <label class="form-label">* Pagina de Destino (URL):</label>
 						            <div class="controls">

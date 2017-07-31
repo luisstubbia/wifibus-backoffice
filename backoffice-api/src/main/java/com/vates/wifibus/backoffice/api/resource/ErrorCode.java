@@ -18,7 +18,7 @@ public enum ErrorCode {
 	ADVERTISEMENT_NOT_FOUND("1001","No se encontró ningun anuncio con los filtros enviados.", HttpStatus.NOT_FOUND),
 
 	PROFILE_MISSING_USERNAME("2001","El nombre de usuario es requerido.", HttpStatus.BAD_REQUEST),
-	PROFILE_MISSING_MAC_ADRESS("2002","La direccion MAC del sipositivo es requerida.", HttpStatus.BAD_REQUEST),
+	PROFILE_MISSING_MAC_ADRESS("2002","La direccion MAC del dispositivo es requerida.", HttpStatus.BAD_REQUEST),
 	PROFILE_MISSING_VALUES("2003","Debe indicar al menos un valor de entrada.", HttpStatus.BAD_REQUEST),
 	PROFILE_MISSING_LOGIN_SOURCE("2004","Debe indicar el origen del inicio de sesion.", HttpStatus.BAD_REQUEST),
 	
