@@ -13,9 +13,10 @@ public enum ErrorCode {
 
 	CONFIGURATION_NOT_FOUND("1001", "No se encontró el Hotspot especificado para devolver la Configuración.", HttpStatus.NOT_FOUND), 
 	CAMPAIGN_NOT_FOUND("1002", "No se encontró la campaña especifica.", HttpStatus.NOT_FOUND), 
-	SESSION_NOT_FOUND("1001", "No se encontró una sesion activa para esa direccion MAC.", HttpStatus.NOT_FOUND), 
-	PROFILE_NOT_FOUND("1001","No se encontró ningun perfil asociado para esos datos.", HttpStatus.NOT_FOUND),
-	ADVERTISEMENT_NOT_FOUND("1001","No se encontró ningun anuncio con los filtros enviados.", HttpStatus.NOT_FOUND),
+	SESSION_NOT_FOUND("1003", "No se encontró una sesion activa para esa direccion MAC.", HttpStatus.NOT_FOUND), 
+	PROFILE_NOT_FOUND("1004","No se encontró ningun perfil asociado para esos datos.", HttpStatus.NOT_FOUND),
+	ADVERTISEMENT_NOT_FOUND("1005","No se encontró ningun anuncio con los filtros enviados.", HttpStatus.NOT_FOUND),
+	ROUTER_GROUP_NOT_FOUND("1006","No se encontró ningun grupo de routers.", HttpStatus.NOT_FOUND),
 
 	PROFILE_MISSING_USERNAME("2001","El nombre de usuario es requerido.", HttpStatus.BAD_REQUEST),
 	PROFILE_MISSING_MAC_ADRESS("2002","La direccion MAC del dispositivo es requerida.", HttpStatus.BAD_REQUEST),

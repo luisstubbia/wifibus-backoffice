@@ -106,11 +106,13 @@
             <stringProp name="Argument.name">hotspotName</stringProp>
             <stringProp name="Argument.value">hotspot-wifibus</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">municipalidad-de-cordoba</stringProp>
           </elementProp>
           <elementProp name="endpoint.url" elementType="Argument">
             <stringProp name="Argument.name">endpoint.url</stringProp>
             <stringProp name="Argument.value">http://wifibus-api-env.jaepvdvzsn.us-west-2.elasticbeanstalk.com</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">http://localhost:8000</stringProp>
           </elementProp>
         </collectionProp>
       </Arguments>
@@ -171,6 +173,7 @@
             <stringProp name="script">eval(&apos;var response = &apos; + prev.getResponseDataAsString());
 
 vars.put(&quot;campaignId&quot;, response.campaignId);
+vars.put(&quot;groupId&quot;, response.groupId);
 vars.put(&quot;questions&quot;, response.questions);
 </stringProp>
           </BSFPostProcessor>
@@ -226,7 +229,7 @@ vars.put(&quot;questions&quot;, response.questions);
             <stringProp name="HTTPSampler.port"></stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">${endpoint.url}/profiles/${campaignId}</stringProp>
+            <stringProp name="HTTPSampler.path">${endpoint.url}/profiles/${groupId}</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -285,7 +288,7 @@ vars.put(&quot;campaignId&quot;, response.campaignId);
             <stringProp name="HTTPSampler.port"></stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">${endpoint.url}/campaigns/${campaignId}/${profileId}</stringProp>
+            <stringProp name="HTTPSampler.path">${endpoint.url}/campaigns/${groupId}/${profileId}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -311,10 +314,10 @@ vars.put(&quot;campaignId&quot;, response.campaignId);
 	&quot;loginSource&quot;: &quot;FACEBOOK&quot;,&#xd;
   	&quot;values&quot;: [{&#xd;
       	&quot;key&quot;: &quot;birthday&quot;,&#xd;
-      	&quot;value&quot;: &quot;12-11-1984&quot;&#xd;
+      	&quot;value&quot;: &quot;12-11-1999&quot;&#xd;
       },{&#xd;
       	&quot;key&quot;: &quot;gender&quot;,&#xd;
-      	&quot;value&quot;: &quot;male&quot;&#xd;
+      	&quot;value&quot;: &quot;female&quot;&#xd;
       }]&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
@@ -325,7 +328,7 @@ vars.put(&quot;campaignId&quot;, response.campaignId);
             <stringProp name="HTTPSampler.port"></stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">${endpoint.url}/profiles/${campaignId}</stringProp>
+            <stringProp name="HTTPSampler.path">${endpoint.url}/profiles/${groupId}</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -384,7 +387,7 @@ vars.put(&quot;campaignId&quot;, response.campaignId);
             <stringProp name="HTTPSampler.port"></stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">${endpoint.url}/campaigns/${campaignId}/${profileId}</stringProp>
+            <stringProp name="HTTPSampler.path">${endpoint.url}/campaigns/${groupId}/${profileId}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
