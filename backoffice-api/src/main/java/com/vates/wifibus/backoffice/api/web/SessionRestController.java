@@ -1,6 +1,7 @@
 package com.vates.wifibus.backoffice.api.web;
 
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -36,7 +37,7 @@ public class SessionRestController {
 	ResponseEntity<SessionResponse> createNewSession(@PathVariable String macAddress, @PathVariable Long profileId) throws ServiceException {
 		Profile profile = profileService.getProfile(profileId);
 		SessionResponse session = new SessionResponse(profile, macAddress);
-		redis.opsForValue().set(macAddress, session);
+		redis.opsForValue().set(macAddress, session, 5, TimeUnit.MINUTES);
 		return ResponseEntity.ok(session);
 	}
 

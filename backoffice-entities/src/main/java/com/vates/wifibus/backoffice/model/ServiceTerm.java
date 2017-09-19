@@ -29,7 +29,7 @@ import lombok.Setter;
 @JsonIgnoreProperties({"name", "version"})
 public class ServiceTerm extends BaseEntity {
 
-	@Column(name = "TEXT", nullable = false)
+	@Column(name = "TEXT", nullable = false, length = 4000)
 	@NotNull
 	private String text;
 	
