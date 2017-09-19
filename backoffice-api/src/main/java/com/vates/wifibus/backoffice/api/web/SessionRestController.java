@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,12 +33,15 @@ public class SessionRestController {
 
 	@Autowired
 	RedisTemplate<String, Object> redis;
+	
+	@Value("${redis.ttl}")
+	private int ttl;
 
 	@RequestMapping(value = "/sessions/{macAddress}/{profileId}", method = RequestMethod.POST)
 	ResponseEntity<SessionResponse> createNewSession(@PathVariable String macAddress, @PathVariable Long profileId) throws ServiceException {
 		Profile profile = profileService.getProfile(profileId);
 		SessionResponse session = new SessionResponse(profile, macAddress);
-		redis.opsForValue().set(macAddress, session, 5, TimeUnit.MINUTES);
+		redis.opsForValue().set(macAddress, session, ttl, TimeUnit.MINUTES);
 		return ResponseEntity.ok(session);
 	}
 
