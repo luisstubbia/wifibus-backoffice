@@ -104,6 +104,7 @@ public class ProfileServiceImpl implements ProfileService {
 				finalProfile.getValues().add(item);
 			}
 		});
+		finalProfile.setLoginSource(profile.getLoginSource());
 	}
 
 	/**
